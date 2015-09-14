@@ -17,9 +17,7 @@ import org.springframework.stereotype.Service;
 import com.sjtu.icare.common.config.CommonConstants;
 import com.sjtu.icare.common.utils.MapListUtils;
 import com.sjtu.icare.modules.staff.entity.StaffEntity;
-import com.sjtu.icare.modules.staff.entity.StaffSchedulePlanEntity;
 import com.sjtu.icare.modules.staff.persistence.StaffDAO;
-import com.sjtu.icare.modules.staff.persistence.StaffSchedulePlanDAO;
 import com.sjtu.icare.modules.staff.service.IStaffDataService;
 import com.sjtu.icare.modules.sys.entity.User;
 import com.sjtu.icare.modules.sys.service.SystemService;
@@ -30,8 +28,8 @@ public class StaffDataService implements IStaffDataService {
 	private StaffDAO staffDAO;
 	@Autowired
 	private SystemService systemService;
-	@Autowired
-	private StaffSchedulePlanDAO staffSchedulePlanDAO;
+//	@Autowired
+//	private StaffSchedulePlanDAO staffSchedulePlanDAO;
 	
 	@Override
 	public StaffEntity getStaffEntity(StaffEntity staffEntity) {
@@ -47,66 +45,66 @@ public class StaffDataService implements IStaffDataService {
 		return systemService.getUserByUserTypeAndUserId(CommonConstants.STAFF_TYPE, StaffEntity.getId());
 	}
 	
-	@Override
-	public List<StaffSchedulePlanEntity> getStaffSchedulePlans(
-			StaffSchedulePlanEntity queryStaffSchedulePlanEntity,
-			String startDate, String endDate) {
-		Map<String, Object> paramMap = MapListUtils.beanToMap(queryStaffSchedulePlanEntity);
-		paramMap.put("startDate", startDate);
-		paramMap.put("endDate", endDate);
-		return staffSchedulePlanDAO.getStaffSchedulePlans(paramMap);
-	}
-
-	/* (non-Javadoc)
-	 * @see com.sjtu.icare.modules.staff.service.IStaffDataService#getStaffScehdulePlan(com.sjtu.icare.modules.staff.entity.StaffSchedulePlanEntity)
-	 */
-	@Override
-	public StaffSchedulePlanEntity getStaffScehdulePlan(
-			StaffSchedulePlanEntity staffSchedulePlanEntity) {
-		Map<String, Object> paramMap = MapListUtils.beanToMap(staffSchedulePlanEntity);
-		return staffSchedulePlanDAO.getStaffSchedulePlan(paramMap);
-	}
-	
-	@Override
-	public void insertStaffSchedulePlans(
-			StaffSchedulePlanEntity staffSchedulePlanEntity,
-			List<String> workDate) {
-		Map<String, Object> paramMap = MapListUtils.beanToMap(staffSchedulePlanEntity);
-		paramMap.put("workDate", workDate);
-		staffSchedulePlanDAO.insertStaffSchedulePlans(paramMap);
-	}
-
-	@Override
-	public void deleteStaffSchedulePlans(StaffSchedulePlanEntity staffSchedulePlanEntity,
-			List<String> noworkDate) {
-		Map<String, Object> paramMap = MapListUtils.beanToMap(staffSchedulePlanEntity);
-		paramMap.put("noworkDate", noworkDate);
-		staffSchedulePlanDAO.deleteStaffSchedulePlans(paramMap);
-	}
-
-	@Override
-	public List<StaffSchedulePlanEntity> getAllStaffPlansByGeroId(
-			StaffSchedulePlanEntity staffSchedulePlanEntity,
-			String startDate, String endDate) {
-		Map<String, Object> paramMap = MapListUtils.beanToMap(staffSchedulePlanEntity);
-		paramMap.put("startDate", startDate);
-		paramMap.put("endDate", endDate);
-		return staffSchedulePlanDAO.getAllStaffSchedulePlansByGeroId(paramMap);
-		
-	}
-
-	@Override
-	public List<StaffSchedulePlanEntity> getAllStaffPlansByGeroId(
-			StaffSchedulePlanEntity staffSchedulePlanEntity,
-			String startDate, String endDate, String role) {
-		Map<String, Object> paramMap = MapListUtils.beanToMap(staffSchedulePlanEntity);
-		paramMap.put("startDate", startDate);
-		paramMap.put("endDate", endDate);
-		paramMap.put("role", role);
-		paramMap.put("userType", CommonConstants.STAFF_TYPE);
-		return staffSchedulePlanDAO.getAllStaffSchedulePlansByGeroIdAndRole(paramMap);
-	
-	}
+//	@Override
+//	public List<StaffSchedulePlanEntity> getStaffSchedulePlans(
+//			StaffSchedulePlanEntity queryStaffSchedulePlanEntity,
+//			String startDate, String endDate) {
+//		Map<String, Object> paramMap = MapListUtils.beanToMap(queryStaffSchedulePlanEntity);
+//		paramMap.put("startDate", startDate);
+//		paramMap.put("endDate", endDate);
+//		return staffSchedulePlanDAO.getStaffSchedulePlans(paramMap);
+//	}
+//
+//	/* (non-Javadoc)
+//	 * @see com.sjtu.icare.modules.staff.service.IStaffDataService#getStaffScehdulePlan(com.sjtu.icare.modules.staff.entity.StaffSchedulePlanEntity)
+//	 */
+//	@Override
+//	public StaffSchedulePlanEntity getStaffScehdulePlan(
+//			StaffSchedulePlanEntity staffSchedulePlanEntity) {
+//		Map<String, Object> paramMap = MapListUtils.beanToMap(staffSchedulePlanEntity);
+//		return staffSchedulePlanDAO.getStaffSchedulePlan(paramMap);
+//	}
+//	
+//	@Override
+//	public void insertStaffSchedulePlans(
+//			StaffSchedulePlanEntity staffSchedulePlanEntity,
+//			List<String> workDate) {
+//		Map<String, Object> paramMap = MapListUtils.beanToMap(staffSchedulePlanEntity);
+//		paramMap.put("workDate", workDate);
+//		staffSchedulePlanDAO.insertStaffSchedulePlans(paramMap);
+//	}
+//
+//	@Override
+//	public void deleteStaffSchedulePlans(StaffSchedulePlanEntity staffSchedulePlanEntity,
+//			List<String> noworkDate) {
+//		Map<String, Object> paramMap = MapListUtils.beanToMap(staffSchedulePlanEntity);
+//		paramMap.put("noworkDate", noworkDate);
+//		staffSchedulePlanDAO.deleteStaffSchedulePlans(paramMap);
+//	}
+//
+//	@Override
+//	public List<StaffSchedulePlanEntity> getAllStaffPlansByGeroId(
+//			StaffSchedulePlanEntity staffSchedulePlanEntity,
+//			String startDate, String endDate) {
+//		Map<String, Object> paramMap = MapListUtils.beanToMap(staffSchedulePlanEntity);
+//		paramMap.put("startDate", startDate);
+//		paramMap.put("endDate", endDate);
+//		return staffSchedulePlanDAO.getAllStaffSchedulePlansByGeroId(paramMap);
+//		
+//	}
+//
+//	@Override
+//	public List<StaffSchedulePlanEntity> getAllStaffPlansByGeroId(
+//			StaffSchedulePlanEntity staffSchedulePlanEntity,
+//			String startDate, String endDate, String role) {
+//		Map<String, Object> paramMap = MapListUtils.beanToMap(staffSchedulePlanEntity);
+//		paramMap.put("startDate", startDate);
+//		paramMap.put("endDate", endDate);
+//		paramMap.put("role", role);
+//		paramMap.put("userType", CommonConstants.STAFF_TYPE);
+//		return staffSchedulePlanDAO.getAllStaffSchedulePlansByGeroIdAndRole(paramMap);
+//	
+//	}
 
 	/* (non-Javadoc)
 	 * @see com.sjtu.icare.modules.staff.service.IStaffDataService#getAllStaffs(com.sjtu.icare.modules.sys.entity.User)

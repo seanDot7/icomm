@@ -55,11 +55,11 @@ public class GeroAreaRestController extends BasicController {
 			@RequestParam(value="name", required=false) String name,
 			@RequestParam(value="full_name", required=false) String fullName
 			) {
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+geroId+":area:read");
-		permissions.add("staff:"+getCurrentUser().getUserId()+":gero:"+geroId+":area:read");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+geroId+":area:read");
+//		permissions.add("staff:"+getCurrentUser().getUserId()+":gero:"+geroId+":area:read");
+//		checkPermissions(permissions);
 		
 		// 获取基础的 JSON返回
 		BasicReturnedJson basicReturnedJson = new BasicReturnedJson();
@@ -115,10 +115,10 @@ public class GeroAreaRestController extends BasicController {
 			@PathVariable("gid") int geroId,
 			@RequestBody String inJson
 			) {	
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+geroId+":area:add");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+geroId+":area:add");
+//		checkPermissions(permissions);
 		
 		// 将参数转化成驼峰格式的 Map
 		Map<String, Object> tempRquestParamMap = ParamUtils.getMapByJson(inJson, logger);
@@ -197,11 +197,11 @@ public class GeroAreaRestController extends BasicController {
 			@PathVariable("aid") int areaId,
 			@RequestParam(value="sub_level", required=false) Integer subLevel
 			) {
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+geroId+":area:read");
-		permissions.add("staff:"+getCurrentUser().getUserId()+":gero:"+geroId+":area:read");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+geroId+":area:read");
+//		permissions.add("staff:"+getCurrentUser().getUserId()+":gero:"+geroId+":area:read");
+//		checkPermissions(permissions);
 		
 		// 获取基础的 JSON返回
 		BasicReturnedJson basicReturnedJson = new BasicReturnedJson();
@@ -275,10 +275,10 @@ public class GeroAreaRestController extends BasicController {
 			@PathVariable("aid") int areaId,
 			@RequestBody String inJson
 			) {	
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+geroId+":area:update");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+geroId+":area:update");
+//		checkPermissions(permissions);
 		
 		// 将参数转化成驼峰格式的 Map
 		Map<String, Object> tempRquestParamMap = ParamUtils.getMapByJson(inJson, logger);
@@ -312,10 +312,10 @@ public class GeroAreaRestController extends BasicController {
 			@PathVariable("gid") int geroId,
 			@PathVariable("aid") int areaId
 			) {	
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+geroId+":area:delete");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+geroId+":area:delete");
+//		checkPermissions(permissions);
 		
 		// 将参数转化成驼峰格式的 Map
 		Map<String, Object> tempRquestParamMap = new HashMap<String, Object>();

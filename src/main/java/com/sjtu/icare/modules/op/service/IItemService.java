@@ -9,7 +9,6 @@ package com.sjtu.icare.modules.op.service;
 
 import java.util.List;
 
-import com.sjtu.icare.modules.op.entity.AreaItemEntity;
 import com.sjtu.icare.modules.op.entity.CareItemEntity;
 
 public interface IItemService {
@@ -61,51 +60,51 @@ public interface IItemService {
 	 */
 	void updateCareItem(CareItemEntity careItemEntity);
 
-	/**
-	 * @Title getAreaItems
-	 * @Description TODO
-	 * @param @param areaItemEntity
-	 * @param @return
-	 * @return List<AreaItemEntity>
-	 * @throws
-	 */
-	List<AreaItemEntity> getAreaItems(AreaItemEntity areaItemEntity);
-
-	/**
-	 * @Title insertAreaItem
-	 * @Description TODO
-	 * @param @param AreaItemEntity
-	 * @return void
-	 * @throws
-	 */
-	void insertAreaItem(AreaItemEntity areaItemEntity);
-
-	/**
-	 * @Title getAreaItem
-	 * @Description TODO
-	 * @param @param areaItemEntity
-	 * @param @return
-	 * @return AreaItemEntity
-	 * @throws
-	 */
-	AreaItemEntity getAreaItem(AreaItemEntity areaItemEntity);
-
-	/**
-	 * @Title updateAreaItem
-	 * @Description TODO
-	 * @param @param areaItemEntity
-	 * @return void
-	 * @throws
-	 */
-	void updateAreaItem(AreaItemEntity areaItemEntity);
-
-	/**
-	 * @Title deleteAreaItem
-	 * @Description TODO
-	 * @param @param areaItemEntity
-	 * @return void
-	 * @throws
-	 */
-	void deleteAreaItem(AreaItemEntity areaItemEntity);
+//	/**
+//	 * @Title getAreaItems
+//	 * @Description TODO
+//	 * @param @param areaItemEntity
+//	 * @param @return
+//	 * @return List<AreaItemEntity>
+//	 * @throws
+//	 */
+//	List<AreaItemEntity> getAreaItems(AreaItemEntity areaItemEntity);
+//
+//	/**
+//	 * @Title insertAreaItem
+//	 * @Description TODO
+//	 * @param @param AreaItemEntity
+//	 * @return void
+//	 * @throws
+//	 */
+//	void insertAreaItem(AreaItemEntity areaItemEntity);
+//
+//	/**
+//	 * @Title getAreaItem
+//	 * @Description TODO
+//	 * @param @param areaItemEntity
+//	 * @param @return
+//	 * @return AreaItemEntity
+//	 * @throws
+//	 */
+//	AreaItemEntity getAreaItem(AreaItemEntity areaItemEntity);
+//
+//	/**
+//	 * @Title updateAreaItem
+//	 * @Description TODO
+//	 * @param @param areaItemEntity
+//	 * @return void
+//	 * @throws
+//	 */
+//	void updateAreaItem(AreaItemEntity areaItemEntity);
+//
+//	/**
+//	 * @Title deleteAreaItem
+//	 * @Description TODO
+//	 * @param @param areaItemEntity
+//	 * @return void
+//	 * @throws
+//	 */
+//	void deleteAreaItem(AreaItemEntity areaItemEntity);
 
 }

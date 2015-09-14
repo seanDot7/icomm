@@ -45,7 +45,7 @@ public class PrivilegeController extends SysBaseController{
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
 	public Map<String, Object> getPrivilegeListController(
 			HttpServletRequest request){
-		checkApi(request);
+//		checkApi(request);
 		
 		BasicReturnedJson result = new BasicReturnedJson();
 		
@@ -64,7 +64,7 @@ public class PrivilegeController extends SysBaseController{
 			HttpServletRequest request,
 			@RequestBody String inJson
 			){
-		checkApi(request);
+//		checkApi(request);
 		
 		BasicReturnedJson result = new BasicReturnedJson();
 		
@@ -160,7 +160,7 @@ public class PrivilegeController extends SysBaseController{
 			@PathVariable("pid") int pid,
 			@RequestBody String inJson
 			){
-		checkApi(request);
+//		checkApi(request);
 
 		BasicReturnedJson result = new BasicReturnedJson();
 		
@@ -228,7 +228,7 @@ public class PrivilegeController extends SysBaseController{
 			HttpServletRequest request,
 			@PathVariable("pid") int pid
 			){
-		checkApi(request);
+//		checkApi(request);
 		
 		BasicReturnedJson result = new BasicReturnedJson();
 		

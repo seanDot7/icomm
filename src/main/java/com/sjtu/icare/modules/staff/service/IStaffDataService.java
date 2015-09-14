@@ -10,7 +10,6 @@ package com.sjtu.icare.modules.staff.service;
 import java.util.List;
 
 import com.sjtu.icare.modules.staff.entity.StaffEntity;
-import com.sjtu.icare.modules.staff.entity.StaffSchedulePlanEntity;
 import com.sjtu.icare.modules.sys.entity.User;
 
 
@@ -20,25 +19,25 @@ public interface IStaffDataService {
 
 	User getUserEntityOfStaff(StaffEntity StaffEntity);
 
-	List<StaffSchedulePlanEntity> getStaffSchedulePlans(
-			StaffSchedulePlanEntity queryStaffSchedulePlanEntity,
-			String startDate, String endDate);
-
-	StaffSchedulePlanEntity getStaffScehdulePlan(StaffSchedulePlanEntity staffSchedulePlanEntity);
-	
-	
-	void insertStaffSchedulePlans(StaffSchedulePlanEntity staffSchedulePlanEntity, List<String> workDate);
-
-	void deleteStaffSchedulePlans(StaffSchedulePlanEntity postEntity,
-			List<String> noworkDate);
-
-	List<StaffSchedulePlanEntity> getAllStaffPlansByGeroId(
-			StaffSchedulePlanEntity staffSchedulePlanEntity, String startDate,
-			String endDate);
-	
-	List<StaffSchedulePlanEntity> getAllStaffPlansByGeroId(
-			StaffSchedulePlanEntity queryStaffSchedulePlanEntity,
-			String startDate, String endDate, String role);
+//	List<StaffSchedulePlanEntity> getStaffSchedulePlans(
+//			StaffSchedulePlanEntity queryStaffSchedulePlanEntity,
+//			String startDate, String endDate);
+//
+//	StaffSchedulePlanEntity getStaffScehdulePlan(StaffSchedulePlanEntity staffSchedulePlanEntity);
+//	
+//	
+//	void insertStaffSchedulePlans(StaffSchedulePlanEntity staffSchedulePlanEntity, List<String> workDate);
+//
+//	void deleteStaffSchedulePlans(StaffSchedulePlanEntity postEntity,
+//			List<String> noworkDate);
+//
+//	List<StaffSchedulePlanEntity> getAllStaffPlansByGeroId(
+//			StaffSchedulePlanEntity staffSchedulePlanEntity, String startDate,
+//			String endDate);
+//	
+//	List<StaffSchedulePlanEntity> getAllStaffPlansByGeroId(
+//			StaffSchedulePlanEntity queryStaffSchedulePlanEntity,
+//			String startDate, String endDate, String role);
 
 	/**
 	 * @Title getAllStaffs

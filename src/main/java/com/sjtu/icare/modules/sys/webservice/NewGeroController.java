@@ -20,7 +20,6 @@ import com.sjtu.icare.common.web.rest.BasicController;
 import com.sjtu.icare.common.web.rest.MediaTypes;
 import com.sjtu.icare.modules.gero.entity.GeroEntity;
 import com.sjtu.icare.modules.gero.service.impl.GeroService;
-import com.sjtu.icare.modules.op.entity.AreaItemEntity;
 import com.sjtu.icare.modules.op.entity.CareItemEntity;
 import com.sjtu.icare.modules.op.service.IItemService;
 import com.sjtu.icare.modules.staff.entity.StaffEntity;
@@ -63,7 +62,7 @@ public class NewGeroController extends BasicController{
 			HttpServletRequest request,
 			@RequestParam("name") String geroName){
 		
-		checkApi(request);
+//		checkApi(request);
 		
 		BasicReturnedJson result = new BasicReturnedJson();
 		
@@ -79,13 +78,13 @@ public class NewGeroController extends BasicController{
 		
 		// 插入养老院项目
 		// 房间项目
-		AreaItemEntity areaQueryEntity = new AreaItemEntity();
-		areaQueryEntity.setGeroId(1);
-		List<AreaItemEntity> defaultAreaItems = itemService.getAreaItems(areaQueryEntity);
-		for (AreaItemEntity areaItem : defaultAreaItems){
-			areaItem.setGeroId(geroId);
-			itemService.insertAreaItem(areaItem);
-		}
+//		AreaItemEntity areaQueryEntity = new AreaItemEntity();
+//		areaQueryEntity.setGeroId(1);
+//		List<AreaItemEntity> defaultAreaItems = itemService.getAreaItems(areaQueryEntity);
+//		for (AreaItemEntity areaItem : defaultAreaItems){
+//			areaItem.setGeroId(geroId);
+//			itemService.insertAreaItem(areaItem);
+//		}
 		// 老人项目
 		CareItemEntity careQueryEntity = new CareItemEntity();
 		careQueryEntity.setGeroId(1);
@@ -106,13 +105,13 @@ public class NewGeroController extends BasicController{
 		
 		// 新建养老院其他职工
 		
-		// 房间护工
-		User areaCarer = new User();
-		areaCarer.setGeroId(geroId);
-		areaCarer.setUsername(geroName+"_acarer");
-		areaCarer.setName(geroName+"_老人护工");
-		StaffEntity areaCarerStaff = new StaffEntity();
-		insertStaff(areaCarer, areaCarerStaff, gero);
+//		// 房间护工
+//		User areaCarer = new User();
+//		areaCarer.setGeroId(geroId);
+//		areaCarer.setUsername(geroName+"_acarer");
+//		areaCarer.setName(geroName+"_老人护工");
+//		StaffEntity areaCarerStaff = new StaffEntity();
+//		insertStaff(areaCarer, areaCarerStaff, gero);
 		
 		// 老人护工
 		User elderCarer = new User();
@@ -122,13 +121,13 @@ public class NewGeroController extends BasicController{
 		StaffEntity elderCarerStaff = new StaffEntity();
 		insertStaff(elderCarer, elderCarerStaff, gero);
 		
-		// 医生
-		User doctor = new User();
-		doctor.setGeroId(geroId);
-		doctor.setUsername(geroName+"_doctor");
-		doctor.setName(geroName+"_医生");
+		// 接线员
+		User callCenter = new User();
+		callCenter.setGeroId(geroId);
+		callCenter.setUsername(geroName+"_doctor");
+		callCenter.setName(geroName+"_医生");
 		StaffEntity doctorStaff = new StaffEntity();
-		insertStaff(doctor, doctorStaff, gero);
+		insertStaff(callCenter, doctorStaff, gero);
 		
 		
 		// 新建养老院基本角色
@@ -147,15 +146,12 @@ public class NewGeroController extends BasicController{
 			if (role.getName().equals("管理员")) {
 				admin.setRoleList(tmpList);
 				systemService.updateUserRoles(admin);
-			}else if (role.getName().equals("老人护工")) {
+			}else if (role.getName().equals("护工")) {
 				elderCarer.setRoleList(tmpList);
 				systemService.updateUserRoles(elderCarer);
-			}else if (role.getName().equals("房间护工")) {
-				areaCarer.setRoleList(tmpList);
-				systemService.updateUserRoles(areaCarer);
-			}else if (role.getName().equals("医生")) {
-				doctor.setRoleList(tmpList);
-				systemService.updateUserRoles(doctor);
+			}else if (role.getName().equals("接线员")) {
+				callCenter.setRoleList(tmpList);
+				systemService.updateUserRoles(callCenter);
 			}
 		}
 		

@@ -66,10 +66,10 @@ public class GeroRoleController extends GeroBaseController {
 			@RequestParam("page") int page,
 			@RequestParam("rows") int limit,
 			@RequestParam("sort") String orderByTag){
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+gid+":role:read");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+gid+":role:read");
+//		checkPermissions(permissions);
 		
 		BasicReturnedJson result = new BasicReturnedJson();
 		
@@ -118,10 +118,10 @@ public class GeroRoleController extends GeroBaseController {
 			@RequestBody String inJson
 			){
 		
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+gid+":role:add");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+gid+":role:add");
+//		checkPermissions(permissions);
 		
 		BasicReturnedJson result = new BasicReturnedJson();
 		
@@ -191,10 +191,10 @@ public class GeroRoleController extends GeroBaseController {
 			@PathVariable("gid") int gid
 			){
 		
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+gid+":role:read");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+gid+":role:read");
+//		checkPermissions(permissions);
 		
 		BasicReturnedJson result = new BasicReturnedJson();
 		
@@ -231,10 +231,10 @@ public class GeroRoleController extends GeroBaseController {
 			@RequestBody String inJson
 			){
 		
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+gid+":role:update");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+gid+":role:update");
+//		checkPermissions(permissions);
 		
 		BasicReturnedJson result = new BasicReturnedJson();
 		
@@ -306,10 +306,10 @@ public class GeroRoleController extends GeroBaseController {
 			@PathVariable("gid") int gid
 			){
 		
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+gid+":role:update");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+gid+":role:update");
+//		checkPermissions(permissions);
 		
 		BasicReturnedJson result = new BasicReturnedJson();
 		
@@ -344,10 +344,10 @@ public class GeroRoleController extends GeroBaseController {
 			@RequestBody String inJson
 			){
 
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+gid+":role:update");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+gid+":role:update");
+//		checkPermissions(permissions);
 		
 		BasicReturnedJson result = new BasicReturnedJson();
 		
@@ -477,10 +477,10 @@ public class GeroRoleController extends GeroBaseController {
 			@RequestBody String inJson
 			){
 
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+gid+":role:update");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+gid+":role:update");
+//		checkPermissions(permissions);
 		
 		BasicReturnedJson result = new BasicReturnedJson();
 		
@@ -557,10 +557,10 @@ public class GeroRoleController extends GeroBaseController {
 			@RequestBody String inJson
 			){
 
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+gid+":role:update");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+gid+":role:update");
+//		checkPermissions(permissions);
 		
 		BasicReturnedJson result = new BasicReturnedJson();
 		

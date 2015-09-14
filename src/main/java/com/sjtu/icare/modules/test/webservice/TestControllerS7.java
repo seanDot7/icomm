@@ -7,10 +7,6 @@
  */
 package com.sjtu.icare.modules.test.webservice;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.validation.Validator;
 
 import org.apache.log4j.Logger;
@@ -26,12 +22,6 @@ import com.sjtu.icare.common.web.rest.MediaTypes;
 import com.sjtu.icare.common.web.rest.RestException;
 import com.sjtu.icare.modules.elder.webservice.ElderTemperatureRestController;
 import com.sjtu.icare.modules.gero.service.impl.GeroAreaService;
-import com.sjtu.icare.modules.op.entity.CareworkRecordEntity;
-import com.sjtu.icare.modules.op.persistence.CareworkDAO;
-import com.sjtu.icare.modules.op.service.IItemRecordService;
-import com.sjtu.icare.modules.op.service.IItemService;
-import com.sjtu.icare.modules.staff.entity.StaffEntity;
-import com.sjtu.icare.modules.staff.service.impl.DutyCarerService;
 
 @RestController
 @RequestMapping("/test/wangqi")
@@ -41,12 +31,12 @@ public class TestControllerS7 {
 	private Validator validator;
 	@Autowired
 	private GeroAreaService geroAreaService;
-	@Autowired
-	private DutyCarerService dutyCarerService;
-	@Autowired
-	private CareworkDAO careworkDAO;
-	@Autowired
-	private IItemRecordService itemRecordService;
+//	@Autowired
+//	private DutyCarerService dutyCarerService;
+//	@Autowired
+//	private CareworkDAO careworkDAO;
+//	@Autowired
+//	private IItemRecordService itemRecordService;
 	
 	private static Logger logger = Logger.getLogger(ElderTemperatureRestController.class);
 
@@ -57,12 +47,13 @@ public class TestControllerS7 {
 	
 		try {
 			
-			CareworkRecordEntity careworkRecordEntity = new CareworkRecordEntity();
-			careworkRecordEntity.setCarerId(staffId);
-			careworkRecordEntity.setElderId(elderId);
-			List<CareworkRecordEntity> careworkRecordEntityList = itemRecordService.getLatestCareworkRecords(
-					careworkRecordEntity);
-			return careworkRecordEntityList;
+//			CareworkRecordEntity careworkRecordEntity = new CareworkRecordEntity();
+//			careworkRecordEntity.setCarerId(staffId);
+//			careworkRecordEntity.setElderId(elderId);
+//			List<CareworkRecordEntity> careworkRecordEntityList = itemRecordService.getLatestCareworkRecords(
+//					careworkRecordEntity);
+//			return careworkRecordEntityList;
+			return new Object();
 			
 		} catch(Exception e) {
 			e.printStackTrace();

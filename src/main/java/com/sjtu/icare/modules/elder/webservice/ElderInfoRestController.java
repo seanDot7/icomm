@@ -69,10 +69,10 @@ public class ElderInfoRestController extends GeroBaseController{
 			@RequestParam("rows") int limit,
 			@RequestParam("sort") String orderByTag
 			) {
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+geroId+":elder:info:read");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+geroId+":elder:info:read");
+//		checkPermissions(permissions);
 		
 		Page<User> userPage = new Page<User>(page, limit);
 		userPage = setOrderBy(userPage, orderByTag);
@@ -223,10 +223,10 @@ public class ElderInfoRestController extends GeroBaseController{
 			@PathVariable("gid") int geroId,
 			@RequestBody String inJson
 			) {
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+geroId+":elder:info:add");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+geroId+":elder:info:add");
+//		checkPermissions(permissions);
 		
 		// 将参数转化成驼峰格式的 Map
 		Map<String, Object> tempRquestParamMap = ParamUtils.getMapByJson(inJson, logger);
@@ -238,9 +238,9 @@ public class ElderInfoRestController extends GeroBaseController{
 		try {
 			
 			if (requestParamMap.get("name") == null
-				|| requestParamMap.get("identityNo") == null
-				|| requestParamMap.get("birthday") == null
-				|| requestParamMap.get("phoneNo") == null
+//				|| requestParamMap.get("identityNo") == null
+//				|| requestParamMap.get("birthday") == null
+//				|| requestParamMap.get("phoneNo") == null
 //				|| requestParamMap.get("gender") == null
 //				|| requestParamMap.get("photoUrl") == null
 //				|| requestParamMap.get("age") == null
@@ -314,10 +314,10 @@ public class ElderInfoRestController extends GeroBaseController{
 			@PathVariable("gid") int geroId,
 			@PathVariable("eid") int elderId
 			) {
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+geroId+":elder:info:read");
-		permissions.add("staff:"+getCurrentUser().getUserId()+":gero:"+geroId+":elder:read");
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+geroId+":elder:info:read");
+//		permissions.add("staff:"+getCurrentUser().getUserId()+":gero:"+geroId+":elder:read");
 		
 		
 		try {
@@ -333,8 +333,8 @@ public class ElderInfoRestController extends GeroBaseController{
 			if (user == null)
 				throw new Exception("内部错误：找不到对应的 user");
 			
-			permissions.add("user:"+user.getId()+":info:read");
-			checkPermissions(permissions);
+//			permissions.add("user:"+user.getId()+":info:read");
+//			checkPermissions(permissions);
 			
 			Map<String, Object> resultMap = new HashMap<String, Object>(); 
 			resultMap.put("elder_id", user.getUserId()); 
@@ -408,9 +408,9 @@ public class ElderInfoRestController extends GeroBaseController{
 			@PathVariable("eid") int elderId,
 			@RequestBody String inJson
 			) {
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+geroId+":elder:info:update");
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+geroId+":elder:info:update");
 		
 		// 将参数转化成驼峰格式的 Map
 		Map<String, Object> tempRquestParamMap = ParamUtils.getMapByJson(inJson, logger);
@@ -447,8 +447,8 @@ public class ElderInfoRestController extends GeroBaseController{
 			requestParamMap.put("userId", elderId);
 			User tempUser = systemService.getUserByUserTypeAndUserId(CommonConstants.ELDER_TYPE, elderId);
 			
-			permissions.add("user:"+tempUser.getId()+":info:read");
-			checkPermissions(permissions);
+//			permissions.add("user:"+tempUser.getId()+":info:read");
+//			checkPermissions(permissions);
 			
 			User postUser = new User(); 
 			BeanUtils.populate(postUser, requestParamMap);
@@ -473,10 +473,10 @@ public class ElderInfoRestController extends GeroBaseController{
 			@PathVariable("gid") int geroId,
 			@PathVariable("eid") int elderId
 			) {
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+geroId+":elder:info:add");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+geroId+":elder:info:add");
+//		checkPermissions(permissions);
 		
 		// 将参数转化成驼峰格式的 Map
 		Map<String, Object> requestParamMap = new HashMap<String, Object>();

@@ -154,7 +154,7 @@ var leftTop = {
     },
 
     dealtree:function(msg){
-        toptree = leftTop.findTreeChildren(2);
+        toptree = leftTop.findTreeChildren(0);
         var k=-1;
         for(var i in toptree){
             // alert(toptree[i].href)

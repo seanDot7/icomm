@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.sjtu.icare.common.persistence.Page;
 import com.sjtu.icare.modules.elder.entity.ElderEntity;
-import com.sjtu.icare.modules.elder.entity.ElderItemEntity;
 import com.sjtu.icare.modules.sys.entity.User;
 
 public interface IElderInfoService {
@@ -51,52 +50,52 @@ public interface IElderInfoService {
 	 */
 	void deleteElder(ElderEntity elderEntity);
 
-	/**
-	 * @Title getElderItems
-	 * @Description TODO
-	 * @param @param elderItemEntity
-	 * @param @return
-	 * @return List<ElderItemEntity>
-	 * @throws
-	 */
-	List<ElderItemEntity> getElderItems(ElderItemEntity elderItemEntity);
-
-	/**
-	 * @Title insertElderItem
-	 * @Description TODO
-	 * @param @param elderItemEntity
-	 * @return void
-	 * @throws
-	 */
-	void insertElderItem(ElderItemEntity elderItemEntity);
-
-	/**
-	 * @Title getElderItem
-	 * @Description TODO
-	 * @param @param queryElderItemEntity
-	 * @param @return
-	 * @return ElderItemEntity
-	 * @throws
-	 */
-	ElderItemEntity getElderItem(ElderItemEntity elderItemEntity);
-
-	/**
-	 * @Title updateElderItem
-	 * @Description TODO
-	 * @param @param elderItemEntity
-	 * @return void
-	 * @throws
-	 */
-	void updateElderItem(ElderItemEntity elderItemEntity);
-
-	/**
-	 * @Title deleteElderItem
-	 * @Description TODO
-	 * @param @param postElderItemEntity
-	 * @return void
-	 * @throws
-	 */
-	void deleteElderItem(ElderItemEntity elderItemEntity);
+//	/**
+//	 * @Title getElderItems
+//	 * @Description TODO
+//	 * @param @param elderItemEntity
+//	 * @param @return
+//	 * @return List<ElderItemEntity>
+//	 * @throws
+//	 */
+//	List<ElderItemEntity> getElderItems(ElderItemEntity elderItemEntity);
+//
+//	/**
+//	 * @Title insertElderItem
+//	 * @Description TODO
+//	 * @param @param elderItemEntity
+//	 * @return void
+//	 * @throws
+//	 */
+//	void insertElderItem(ElderItemEntity elderItemEntity);
+//
+//	/**
+//	 * @Title getElderItem
+//	 * @Description TODO
+//	 * @param @param queryElderItemEntity
+//	 * @param @return
+//	 * @return ElderItemEntity
+//	 * @throws
+//	 */
+//	ElderItemEntity getElderItem(ElderItemEntity elderItemEntity);
+//
+//	/**
+//	 * @Title updateElderItem
+//	 * @Description TODO
+//	 * @param @param elderItemEntity
+//	 * @return void
+//	 * @throws
+//	 */
+//	void updateElderItem(ElderItemEntity elderItemEntity);
+//
+//	/**
+//	 * @Title deleteElderItem
+//	 * @Description TODO
+//	 * @param @param postElderItemEntity
+//	 * @return void
+//	 * @throws
+//	 */
+//	void deleteElderItem(ElderItemEntity elderItemEntity);
 
 	ElderEntity getElderEntityByIdentityNo(String elderIdentityNo);
 

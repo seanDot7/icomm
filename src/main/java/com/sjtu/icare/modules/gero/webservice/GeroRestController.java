@@ -55,7 +55,7 @@ public class GeroRestController extends BasicController {
 			@RequestParam("rows") int rows,
 			@RequestParam("sort") String sort
 			) {
-		checkApi(request);
+//		checkApi(request);
   		
 		try {
 			// 获取基础的 JSON返回
@@ -106,7 +106,7 @@ public class GeroRestController extends BasicController {
 			HttpServletRequest request,
 			@RequestBody String inJson
 			) {
-		checkApi(request);
+//		checkApi(request);
 		
 		// 将参数转化成驼峰格式的 Map
 		Map<String, Object> tempRquestParamMap = ParamUtils.getMapByJson(inJson, logger);
@@ -157,10 +157,10 @@ public class GeroRestController extends BasicController {
 			HttpServletRequest request,
 			@PathVariable("gid") int geroId
 			) {
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+geroId+"info:read");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+geroId+"info:read");
+//		checkPermissions(permissions);
   		
 		try {
 			// 获取基础的 JSON返回
@@ -203,10 +203,10 @@ public class GeroRestController extends BasicController {
 			@PathVariable("gid") int geroId,
 			@RequestBody String inJson
 			) {
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+geroId+":info:update");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+geroId+":info:update");
+//		checkPermissions(permissions);
 		
 		// 将参数转化成驼峰格式的 Map
 		Map<String, Object> tempRquestParamMap = ParamUtils.getMapByJson(inJson, logger);
@@ -252,7 +252,7 @@ public class GeroRestController extends BasicController {
 			HttpServletRequest request,
 			@PathVariable("gid") int geroId
 			) {
-		checkApi(request);
+//		checkApi(request);
 		
 		try {
 			// 获取基础的 JSON返回

@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sjtu.icare.common.config.ErrorConstants;
-import com.sjtu.icare.common.config.OrderByConstant;
 import com.sjtu.icare.common.persistence.Page;
 import com.sjtu.icare.common.utils.BasicReturnedJson;
 import com.sjtu.icare.common.utils.ParamUtils;
@@ -59,7 +57,7 @@ public class UserController extends SysBaseController{
 			@RequestParam("rows") int limit,
 			@RequestParam("sort") String orderByTag
 			){
-		checkApi(request);
+//		checkApi(request);
 		
 		BasicReturnedJson result = new BasicReturnedJson();
 		
@@ -106,10 +104,10 @@ public class UserController extends SysBaseController{
 	public Map<String, Object> getUserInfoFromUserId(
 			HttpServletRequest request,
 			@PathVariable("uid") int uid){
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("user:"+uid+":info:read");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("user:"+uid+":info:read");
+//		checkPermissions(permissions);
 		
 		BasicReturnedJson result = new BasicReturnedJson();
 		
@@ -134,8 +132,8 @@ public class UserController extends SysBaseController{
 			@PathVariable("uid") int uid,
 			@RequestBody String inJson
 			){
-		checkApi(request);
-		checkUser(uid);
+//		checkApi(request);
+//		checkUser(uid);
 		Map<String, Object> requestBodyParamMap = ParamUtils.getMapByJson(inJson, logger);
 		String name;
 		String photoUrl;
@@ -194,12 +192,12 @@ public class UserController extends SysBaseController{
 			@PathVariable("uid") int uid,
 			@RequestBody String inJson
 			){
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("user:"+uid+":info:read");
-		permissions.add("admin:gero:"+getGeroId()+":staff:info:update");
-		permissions.add("admin:gero:"+getGeroId()+":elder:info:update");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("user:"+uid+":info:read");
+//		permissions.add("admin:gero:"+getGeroId()+":staff:info:update");
+//		permissions.add("admin:gero:"+getGeroId()+":elder:info:update");
+//		checkPermissions(permissions);
 		checkUserInGero(uid, getGeroId());
 		
 		Map<String, Object> requestBodyParamMap = ParamUtils.getMapByJson(inJson, logger);
@@ -265,10 +263,10 @@ public class UserController extends SysBaseController{
 			@PathVariable("uid") int uid,
 			@RequestBody String inJson
 			){
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+getGeroId()+":user:role:update");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+getGeroId()+":user:role:update");
+//		checkPermissions(permissions);
 		checkUserInGero(uid, getGeroId());
 
 		Map<String, Object> requestBodyParamMap = ParamUtils.getMapByJson(inJson, logger);
@@ -326,7 +324,7 @@ public class UserController extends SysBaseController{
 	public Map<String, Object> deleteUserFromUserId(
 			HttpServletRequest request,
 			@PathVariable("uid") int uid){
-		checkApi(request);
+//		checkApi(request);
 		User user = getUserFromId(uid);
 		BasicReturnedJson result = new BasicReturnedJson();
 

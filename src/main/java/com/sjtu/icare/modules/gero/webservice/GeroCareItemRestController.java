@@ -7,7 +7,6 @@
  */
 package com.sjtu.icare.modules.gero.webservice;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,11 +51,11 @@ public class GeroCareItemRestController extends GeroBaseController {
 			@RequestParam("rows") int rows,
 			@RequestParam("sort") String sort
 			) {
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+geroId+":care_item:read");
-		permissions.add("carer:"+getCurrentUser().getUserId()+":gero:"+geroId+":care_item:read");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+geroId+":care_item:read");
+//		permissions.add("carer:"+getCurrentUser().getUserId()+":gero:"+geroId+":care_item:read");
+//		checkPermissions(permissions);
 		
 		// 获取基础的 JSON返回
 		BasicReturnedJson basicReturnedJson = new BasicReturnedJson();
@@ -114,10 +113,10 @@ public class GeroCareItemRestController extends GeroBaseController {
 			@PathVariable("gid") int geroId,
 			@RequestBody String inJson
 			) {
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+geroId+":care_item:add");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+geroId+":care_item:add");
+//		checkPermissions(permissions);
 		
 		// 将参数转化成驼峰格式的 Map
 		Map<String, Object> tempRquestParamMap = ParamUtils.getMapByJson(inJson, logger);
@@ -140,7 +139,7 @@ public class GeroCareItemRestController extends GeroBaseController {
 			frequency = (Integer) requestParamMap.get("frequency");
 			notes = (String) requestParamMap.get("notes");
 			
-			if (name == null || level == null)
+			if (name == null )
 				throw new Exception();
 			
 			// 参数详细验证
@@ -183,11 +182,11 @@ public class GeroCareItemRestController extends GeroBaseController {
 			@PathVariable("gid") int geroId,
 			@PathVariable("itemid") int itemId
 			) {
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+geroId+":care_item:read");
-		permissions.add("carer:"+getCurrentUser().getUserId()+":gero:"+geroId+":care_item:read");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+geroId+":care_item:read");
+//		permissions.add("carer:"+getCurrentUser().getUserId()+":gero:"+geroId+":care_item:read");
+//		checkPermissions(permissions);
 		
 		// 获取基础的 JSON返回
 		BasicReturnedJson basicReturnedJson = new BasicReturnedJson();
@@ -238,10 +237,10 @@ public class GeroCareItemRestController extends GeroBaseController {
 			@PathVariable("itemid") int itemId,
 			@RequestBody String inJson
 			) {	
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+geroId+":care_item:update");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+geroId+":care_item:update");
+//		checkPermissions(permissions);
 		
 		// 将参数转化成驼峰格式的 Map
 		Map<String, Object> tempRquestParamMap = ParamUtils.getMapByJson(inJson, logger);
@@ -265,7 +264,7 @@ public class GeroCareItemRestController extends GeroBaseController {
 			frequency = (Integer) requestParamMap.get("frequency");
 			notes = (String) requestParamMap.get("notes");
 			
-			if (name == null || icon == null || level == null || period == null || frequency == null || notes == null)
+			if (name == null)
 				throw new Exception();
 			
 			// 参数详细验证
@@ -309,10 +308,10 @@ public class GeroCareItemRestController extends GeroBaseController {
 			@PathVariable("gid") int geroId,
 			@PathVariable("itemid") int itemId
 			) {	
-		checkApi(request);
-		List<String> permissions = new ArrayList<String>();
-		permissions.add("admin:gero:"+geroId+":care_item:delete");
-		checkPermissions(permissions);
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+geroId+":care_item:delete");
+//		checkPermissions(permissions);
 		
 		// 将参数转化成驼峰格式的 Map
 		Map<String, Object> tempRquestParamMap = new HashMap<String, Object>();

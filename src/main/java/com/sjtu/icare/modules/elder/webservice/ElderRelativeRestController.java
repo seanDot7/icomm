@@ -32,7 +32,6 @@ import com.sjtu.icare.common.persistence.Page;
 import com.sjtu.icare.common.utils.BasicReturnedJson;
 import com.sjtu.icare.common.utils.DateUtils;
 import com.sjtu.icare.common.utils.MapListUtils;
-import com.sjtu.icare.common.utils.OSSObjectUtils;
 import com.sjtu.icare.common.utils.ParamUtils;
 import com.sjtu.icare.common.utils.PinyinUtils;
 import com.sjtu.icare.common.web.rest.BasicController;
@@ -67,7 +66,7 @@ public class ElderRelativeRestController  extends BasicController {
 			@RequestParam("rows") int rows,
 			@RequestParam("sort") String sort
 			) {
-		checkApi(request);
+//		checkApi(request);
 //		List<String> permissions = new ArrayList<String>();
 //		permissions.add("admin:gero:"+geroId+":staff:info:read");
 //		checkPermissions(permissions);
@@ -181,8 +180,8 @@ public class ElderRelativeRestController  extends BasicController {
 		try {
 			
 			if (requestParamMap.get("name") == null
-				|| requestParamMap.get("identityNo") == null
-				|| requestParamMap.get("birthday") == null
+//				|| requestParamMap.get("identityNo") == null
+//				|| requestParamMap.get("birthday") == null
 				|| requestParamMap.get("phoneNo") == null
 				// for Relative
 				|| requestParamMap.get("name") == null

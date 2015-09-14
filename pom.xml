@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.sjtu.icare</groupId>
-    <artifactId>resthouse</artifactId>
+    <groupId>com.sjtu.icomm</groupId>
+    <artifactId>icomm</artifactId>
     <packaging>war</packaging>
     <version>2.0.0-SNAPSHOT</version>
-    <name>RestHouse</name>
+    <name>Icomm</name>
     <url>http://maven.apache.org</url>
   
     <!-- 项目属性 -->
@@ -46,7 +46,7 @@
         <jdk.version>1.7</jdk.version>
         <tomcat.version>2.2</tomcat.version>
         <jetty.version>7.6.10.v20130312</jetty.version>
-        <webserver.port>80</webserver.port>
+        <webserver.port>8080</webserver.port>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <downloadSources>false</downloadSources>
         
