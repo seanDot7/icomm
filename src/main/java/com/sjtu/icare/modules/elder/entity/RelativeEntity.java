@@ -30,7 +30,7 @@ public class RelativeEntity implements Serializable {
 	 * @return elderId
 	 */
 	public Integer getElderId() {
-		return elderId;
+		return this.elderId;
 	}
 	public void setElderId(Integer elderId) {
 		this.elderId = elderId;

@@ -131,17 +131,17 @@ public class ElderRelativeRestController  extends BasicController {
 						throw new Exception("内部错误： user 找不到对应的 relative");
 					
 					resultMap.put("elder_id", relativeEntity.getElderId()); 
-					ElderEntity requestElderEntity = new ElderEntity();
-					requestElderEntity.setGeroId(geroId);
-					requestElderEntity.setId(relativeEntity.getElderId());
-					ElderEntity elderEntity = elderInfoService.getElderEntity(requestElderEntity);
-					resultMap.put("elder_name", elderEntity.getName());
-					
-					resultMap.put("name", relativeEntity.getName()); 
-					resultMap.put("relationship", relativeEntity.getRelationship()); 
-					resultMap.put("urgent", relativeEntity.getUrgent()); 
-					resultMap.put("cancel_date", relativeEntity.getCancelDate());
-					
+					if (relativeEntity.getElderId() != null) {
+						ElderEntity requestElderEntity = new ElderEntity();
+						requestElderEntity.setGeroId(geroId);
+						requestElderEntity.setId(relativeEntity.getElderId());
+						ElderEntity elderEntity = elderInfoService.getElderEntity(requestElderEntity);
+						resultMap.put("elder_name", elderEntity.getName());
+						resultMap.put("name", relativeEntity.getName()); 
+						resultMap.put("relationship", relativeEntity.getRelationship()); 
+						resultMap.put("urgent", relativeEntity.getUrgent()); 
+						resultMap.put("cancel_date", relativeEntity.getCancelDate());
+					}
 					basicReturnedJson.addEntity(resultMap);
 				}
 				
