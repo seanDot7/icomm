@@ -54,6 +54,8 @@ hrefTable['/eldercareduty']='eldercare.drawElderCareList()';
 hrefTable['/areacareduty']='areacare.drawAreaCareList()';
 hrefTable['/relative']='relative.drawRelativeList()';
 hrefTable['/elder_care_item']='care_item.drawItemList()';
+hrefTable['/orders']='orders.drawOrdersList()';
+
 
 var leftTop = {
     removeLefttree:function (){

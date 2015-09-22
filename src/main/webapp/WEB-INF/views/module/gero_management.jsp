@@ -21,7 +21,7 @@
 <link rel="stylesheet" type="text/css" href="/static/css/bootstrap-datetimepicker.min.css">
 <link href="/static/css/vis.css" rel="stylesheet" type="text/css" />
 </head>
-
+ 
 <body>
 <%
   User user = UserUtils.getUser();
@@ -73,12 +73,12 @@
     </div>
 
 
-  <!--------------------------右内容-------------------------------->
+    <!--------------------------右内容-------------------------------->
     <div class="rightNav" id="rightNavi" style="min-height:710px;">
     
 
-    <!---------------------------用户信息-------------------------->
-    <div id="usershow" class="inf hide" style="min-height:700px;">
+      <!---------------------------用户信息-------------------------->
+      <div id="usershow" class="inf hide" style="min-height:700px;">
         <div class="pers-s">个人信息中心</div>
         <div class="old">
           <div class="page-header">基本信息</div>
@@ -626,6 +626,73 @@
                 <button id="authoritybutton" class="btn btn-default" onclick="authority.buttonclk()" style="margin-left:180px;margin-top:10px;" >确定</button>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!--------------------------订单信息-------------------------------->
+      <div id="orders_show" class="inf hide" style="min-height:700px;">
+        <div class="pers-s">订单详情</div>
+        <div class="orders">
+          <div class="page-header">订单查询:</div>
+          <div class="Inquiry">
+            <div class="panel panel-default">
+              <div class="form-group group">
+                <label class="control" for="name">小区:</label>
+                <div class="col-sm-4">
+                  <select id="community" class="form-control"  value="">
+                    <option value=''></option>
+                    <option value='0'>小区1</option>
+                    <option value='1'>小区2</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group group">
+                <label class="control" for="name">状态:</label>
+                <div class="col-md-4">
+                  <select id="order_state" class="form-control"  value="">
+                    <option value=''></option>
+                    <option value='0'>状态1</option>
+                    <option value='1'>状态2</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel panel-default">
+              <div class="form-group group">
+                <label class="control" for="name">时间:</label>
+                <div class="col-md-4">
+                  <input id="order_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false" style="width:150px"></input>
+                </div>
+              </div>
+              <div class="form-group group"> 
+                <label class="control">&nbsp;&nbsp;&nbsp;</label>
+                <div class="col-md-4">
+                  <input id="order_search" type="text" class="form-control" value="订单号/用户姓名/手机号码" onfocus="if(value=='订单号/用户姓名/手机号码') {value=''; this.style.color='#000000';}" onblur="if (value=='') {value='订单号/用户姓名/手机号码';this.style.color='#C0C0C0'}" style="color: #C0C0C0"></input>
+                </div>
+                <button id="order_search_confirm" class="btn btn-default" style="width=40px;float:left;" onclick="orders.doSearch()">搜索</button>
+              </div>
+            </div>
+          </div>
+          <div class="list" style="min-height:500px;width:100%">
+              <table id="orders_page"  class="easyui-datagrid" title="订单列表" style="height:400px;" data-options="onDblClickRow:orders.onOrdersDblClickRow">
+                <thead>
+                  <tr>
+                    <th data-options="field:'id',hidden:true,align:'center'">标识号</th>
+                    <th data-options="field:'order_id',width:130,align:'center'">订单号</th>
+                    <th data-options="field:'name',width:60,align:'center'">用户姓名</th>
+                    <th data-options="field:'phone_no',width:110,align:'center'">手机号码</th>
+                    <th data-options="field:'order_time',width:130,align:'center'">订单时间</th>
+                    <th data-options="field:'address',width:100,align:'center'">地址</th>
+                    <th data-options="field:'description',width:75,align:'center'">情况描述</th>
+                    <th data-options="field:'carer',width:60,align:'center'">护工师傅</th>
+                    <th data-options="field:'order_state',width:50,align:'center'">状态</th>
+                    <th data-options="field:'service_rate',width:60,align:'center'">服务评分</th>
+                    <th data-options="field:'operation',width:40,align:'center'">操作</th>
+                  </tr>
+                </thead>
+              </table>
           </div>
         </div>
       </div>
@@ -1273,5 +1340,6 @@
 <script type="text/javascript" src="/static/js/validbox.js"></script>
 <script type="text/javascript" src="/static/js/vis-min.js"></script>
 <script type="text/javascript" src="/static/js/dropzone.js"></script>
+<script type="text/javascript" src="/static/js/orders.js"></script>
 </body>
 </html>

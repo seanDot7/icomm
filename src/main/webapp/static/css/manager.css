@@ -815,6 +815,24 @@ a:hover{ color:#d71318;}
 	flaot: left;
 	float: left;
 }
+
+/**
+ * 订单信息
+ */
+.orders {
+  width:100%;
+  padding-left:19px;
+  padding-top:19px;
+  padding-right:19px;
+  max-height:690px;
+}
+.orders .page-header {
+  font-family:宋体;
+  font-weight:bold;
+  font-size:14px;
+}
+
+
 /*--------------------------------登录*/
 .daohang-a{
   height:4px;
