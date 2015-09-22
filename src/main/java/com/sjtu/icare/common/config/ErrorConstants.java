@@ -217,6 +217,10 @@ public class ErrorConstants {
 	public static final String RELATIVE_INFO_ELDER_PUT_SERVICE_FAILED = "500006 PUT 指定老人家属：后台服务失败";
 	public static final String RELATIVE_INFO_ELDER_DELETE_SERVICE_FAILED = "500007 DELETE 指定老人家属：后台服务失败";
 	
+	// Orders constants
+	public static final String ORDERS_GET_SERVICE_FAILED = "600001 GET 订单：后台服务失败";
+	
+	
 	
 	
 	public static String format(String errorConstant, String otherMessage) {

@@ -650,7 +650,7 @@
               <div class="form-group group">
                 <label class="control" for="name">状态:</label>
                 <div class="col-md-4">
-                  <select id="order_state" class="form-control"  value="">
+                  <select id="order_status" class="form-control"  value="">
                     <option value=''></option>
                     <option value='0'>状态1</option>
                     <option value='1'>状态2</option>
@@ -680,14 +680,14 @@
                 <thead>
                   <tr>
                     <th data-options="field:'id',hidden:true,align:'center'">标识号</th>
-                    <th data-options="field:'order_id',width:130,align:'center'">订单号</th>
-                    <th data-options="field:'name',width:60,align:'center'">用户姓名</th>
+                    <th data-options="field:'order_id',width:120,align:'center'">订单号</th>
+                    <th data-options="field:'elder_name',width:70,align:'center'">用户姓名</th>
                     <th data-options="field:'phone_no',width:110,align:'center'">手机号码</th>
                     <th data-options="field:'order_time',width:130,align:'center'">订单时间</th>
                     <th data-options="field:'address',width:100,align:'center'">地址</th>
-                    <th data-options="field:'description',width:75,align:'center'">情况描述</th>
-                    <th data-options="field:'carer',width:60,align:'center'">护工师傅</th>
-                    <th data-options="field:'order_state',width:50,align:'center'">状态</th>
+                    <th data-options="field:'item_detail',width:75,align:'center'">情况描述</th>
+                    <th data-options="field:'carer_name',width:60,align:'center'">护工师傅</th>
+                    <th data-options="field:'order_status',width:50,align:'center'">状态</th>
                     <th data-options="field:'service_rate',width:60,align:'center'">服务评分</th>
                     <th data-options="field:'operation',width:40,align:'center'">操作</th>
                   </tr>

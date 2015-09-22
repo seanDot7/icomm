@@ -24,3 +24,5 @@ proguard/
 /src/main/webapp/WEB-INF/classes/*
 /src/main/webapp/userfiles/*
 /target/
+*.sublime-project
+*.sublime-workspace

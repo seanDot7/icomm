@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sjtu.icare.modules.orders.persistence.OrdersDAO">
+
+    <resultMap type="com.sjtu.icare.modules.orders.entity.OrderEntity" id="OrderMap">
+	    <id property="id" column="id" />
+	    <result property="carerId" column="carer_id" />
+	    <result property="elderId" column="elder_id" />
+	    <result property="careItemId" column="care_item_id" />
+	    <result property="itemName" column="item_name" />
+	    <result property="itemDetail" column="item_detail" />
+	    <result property="orderType" column="order_type" />
+	    <result property="orderStatus" column="status" />
+	    <result property="orderTime" column="order_time" />
+	    <result property="rate" column="rate" />
+	    <result property="rateDetail" column="rate_detail" />
+	    <result property="revisitContent" column="revisit_content" />
+	    <result property="callStart" column="call_start" />
+	    <result property="callEnd" column="call_end" />
+		<result property="callType" column="call_type" />
+		<result property="callDetail" column="call_detail" />
+		<result property="communityId" column="community_id" />
+		<result property="communityName" column="community_name" />
+		
+		<result property="phoneNumber" column="phone_number" />
+		<result property="elderName" column="elder_name" />
+		<result property="carerName" column="carer_name" />
+	</resultMap>
+  
+    <select id="getOrderEntities" resultMap="OrderMap">
+		SELECT
+			o.*, elder.name AS elder_name, elder.phone_no as phone_number, carer.name as carer_name, community.name as community_name
+		FROM ((T_ORDER AS o JOIN T_USER AS elder ON o.elder_id = elder.id) JOIN T_USER AS carer ON o.carer_id = carer.id) JOIN T_GERO AS community ON o.community_id = community.id
+		<where>
+			<if test="orderId != null">
+        	o.id = #{orderId}
+        	</if>
+        	<if test="communityId != null">
+        	AND o.community_id = #{communityId}
+        	</if> 
+        	<if test="status != null">
+        	AND o.status = #{status}
+        	</if> 
+        	<if test="datetimeBefore != null">
+       	 	<![CDATA[
+            AND #{datetimeBefore} >= convert(nvarchar(23), o.order_time, 120)
+            ]]>
+        	</if> 
+        	<if test="elderName != null">
+        	AND elder.name LIKE '%' + #{elderName} + '%'
+        	</if>
+        	<if test="phoneNumber != null">
+        	AND elder.phone_no = #{phoneNumber}
+        	</if>
+
+		</where>
+    </select>
+
+  <!--   <select id="getAllElders" resultMap="com.sjtu.icare.modules.sys.persistence.UserMapper.UserMap">
+    
+        SELECT 
+            T_USER.*
+        FROM 
+            (T_USER INNER JOIN T_ELDER
+            ON
+                T_USER.user_type = #{userType}
+                AND T_USER.gero_id = #{geroId}
+                AND T_USER.user_id = T_ELDER.id 
+                AND T_USER.cancel_date is NULL
+	            <if test="name != null">
+	                <if test="fuzzyMatch == true or fuzzyMatch == null">
+		                AND T_USER.name LIKE '%' + #{name} + '%'
+	                </if>
+	                <if test="fuzzyMatch == false">
+		                AND T_USER.name = #{name}
+	                </if>
+	            </if> 
+	            <if test="gender != null">
+	                AND T_USER.gender = #{gender}
+	            </if>
+	            <if test="ageMin != null">
+	                <![CDATA[
+	                AND T_USER.age >= #{ageMin}
+	                ]]> 
+	            </if>
+	            <if test="ageMax != null">
+	                <![CDATA[
+	                AND T_USER.age <= #{ageMax}
+	                ]]> 
+	            </if>
+	            <if test="careLevel != null">
+                    AND T_ELDER.care_level = #{careLevel}
+                </if>
+	            <if test="areaId != null">
+                    AND T_ELDER.area_id IN 
+                    <foreach item="item" index="index" collection="areaIds" open="(" close=")" separator=",">
+                         #{areaIds[${index}]}
+                    </foreach>
+                </if>
+                
+	        )    
+	  
+    </select>
+
+
+    <insert id="insertElder" parameterType="ElderEntity" useGeneratedKeys="true" keyProperty="id">
+    
+        INSERT INTO
+            T_ELDER(name, nssf_id, gero_id, archive_id, area_id, care_level, checkin_date, checkout_date, apply_url, survey_url, assess_url, track_url, pad_mac) 
+        VALUES
+            (#{name}, #{nssfId}, #{geroId}, #{archiveId}, #{areaId}, #{careLevel}, #{checkinDate}, #{checkoutDate}, #{applyUrl}, #{surveyUrl}, #{assessUrl}, #{trackUrl}, #{padMac})
+            
+    </insert>
+    
+    
+    <update id="updateElder">
+    
+        UPDATE
+            T_ELDER
+        <set>
+            <if test="name != null">
+            T_ELDER.name = #{name},
+            </if>
+            <if test="nssfId != null">
+            T_ELDER.nssf_id = #{nssfId},
+            </if>
+            <if test="archiveId != null">
+            T_ELDER.archive_id = #{archiveId},
+            </if>
+            <if test="areaId != null">
+            T_ELDER.area_id = #{areaId},
+            </if>
+            <if test="careLevel != null">
+            T_ELDER.care_level = #{careLevel},
+            </if>
+            <if test="checkinDate != null">
+            T_ELDER.checkin_date = #{checkinDate},
+            </if>
+            <if test="checkoutDate != null">
+            T_ELDER.checkout_date = #{checkoutDate},
+            </if>
+            <if test="applyUrl != null">
+            T_ELDER.apply_url = #{applyUrl},
+            </if>
+            <if test="surveyUrl != null">
+            T_ELDER.survey_url = #{surveyUrl},
+            </if>
+            <if test="assessUrl != null">
+            T_ELDER.assess_url = #{assessUrl},
+            </if>
+            <if test="trackUrl != null">
+            T_ELDER.track_url = #{trackUrl},
+            </if>
+            <if test="padMac != null">
+            T_ELDER.pad_mac = #{padMac}
+            </if>
+        </set>
+        WHERE
+            T_ELDER.id = #{id}
+            
+    </update>
+    
+    <update id="deleteElder">
+    
+        UPDATE
+            T_ELDER
+        SET
+            T_ELDER.checkout_date = #{checkoutDate}
+        WHERE
+            T_ELDER.id = #{id}
+            
+    </update> -->
+    
+    
+</mapper>

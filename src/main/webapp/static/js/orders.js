@@ -13,7 +13,6 @@ var orders = {
     $('#order_time').datetimebox('setValue', strNow); 
     $('#orders_page').datagrid({ 
       title: '订单信息列表', 
-      data: [{order_id: "123213123"}],
       iconCls: 'icon-edit',//图标 
       fit: true,//自动大小 
       nowrap: false, 
@@ -21,8 +20,8 @@ var orders = {
       striped: true, 
       border: true, 
       collapsible: false,//是否可折叠的 
-      url: null, //rhurl.origin+'/orders',  
-      method: null, //'get',
+      url: rhurl.origin+'/orders',  
+      method: 'get',
       remoteSort: true,  
       sortName: 'ID',
       singleSelect: true,//是否单选 
@@ -66,7 +65,7 @@ var orders = {
     });
   },
   
-  drawOrdersInfo: function(data) {
+  drawOrdersInfo: function(data){
       elder.flag=false;
       $("#elder-dialog-form").dialog("open");
       $("#elder-dialog-form").dialog("center");
