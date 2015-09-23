@@ -640,17 +640,15 @@
               <div class="form-group group">
                 <label class="control" for="name">小区:</label>
                 <div class="col-sm-4">
-                  <select id="community" class="form-control"  value="">
+                  <select id="orders_search_community" class="form-control"  value="">
                     <option value=''></option>
-                    <option value='0'>小区1</option>
-                    <option value='1'>小区2</option>
                   </select>
                 </div>
               </div>
               <div class="form-group group">
                 <label class="control" for="name">状态:</label>
                 <div class="col-md-4">
-                  <select id="order_status" class="form-control"  value="">
+                  <select id="orders_search_status" class="form-control"  value="">
                     <option value=''></option>
                     <option value='0'>状态1</option>
                     <option value='1'>状态2</option>
@@ -663,13 +661,13 @@
               <div class="form-group group">
                 <label class="control" for="name">时间:</label>
                 <div class="col-md-4">
-                  <input id="order_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false" style="width:150px"></input>
+                  <input id="orders_search_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false" style="width:150px"></input>
                 </div>
               </div>
               <div class="form-group group"> 
                 <label class="control">&nbsp;&nbsp;&nbsp;</label>
                 <div class="col-md-4">
-                  <input id="order_search" type="text" class="form-control" value="订单号/用户姓名/手机号码" onfocus="if(value=='订单号/用户姓名/手机号码') {value=''; this.style.color='#000000';}" onblur="if (value=='') {value='订单号/用户姓名/手机号码';this.style.color='#C0C0C0'}" style="color: #C0C0C0"></input>
+                  <input id="orders_search_search_confirm" type="text" class="form-control" value="订单号/用户姓名/手机号码" onfocus="if(value=='订单号/用户姓名/手机号码') {value=''; this.style.color='#000000';}" onblur="if (value=='') {value='订单号/用户姓名/手机号码';this.style.color='#C0C0C0'}" style="color: #C0C0C0"></input>
                 </div>
                 <button id="order_search_confirm" class="btn btn-default" style="width=40px;float:left;" onclick="orders.doSearch()">搜索</button>
               </div>
@@ -680,6 +678,8 @@
                 <thead>
                   <tr>
                     <th data-options="field:'id',hidden:true,align:'center'">标识号</th>
+                    <th data-options="field:'community_id',hidden:true,align:'center'">社区编号</th>
+
                     <th data-options="field:'order_id',width:120,align:'center'">订单号</th>
                     <th data-options="field:'elder_name',width:70,align:'center'">用户姓名</th>
                     <th data-options="field:'phone_no',width:110,align:'center'">手机号码</th>

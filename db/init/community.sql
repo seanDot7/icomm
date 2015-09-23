@@ -196,7 +196,6 @@ CREATE TABLE T_ORDER
 	call_end			datetime		,						--通话结束时间
 	call_type			int 			,						--0:本地通话1:国内长途2:国际长途
     call_detail         nvarchar(512)   ,                       --通话备注
-	community_id	    int	            ,						--小区id
 )
 ;
 --状态：

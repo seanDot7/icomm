@@ -10,7 +10,26 @@ var orders = {
     $('#orders_show').removeClass('hide');
     var dateNow = new Date();
     var strNow = (dateNow.getMonth()+1) + '/' + dateNow.getDate() + '/' + dateNow.getFullYear() + ' ' + dateNow.getHours() + ':' + dateNow.getMinutes() + ':' + dateNow.getSeconds();
-    $('#order_time').datetimebox('setValue', strNow); 
+    $('#orders_search_time').datetimebox('setValue', strNow); 
+    $.ajax({
+      url: rhurl.origin+'/gero',
+      data: {page: 1, rows: 65535, sort: 'ID'},
+      type: 'GET',
+      timeout: deadtime,
+      success:function(data){
+        var entities = leftTop.dealdata(data);
+        var selectCommunity = $('#orders_search_community');
+        selectCommunity.find('option').remove();
+        selectCommunity.append('<option value=""></option>');
+        for (var i=0; i<entities.length; ++i) {
+          var community = entities[i];
+          selectCommunity.append('<option value="' + community.id + '">' + community.name + '</option>');
+        }
+      },
+      error:function(XMLHttpRequest, textStatus, errorThrown){
+          leftTop.dealerror(XMLHttpRequest, textStatus, errorThrown);
+      }
+    });
     $('#orders_page').datagrid({ 
       title: '订单信息列表', 
       iconCls: 'icon-edit',//图标 
@@ -243,6 +262,10 @@ var orders = {
       else(alert('请确保输入正确'));
   },
   doSearch:function(){
+    $('#orders_page').datagrid('load', {
+      community_id: $('#orders_search_community').val(), 
+    });
+
     // TODO
       // $('#elderpage').datagrid('load',{           
       //             name: $('#elder_name').val(),
