@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sjtu.icare.common.config.ErrorConstants;
 import com.sjtu.icare.common.persistence.Page;
 import com.sjtu.icare.common.utils.BasicReturnedJson;
+import com.sjtu.icare.common.utils.StringUtils;
 import com.sjtu.icare.common.web.rest.GeroBaseController;
 import com.sjtu.icare.common.web.rest.MediaTypes;
 import com.sjtu.icare.common.web.rest.RestException;
@@ -41,6 +42,7 @@ public class OrdersRestController extends GeroBaseController{
 			@RequestParam(value="elder_name", required=false) String elderName,
 			@RequestParam(value="phone_number", required=false) String phoneNumber,
 			@RequestParam(value="order_status", required=false) Integer orderStatus,
+			@RequestParam(value="fuzzy_query_params", required=false) String fuzzyQueryParams,
 			@RequestParam("page") int page,
 			@RequestParam("rows") int limit,
 			@RequestParam("sort") String orderByTag
@@ -49,6 +51,8 @@ public class OrdersRestController extends GeroBaseController{
 		ordersPage = setOrderBy(ordersPage, orderByTag);
 		
 		// 参数检查
+		if (StringUtils.isBlank(fuzzyQueryParams))
+			fuzzyQueryParams = null;
 //		if (gender != null && !(gender.equals("0") || gender.equals("1"))) {
 //			String otherMessage = "gender 不符合格式:" +
 //					"[gender=" + gender + "]";
@@ -68,6 +72,14 @@ public class OrdersRestController extends GeroBaseController{
 			queryOrderEntity.setDatetimeBefore(datetimeBefore);
 			queryOrderEntity.setElderName(elderName);
 			queryOrderEntity.setPhoneNumber(phoneNumber);
+			if (fuzzyQueryParams != null) {
+				if (!StringUtils.isNumeric(fuzzyQueryParams)) {
+					queryOrderEntity.setElderName(fuzzyQueryParams);
+				} else {
+					queryOrderEntity.setFuzzyQueryParams(fuzzyQueryParams);
+				}
+				
+			}
 			
 			queryOrderEntity.setPage(ordersPage);
 			

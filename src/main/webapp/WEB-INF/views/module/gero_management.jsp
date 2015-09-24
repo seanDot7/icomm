@@ -641,7 +641,6 @@
                 <label class="control" for="name">小区:</label>
                 <div class="col-sm-4">
                   <select id="orders_search_community" class="form-control"  value="">
-                    <option value=''></option>
                   </select>
                 </div>
               </div>
@@ -649,9 +648,6 @@
                 <label class="control" for="name">状态:</label>
                 <div class="col-md-4">
                   <select id="orders_search_status" class="form-control"  value="">
-                    <option value=''></option>
-                    <option value='0'>状态1</option>
-                    <option value='1'>状态2</option>
                   </select>
                 </div>
               </div>
@@ -667,7 +663,7 @@
               <div class="form-group group"> 
                 <label class="control">&nbsp;&nbsp;&nbsp;</label>
                 <div class="col-md-4">
-                  <input id="orders_search_search_confirm" type="text" class="form-control" value="订单号/用户姓名/手机号码" onfocus="if(value=='订单号/用户姓名/手机号码') {value=''; this.style.color='#000000';}" onblur="if (value=='') {value='订单号/用户姓名/手机号码';this.style.color='#C0C0C0'}" style="color: #C0C0C0"></input>
+                  <input id="orders_search_fuzzy_query" type="text" class="form-control" value="订单号/用户姓名/手机号码" onfocus="if(value=='订单号/用户姓名/手机号码') {value=''; this.style.color='#000000';}" onblur="if (value=='') {value='订单号/用户姓名/手机号码';this.style.color='#C0C0C0'}" style="color: #C0C0C0"></input>
                 </div>
                 <button id="order_search_confirm" class="btn btn-default" style="width=40px;float:left;" onclick="orders.doSearch()">搜索</button>
               </div>
@@ -1314,6 +1310,108 @@
         <tr><td>图标: </td><td><input type="text" id="gaiicon" /></td></tr>
         <tr><td>说明: </td><td><input type="text" id="gainotes" /></td></tr>
       </table>
+</div>
+<!-----------------------订单弹窗------------------------------>
+<div id="orders_dialog_form"  class="easyui-dialog" title="订单详情" style="width:850px;height:600px;padding:10px"
+      data-options="
+        modal:true,
+        closed:true,
+        fix:true,
+        left:($(window).width()-700)*0.5,
+        top:($(window).height()-700)*0.5,
+        draggable:true,
+        iconCls: 'icon-save',
+        toolbar: [{
+          text:'修改',
+          iconCls:'icon-edit',
+          handler:function(){
+          if(elder.method!=='post')
+            elder.editElderInfo();
+          }
+        }],
+        buttons: [{
+          text:'确定',
+          iconCls:'icon-ok',
+          handler:function(){
+            if((elder.method==='put' && elder.flag)|| elder.method==='post'  )
+            {
+              elder.buttonclk();
+            }
+            else $('#elder-dialog-form').dialog('close');
+          }
+        }]
+      ">
+    <div id="orders_info_card" class="info-card">
+      <div id="orders_info_card_a" class="info-card-a">
+        <text id="epnote" style="font-size:17px;color:#f00;" class='hide'>*项为必填项,不能为空</text>
+        <table>
+          <tr>
+            <td rowspan="3">picture</td>
+            <td class="td1">用户姓名</td> 
+            <td class="td2"><input type="text" class="easyui-validatebox textbox equalwidth" id="order_username"></td>
+          </tr>
+          <tr></tr>
+          <tr></tr>
+          <tr></tr>
+
+          <!-- <tr><td class="td1"><text>*老人姓名： </text></td><td class="td2"><input id="ename"class="easyui-validatebox textbox equalwidth" required='required' missingMessage="不能为空"></input></td></tr>
+          <tr><td class="td1"><text>*出生日期：</text></td><td class="td2">
+              <div class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                <input class="form-control easyui-validatebox textbox" size="16" id="ebirthday" type="text" required='required' value="" readonly />
+                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+              </div></td></tr>
+          <tr><td class="td1"><text>*电    话： </text></td><td class="td2"><input id="ephone_no" class="easyui-validatebox textbox equalwidth" data-options="required:true,validType:'phoneNum'"></input></td></tr>
+          <tr><td class="td1"><text>性    别：</text></td><td class="td2"><input type="radio" name="egender" value='0' />男 <input type="radio" name="egender" value='1' />女</td></tr>
+          <tr><td class="td1"><text>*身份证号：</text></td><td class="td2"><input id="eidentity_no"class="easyui-validatebox textbox equalwidth" data-options="required:true,invalidMessage:'123',validType:'idcard'"></input></td></tr>
+          <tr><td class="td1"><text>*入住床号：</text></td><td class="td2"><input id="earea_fullname" onclick="elder.area_idclick();" class="easyui-validatebox textbox equalwidth" type="button" data-options="required:true"></input>
+            <input id="earea_id" class="hide"></input>
+          </td></tr>
+          <tr><td class="td1"><text>婚姻状况：</text></td><td class="td2"><select id="emarriage" class='equalwidth'>
+            <option value=''></option>
+            <option value='0'>未婚</option>
+            <option value='1'>已婚</option>
+            <option value='2'>离异</option>
+            <option value='3'>丧偶</option>
+          </select></td></tr>
+          <tr><td class="td1"><text>民    族：</text></td><td class="td2"><input id="enationality" class='equalwidth'></input></td></tr>
+          <tr><td class="td1"><text>籍    贯：</text></td><td class="td2"><input id="enative_place" class='equalwidth'></input></td></tr>
+          <tr><td class="td1"><text>护理等级：</text></td><td class="td2"><select id="ecare_level" class='equalwidth'>
+            <option value=''></option>
+            <option value='0'>专护</option>
+            <option value='1'>1级</option>
+            <option value='2'>2级</option>
+            <option value='3'>3级</option>
+          </select></td></tr>
+          <tr><td class="td1"><text>户口所在地：</text></td><td class="td2"><input id="eresidence" class='equalwidth'></input></td></tr>
+          <tr><td class="td1"><text>政治面貌：</text></td><td class="td2"><input id="epolitical_status" class='equalwidth'></input></td></tr>
+          <tr><td class="td1"><text>教育水平：</text></td><td class="td2"><select id="eeducation" class='equalwidth'>
+            <option value=''></option>
+            <option value='初中'>初中</option>
+            <option value='中专'>中专</option>
+            <option value='高中'>高中</option>
+            <option value='技校'>技校</option>
+            <option value='大专'>大专</option>
+            <option value='本科及以'>本科及以上</option>
+          </select></td></tr>
+          <tr><td class="td1"><text>社保卡号：</text></td><td class="td2"><input id="enssf_id" class='equalwidth'></input></td></tr>
+          <tr><td class="td1"><text>档案编号：</text></td><td class="td2"><input id="earchive_id" class='equalwidth'></input></td></tr>
+          <tr><td class="td1"><text>家庭地址：</text></td><td class="td2"><input id="eaddress" class='equalwidth'></input></td></tr>
+          <tr><td class="td1"><text>入院日期：</text></td><td class="td2">
+            <div class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+              <input class="form-control"  class='equalwidth' size="16" id="echeckin_date" type="text" value="" readonly>
+              <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+            </div></td></tr>
+          <tr><td class="td1"><text>离院日期：</text></td><td class="td2">
+            <div class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+              <input class="form-control" class='equalwidth'size="16" id="echeckout_date" type="text" value="" readonly>
+              <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+            </div></input></td></tr> -->
+        </table>
+      </div>
+      <div id="orders_info_card_b" class="info-card-b"><!-- <img src="images/p_2.jpg" onclick="if(elder.method==='put') photo.doit(rhurl.root+'/uploadObject/user'+elder.uid);">
+        <div id="epic" class="hide">请点击图片进行上传</div> -->
+      </div>
+    </div>
 </div>
 
 <script type="text/javascript" src="/static/js/jquery-1.8.3.min.js" ></script>

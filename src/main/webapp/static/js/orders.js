@@ -1,16 +1,27 @@
 var orders = {
   method: '',
-  flag: false,
+  flag: false, // TODO
   eid: '',
   uid: '',
   temparea: [],
   areatemp: [],
+  // 订单状态常量，order_status对应的解释
+  orderStatus: [
+    {id: 1, name: '未处理'},
+    {id: 2, name: '已派单'},
+    {id: 3, name: '已确认'},
+    {id: 4, name: '完成未评价'},
+    {id: 5, name: '完成已评价'},
+    {id: 6, name: '订单关闭'},
+  ],
   drawOrdersList: function() {
     $('.inf').addClass('hide');
     $('#orders_show').removeClass('hide');
     var dateNow = new Date();
     var strNow = (dateNow.getMonth()+1) + '/' + dateNow.getDate() + '/' + dateNow.getFullYear() + ' ' + dateNow.getHours() + ':' + dateNow.getMinutes() + ':' + dateNow.getSeconds();
     $('#orders_search_time').datetimebox('setValue', strNow); 
+
+    // 社区选项绘制
     $.ajax({
       url: rhurl.origin+'/gero',
       data: {page: 1, rows: 65535, sort: 'ID'},
@@ -18,6 +29,7 @@ var orders = {
       timeout: deadtime,
       success:function(data){
         var entities = leftTop.dealdata(data);
+
         var selectCommunity = $('#orders_search_community');
         selectCommunity.find('option').remove();
         selectCommunity.append('<option value=""></option>');
@@ -30,6 +42,16 @@ var orders = {
           leftTop.dealerror(XMLHttpRequest, textStatus, errorThrown);
       }
     });
+
+    // 订单状态绘制
+    var selectOrdersStatus = $('#orders_search_status');
+    selectOrdersStatus.find('option').remove();
+    selectOrdersStatus.append('<option value=""></option>');
+    for (var i=0; i<orders.orderStatus.length; ++i) {
+      var curOrderStatus = orders.orderStatus[i];
+      selectOrdersStatus.append('<option value="' + curOrderStatus.id + '">' + curOrderStatus.name + '</option>');
+    }
+
     $('#orders_page').datagrid({ 
       title: '订单信息列表', 
       iconCls: 'icon-edit',//图标 
@@ -64,7 +86,7 @@ var orders = {
       toolbar: [{text: '添加', iconCls: 'icon-add', 
           handler: function() { 
             // TODO
-            // elder.addElderInfo();
+            // orders.addOrder();
           } 
       }, '-',{text: '删除', iconCls: 'icon-remove', 
           handler: function(){ 
@@ -84,40 +106,40 @@ var orders = {
     });
   },
   
-  drawOrdersInfo: function(data){
-      elder.flag=false;
-      $("#elder-dialog-form").dialog("open");
-      $("#elder-dialog-form").dialog("center");
-      $('#elder-Info-card-a input').attr('disabled','disabled');
-      $('#elder-Info-card-a select').attr('disabled','disabled');
-      $('#elder-Info-card-a .input-group-addon').addClass('hide');
-      $('#epic').removeClass('hide');
-      $('#epnote').addClass('hide');
-      $('#elder-Info-card-a').find('.validatebox-text').validatebox('disableValidation');
-      $('#ename').attr('value',data.name);
-      $('#ebirthday').attr('value',data.birthday);
-      var radios = document.getElementsByName("egender");
-          for (var i = 0; i < radios.length; i++) {
-              if (i==parseInt(data.gender)) radios[i].checked="checked";
-          }
-      $('#eaddress').attr('value',data.address);
-      $('#enative_place').attr('value',data.native_place);
-      $('#earea_id').attr('value',data.area_id);
-      $('#earea_fullname').attr('value',data.area_fullname);
-      $('#ecare_level').attr('value',data.care_level);
-      $('#enssf_id').attr('value',data.nssf_id);
-      $('#earchive_id').attr('value',data.archive_id);
-      $('#enationality').attr('value',data.nationality);
-      $('#eeducation').attr('value',data.education);
-      $('#eresidence').attr('value',data.residence);
-      $('#epolitical_status').attr('value',data.political_status);
-      $('#echeckin_date').attr('value',data.checkin_date);
-      $('#echeckout_date').attr('value',data.checkout_date);
-      $('#emarriage').attr('value',data.marriage);
-      $('#eidentity_no').attr('value',data.identity_no);
+  drawOrderInfoDialog: function(data){
+      // elder.flag=false;
+      $("#orders_dialog_form").dialog("open");
+      $("#orders_dialog_form").dialog("center");
+      // $('#elder-Info-card-a input').attr('disabled','disabled');
+      // $('#elder-Info-card-a select').attr('disabled','disabled');
+      // $('#elder-Info-card-a .input-group-addon').addClass('hide');
+      // $('#epic').removeClass('hide');
+      // $('#epnote').addClass('hide');
+      // $('#elder-Info-card-a').find('.validatebox-text').validatebox('disableValidation');
+      // $('#ename').attr('value',data.name);
+      // $('#ebirthday').attr('value',data.birthday);
+      // var radios = document.getElementsByName("egender");
+      //     for (var i = 0; i < radios.length; i++) {
+      //         if (i==parseInt(data.gender)) radios[i].checked="checked";
+      //     }
+      // $('#eaddress').attr('value',data.address);
+      // $('#enative_place').attr('value',data.native_place);
+      // $('#earea_id').attr('value',data.area_id);
+      // $('#earea_fullname').attr('value',data.area_fullname);
+      // $('#ecare_level').attr('value',data.care_level);
+      // $('#enssf_id').attr('value',data.nssf_id);
+      // $('#earchive_id').attr('value',data.archive_id);
+      // $('#enationality').attr('value',data.nationality);
+      // $('#eeducation').attr('value',data.education);
+      // $('#eresidence').attr('value',data.residence);
+      // $('#epolitical_status').attr('value',data.political_status);
+      // $('#echeckin_date').attr('value',data.checkin_date);
+      // $('#echeckout_date').attr('value',data.checkout_date);
+      // $('#emarriage').attr('value',data.marriage);
+      // $('#eidentity_no').attr('value',data.identity_no);
 
-      if(data.photo_url!==undefined) $('#elder-Info-card-b img').attr("src",data.photo_src).attr("width","178px").attr("height","220px");
-      else $('#elder-Info-card-b img').attr("src",rhurl.staticurl+"/images/p_2.jpg").attr("width","178px").attr("height","220px");
+      // if(data.photo_url!==undefined) $('#elder-Info-card-b img').attr("src",data.photo_src).attr("width","178px").attr("height","220px");
+      // else $('#elder-Info-card-b img').attr("src",rhurl.staticurl+"/images/p_2.jpg").attr("width","178px").attr("height","220px");
   },
 
   addElderInfo: function(){
@@ -189,27 +211,29 @@ var orders = {
       }
   },
 
-  onOrdersDblClickRow:function(index){
-        //       elder.method='put';
-        //       elder.flag=false;
-        //       var eldert = $('#elderpage').datagrid('getSelected');
-        //       elder.eid='/'+eldert.elder_id;
-        //       elder.uid='/'+eldert.id;
-        //       infoUrl=rhurl.origin+"/gero/"+gid+"/elder" + elder.eid;
-        //       $.ajax({
-        //     type: "get",
-        //     dataType: "json",
-        //     contentType: "application/json;charset=utf-8",
-        //     url: infoUrl,
-        //           timeout:deadtime,
-        //     success: function (msg) {
-        //               var data=leftTop.dealdata(msg);
-        //               elder.drawElderInfo(data[0]);
-        //     },
-        //     error: function(XMLHttpRequest, textStatus, errorThrown) {
-        //         leftTop.dealerror(XMLHttpRequest, textStatus, errorThrown);
-        //     }
-        // });
+  onOrdersDblClickRow: function(index){
+    // elder.method='put';
+    // elder.flag=false;
+    var orderSelected = $('#orders_page').datagrid('getSelected');
+    console.log(orderSelected);
+    orders.drawOrderInfoDialog();
+    // elder.eid='/'+eldert.elder_id;
+    // elder.uid='/'+eldert.id;
+    // infoUrl=rhurl.origin+"/gero/"+gid+"/elder" + elder.eid;
+    // $.ajax({
+    //   type: "get",
+    //   dataType: "json",
+    //   contentType: "application/json;charset=utf-8",
+    //   url: infoUrl,
+    //         timeout:deadtime,
+    //   success: function (msg) {
+    //             var data=leftTop.dealdata(msg);
+    //             elder.drawElderInfo(data[0]);
+    //   },
+    //   error: function(XMLHttpRequest, textStatus, errorThrown) {
+    //       leftTop.dealerror(XMLHttpRequest, textStatus, errorThrown);
+    //   }
+    // });
   },
   buttonclk: function(){
       $('#elder-Info-card-a').find('.validatebox-text').validatebox('enableValidation').validatebox('validate');
@@ -264,6 +288,23 @@ var orders = {
   doSearch:function(){
     $('#orders_page').datagrid('load', {
       community_id: $('#orders_search_community').val(), 
+      order_status: $('#orders_search_status').val(),
+      datetime_before: (function(strDatetimebox) {
+        var strDatetime = strDatetimebox.split(' ');
+        var arrDate = strDatetime[0].split('/');
+        var newDate = arrDate[2] + '-' + arrDate[0] + '-' + arrDate[1];
+        var newTime = strDatetime[1] + ':00';
+        return newDate + ' ' + newTime;
+      })($('#orders_search_time').datetimebox('getValue')),
+      fuzzy_query_params: (function(strFuzzyQueryParams) {
+        if (strFuzzyQueryParams === '订单号/用户姓名/手机号码') {
+          return '';
+        } else {
+          return strFuzzyQueryParams;
+        }
+      })($('#orders_search_fuzzy_query').val()),
+
+      
     });
 
     // TODO

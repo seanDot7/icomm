@@ -209,7 +209,7 @@ $(function(){
             leftTop.removeLefttree;
             var str=leftTop.dealtree(temptree);
             $("#lefttree").tree("loadData",str);
-            $("#welcome").text("欢迎"+msg.entities[0].name+"登录resthouse系统");
+            $("#welcome").text("欢迎 "+msg.entities[0].name+" 登录resthouse系统");
             $('#uusername').text(msg.entities[0].username);
             $('#uname').text(msg.entities[0].name);
         },

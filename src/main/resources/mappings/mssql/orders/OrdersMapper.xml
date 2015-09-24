@@ -55,6 +55,10 @@
         	<if test="phoneNumber != null">
         	AND elder.phone_no = #{phoneNumber}
         	</if>
+        	<if test="fuzzyQueryParams != null">
+        	AND (elder.phone_no = #{fuzzyQueryParams} OR o.id = #{fuzzyQueryParams})
+        	</if>
+        	
 
 		</where>
     </select>

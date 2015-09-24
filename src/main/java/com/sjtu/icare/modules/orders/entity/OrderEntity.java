@@ -47,6 +47,7 @@ public class OrderEntity extends DataEntity<OrderEntity> implements Serializable
     private String phoneNumber;
     // Query property
 	private String datetimeBefore;
+	private String fuzzyQueryParams;
 
 	/**
 	 * @return the phoneNumber
@@ -411,5 +412,14 @@ public class OrderEntity extends DataEntity<OrderEntity> implements Serializable
 		this.communityName = communityName;
 	}
 
+	/**
+	 * @return the fuzzyQueryParams
+	 */
+	public String getFuzzyQueryParams() {
+		return fuzzyQueryParams;
+	}
 
+	public void setFuzzyQueryParams(String fuzzyQueryParams) {
+		this.fuzzyQueryParams = fuzzyQueryParams;
+	}
 }
