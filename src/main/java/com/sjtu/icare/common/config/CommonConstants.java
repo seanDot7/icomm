@@ -19,7 +19,9 @@ public class CommonConstants {
 	
 	public static String DEFAULT_PASSWORD = "ac2e2c80e60060f5d6c5585d21b639e25cf1d938a2c61c3ec0ec5870";
 	
-	public static Integer ORDER_STATUS_SUSPENDING = 0;
+	public static Integer ORDER_STATUS_SUSPENDING = 1;
+	public static Integer ORDER_STATUS_PROCESSED = 2;
+	public static Integer ORDER_STATUS_COMPLETED = 3;
 	
 	public static Integer ORDER_TYPE_CALL_CENTER = 0;
 	

@@ -80,7 +80,7 @@ public class OrderEntity extends DataEntity<OrderEntity> implements Serializable
 	 * @return the address
 	 */
 	public String getAddress() {
-		return this.communityName;
+		return this.address;
 	}
 
 	/**

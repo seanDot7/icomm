@@ -27,11 +27,12 @@
 		<result property="phoneNumber" column="phone_number" />
 		<result property="elderName" column="elder_name" />
 		<result property="carerName" column="carer_name" />
+		<result property="address" column="address" />
 	</resultMap>
   
     <select id="getOrderEntities" resultMap="OrderMap">
 		SELECT
-			o.*, elder.name AS elder_name, elder.phone_no AS phone_number, carer.name AS carer_name, community.id AS community_id, community.name AS community_name
+			o.*, elder.name AS elder_name, elder.phone_no AS phone_number, elder.residence_address AS address, carer.name AS carer_name, community.id AS community_id, community.name AS community_name
 		FROM ((T_ORDER AS o JOIN T_USER AS elder ON o.elder_id = elder.id) JOIN T_USER AS carer ON o.carer_id = carer.id) JOIN T_GERO AS community ON elder.gero_id = community.id
 		<where>
 			<if test="orderId != null">
