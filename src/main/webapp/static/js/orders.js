@@ -6,14 +6,21 @@ var orders = {
   temparea: [],
   areatemp: [],
   // 订单状态常量，order_status对应的解释
-  orderStatus: [
-    {id: 1, name: '未处理'},
-    {id: 2, name: '已派单'},
-    {id: 3, name: '已确认'},
-    {id: 4, name: '完成未评价'},
-    {id: 5, name: '完成已评价'},
-    {id: 6, name: '订单关闭'},
-  ],
+  orderStatus: {
+    1: '未处理',
+    2: '已派单',
+    3: '已确认',
+    4: '完成未评价',
+    5: '完成已评价',
+    6: '订单关闭',
+  },
+  orderStatusLength: 6,
+  getOrderStatusNameByStatusId: function(id) {
+    if (id in orders.orderStatus)
+      return orders.orderStatus[id];
+    else
+      return '---';
+  },
   drawOrdersList: function() {
     $('.inf').addClass('hide');
     $('#orders_show').removeClass('hide');
@@ -47,9 +54,8 @@ var orders = {
     var selectOrdersStatus = $('#orders_search_status');
     selectOrdersStatus.find('option').remove();
     selectOrdersStatus.append('<option value=""></option>');
-    for (var i=0; i<orders.orderStatus.length; ++i) {
-      var curOrderStatus = orders.orderStatus[i];
-      selectOrdersStatus.append('<option value="' + curOrderStatus.id + '">' + curOrderStatus.name + '</option>');
+    for (var i=1; i<=orders.orderStatusLength; ++i) {
+      selectOrdersStatus.append('<option value="' + i + '">' + orders.orderStatus[i] + '</option>');
     }
 
     $('#orders_page').datagrid({ 
@@ -78,8 +84,9 @@ var orders = {
         result.total = data.total;
         result.rows = data.entities;
           for (var i in result.rows) {
-              // result.rows[i].gender=sex[result.rows[i].gender];
-              // result.rows[i].care_level=clevellist[result.rows[i].care_level];
+              // 增加操作一栏的链接
+              result.rows[i].operation = '<a href="" onclick="order.onOrdersDblClickRow()">操作</a>';
+              result.rows[i].order_status_name = orders.getOrderStatusNameByStatusId(result.rows[i].order_status);
           }
         return result;
       },
@@ -104,12 +111,77 @@ var orders = {
     pager.pagination({
       displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录', 
     });
+
   },
-  
+
   drawOrderInfoDialog: function(data){
-      // elder.flag=false;
+      var communityId = data.community_id;
+      var elderName = data.elder_name;
+      var elderId = data.elder_id;
+      var elderPhoneNumber = data.phone_no;
+      var orderTime = getDatetimeByMsDatetime(data.order_time);
+      var orderStatusId = data.order_status;
+      var orderStatusName = data.order_status_name;
+      var address = data.address;
+      var detail = data.item_detail;
+      var orderId = data.order_id;
+
+      // console.log(orderId);
+      $('#order_dialog_username').val(elderName);
+      $('#order_dialog_username').data('elderId', elderId);
+      $('#order_dialog_phone_number').val(elderPhoneNumber);
+      $('#order_dialog_order_time').val(orderTime);
+      
+      var selectOrdersStatus = $('#order_dialog_order_status');
+      selectOrdersStatus.find('option').remove();
+      selectOrdersStatus.append('<option value=""></option>');
+      for (var i=1; i<=orders.orderStatusLength; ++i) {
+        if (i === orderStatusId) 
+          selectOrdersStatus.append('<option selected="selected" value="' + i + '">' + orders.orderStatus[i] + '</option>');
+        else
+          selectOrdersStatus.append('<option value="' + i + '">' + orders.orderStatus[i] + '</option>');
+      }
+
+      $('#orders_dialog_order_id').text(orderId);
+      $('#order_dialog_address').textbox('setValue', address);
+      $('#order_dialog_detail').textbox('setValue', detail);
+
+
+
       $("#orders_dialog_form").dialog("open");
       $("#orders_dialog_form").dialog("center");
+      $('#orders_dialog_carers_table').datagrid({ 
+        fit: true,//自动大小 
+        nowrap: false, 
+        loadMsg: "正在加载，请稍等...", 
+        striped: true, 
+        border: true, 
+        collapsible: false,//是否可折叠的 
+        url: rhurl.origin+'/gero/' + communityId + '/staff?role=护工',
+        method: 'get',
+        remoteSort: true,  
+        sortName: 'ID',
+        singleSelect: true,//是否单选 
+        pagination: true,//分页控件 
+        rownumbers: false,//行号
+        pageNumber: 1,
+        pagePosition: 'bottom',
+        pageSize: 10,//每页显示的记录条数，默认为20 
+        pageList: [10,20,35,50],//可以设置每页记录条数的列表 
+        loadFilter: function(data){
+          var result = {"total":0,"rows":0};
+          leftTop.dealdata(data);
+          result.total = data.total;
+          result.rows = data.entities;
+            for (var i in result.rows) {
+                // 增加操作一栏的链接
+                result.rows[i].operation = '<a href="" onclick="orders.onOrdersDblClickRow()">操作</a>';
+                result.rows[i].order_status_name = orders.getOrderStatusNameByStatusId(result.rows[i].order_status);
+                result.rows[i].selected = '<input type="radio" name="selectedCarer" value="' + result.rows[i].carer_id + '" />'
+            }
+          return result;
+        },
+      }); 
       // $('#elder-Info-card-a input').attr('disabled','disabled');
       // $('#elder-Info-card-a select').attr('disabled','disabled');
       // $('#elder-Info-card-a .input-group-addon').addClass('hide');
@@ -162,15 +234,16 @@ var orders = {
       $('#elder-Info-card-b img').attr("src",rhurl.staticurl+"/images/p_2.jpg").attr("width","178px").attr("height","220px");
   },
 
-  editElderInfo: function(){
-      elder.flag=true;
-      $("#elder-dialog-form").dialog("open");
-      $("#elder-dialog-form").dialog("center");
-      $('#elder-Info-card-a input').removeAttr('disabled');
-      $('#elder-Info-card-a select').removeAttr('disabled');
-      $('#elder-Info-card-a .input-group-addon').removeClass('hide');
-      $('#elder-Info-card-a').find('.validatebox-text').validatebox('disableValidation');
-      $('#epnote').removeClass('hide');
+  editOrderInfo: function(){
+    alert("edit order info")
+      // elder.flag=true;
+      // $("#elder-dialog-form").dialog("open");
+      // $("#elder-dialog-form").dialog("center");
+      // $('#elder-Info-card-a input').removeAttr('disabled');
+      // $('#elder-Info-card-a select').removeAttr('disabled');
+      // $('#elder-Info-card-a .input-group-addon').removeClass('hide');
+      // $('#elder-Info-card-a').find('.validatebox-text').validatebox('disableValidation');
+      // $('#epnote').removeClass('hide');
       //$('#elder-Info-card-a').find('.validatebox-text').validatebox('enableValidation').validatebox('validate');
   },
   delElderInfo: function(){
@@ -211,12 +284,12 @@ var orders = {
       }
   },
 
-  onOrdersDblClickRow: function(index){
+  onOrdersDblClickRow: function(index) {
     // elder.method='put';
     // elder.flag=false;
     var orderSelected = $('#orders_page').datagrid('getSelected');
-    console.log(orderSelected);
-    orders.drawOrderInfoDialog();
+    // console.log(orderSelected);
+    orders.drawOrderInfoDialog(orderSelected);
     // elder.eid='/'+eldert.elder_id;
     // elder.uid='/'+eldert.id;
     // infoUrl=rhurl.origin+"/gero/"+gid+"/elder" + elder.eid;

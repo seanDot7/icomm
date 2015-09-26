@@ -657,7 +657,7 @@
               <div class="form-group group">
                 <label class="control" for="name">时间:</label>
                 <div class="col-md-4">
-                  <input id="orders_search_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false" style="width:150px"></input>
+                  <input id="orders_search_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false" style="width:250px;height:35px"></input>
                 </div>
               </div>
               <div class="form-group group"> 
@@ -675,6 +675,9 @@
                   <tr>
                     <th data-options="field:'id',hidden:true,align:'center'">标识号</th>
                     <th data-options="field:'community_id',hidden:true,align:'center'">社区编号</th>
+                    <th data-options="field:'order_status',hidden:true,align:'center'">订单状态编号</th>
+                    <th data-options="field:'elder_id',hidden:true,align:'center'">用户ID</th>
+                    <th data-options="field:'carer_id',hidden:true,align:'center'">护工ID</th>
 
                     <th data-options="field:'order_id',width:120,align:'center'">订单号</th>
                     <th data-options="field:'elder_name',width:70,align:'center'">用户姓名</th>
@@ -683,7 +686,7 @@
                     <th data-options="field:'address',width:100,align:'center'">地址</th>
                     <th data-options="field:'item_detail',width:75,align:'center'">情况描述</th>
                     <th data-options="field:'carer_name',width:60,align:'center'">护工师傅</th>
-                    <th data-options="field:'order_status',width:50,align:'center'">状态</th>
+                    <th data-options="field:'order_status_name',width:50,align:'center'">状态</th>
                     <th data-options="field:'service_rate',width:60,align:'center'">服务评分</th>
                     <th data-options="field:'operation',width:40,align:'center'">操作</th>
                   </tr>
@@ -1312,7 +1315,7 @@
       </table>
 </div>
 <!-----------------------订单弹窗------------------------------>
-<div id="orders_dialog_form"  class="easyui-dialog" title="订单详情" style="width:850px;height:600px;padding:10px"
+<div id="orders_dialog_form"  class="easyui-dialog" title="订单详情" style="width:920px;height:620px;padding:10px"
       data-options="
         modal:true,
         closed:true,
@@ -1341,75 +1344,85 @@
           }
         }]
       ">
-    <div id="orders_info_card" class="info-card">
-      <div id="orders_info_card_a" class="info-card-a">
+    <div id="orders_info_card" class="">
+      <div id="orders_info_card_a" class="">
         <text id="epnote" style="font-size:17px;color:#f00;" class='hide'>*项为必填项,不能为空</text>
-        <table>
-          <tr>
-            <td rowspan="3">picture</td>
-            <td class="td1">用户姓名</td> 
-            <td class="td2"><input type="text" class="easyui-validatebox textbox equalwidth" id="order_username"></td>
-          </tr>
-          <tr></tr>
-          <tr></tr>
-          <tr></tr>
+          <div class="dialog-card" style="width: 438px">
+            <div>
+              <div class="dialog-photo" style="float: left">picture</div> 
+              <div class="dialog-photo-right">
+                <div class="dialog-row">
+                  <div>
+                    <div class="dialog-label">用户姓名</div>  
+                    <input id="order_dialog_username" type="text" class="easyui-validatebox textbox equalwidth dialog-input" />
+                  </div>
+                </div>
+                <div class="dialog-row">
+                  <div>
+                    <div class="dialog-label">手机号码</div>  
+                    <input id="order_dialog_phone_number" type="text" class="easyui-validatebox textbox equalwidth dialog-input" />
+                  </div>
+                </div>     
+                <div class="dialog-row">
+                  <div>
+                    <div class="dialog-label">订单时间</div>  
+                    <input id="order_dialog_order_time" type="text" class="easyui-validatebox textbox equalwidth dialog-input" />
+                  </div>
+                </div>  
+                <div class="dialog-row">   
+                  <div>
+                    <div class="dialog-label">订单状态</div> 
+                    <select id="order_dialog_order_status" class="form-control equalwidth dialog-input" value=""></select>
+                  </div>
+                </div>
+              </div>
+            </div>
+           
+            <div class="clear"></div>
 
-          <!-- <tr><td class="td1"><text>*老人姓名： </text></td><td class="td2"><input id="ename"class="easyui-validatebox textbox equalwidth" required='required' missingMessage="不能为空"></input></td></tr>
-          <tr><td class="td1"><text>*出生日期：</text></td><td class="td2">
-              <div class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                <input class="form-control easyui-validatebox textbox" size="16" id="ebirthday" type="text" required='required' value="" readonly />
-                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-              </div></td></tr>
-          <tr><td class="td1"><text>*电    话： </text></td><td class="td2"><input id="ephone_no" class="easyui-validatebox textbox equalwidth" data-options="required:true,validType:'phoneNum'"></input></td></tr>
-          <tr><td class="td1"><text>性    别：</text></td><td class="td2"><input type="radio" name="egender" value='0' />男 <input type="radio" name="egender" value='1' />女</td></tr>
-          <tr><td class="td1"><text>*身份证号：</text></td><td class="td2"><input id="eidentity_no"class="easyui-validatebox textbox equalwidth" data-options="required:true,invalidMessage:'123',validType:'idcard'"></input></td></tr>
-          <tr><td class="td1"><text>*入住床号：</text></td><td class="td2"><input id="earea_fullname" onclick="elder.area_idclick();" class="easyui-validatebox textbox equalwidth" type="button" data-options="required:true"></input>
-            <input id="earea_id" class="hide"></input>
-          </td></tr>
-          <tr><td class="td1"><text>婚姻状况：</text></td><td class="td2"><select id="emarriage" class='equalwidth'>
-            <option value=''></option>
-            <option value='0'>未婚</option>
-            <option value='1'>已婚</option>
-            <option value='2'>离异</option>
-            <option value='3'>丧偶</option>
-          </select></td></tr>
-          <tr><td class="td1"><text>民    族：</text></td><td class="td2"><input id="enationality" class='equalwidth'></input></td></tr>
-          <tr><td class="td1"><text>籍    贯：</text></td><td class="td2"><input id="enative_place" class='equalwidth'></input></td></tr>
-          <tr><td class="td1"><text>护理等级：</text></td><td class="td2"><select id="ecare_level" class='equalwidth'>
-            <option value=''></option>
-            <option value='0'>专护</option>
-            <option value='1'>1级</option>
-            <option value='2'>2级</option>
-            <option value='3'>3级</option>
-          </select></td></tr>
-          <tr><td class="td1"><text>户口所在地：</text></td><td class="td2"><input id="eresidence" class='equalwidth'></input></td></tr>
-          <tr><td class="td1"><text>政治面貌：</text></td><td class="td2"><input id="epolitical_status" class='equalwidth'></input></td></tr>
-          <tr><td class="td1"><text>教育水平：</text></td><td class="td2"><select id="eeducation" class='equalwidth'>
-            <option value=''></option>
-            <option value='初中'>初中</option>
-            <option value='中专'>中专</option>
-            <option value='高中'>高中</option>
-            <option value='技校'>技校</option>
-            <option value='大专'>大专</option>
-            <option value='本科及以'>本科及以上</option>
-          </select></td></tr>
-          <tr><td class="td1"><text>社保卡号：</text></td><td class="td2"><input id="enssf_id" class='equalwidth'></input></td></tr>
-          <tr><td class="td1"><text>档案编号：</text></td><td class="td2"><input id="earchive_id" class='equalwidth'></input></td></tr>
-          <tr><td class="td1"><text>家庭地址：</text></td><td class="td2"><input id="eaddress" class='equalwidth'></input></td></tr>
-          <tr><td class="td1"><text>入院日期：</text></td><td class="td2">
-            <div class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-              <input class="form-control"  class='equalwidth' size="16" id="echeckin_date" type="text" value="" readonly>
-              <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-            </div></td></tr>
-          <tr><td class="td1"><text>离院日期：</text></td><td class="td2">
-            <div class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-              <input class="form-control" class='equalwidth'size="16" id="echeckout_date" type="text" value="" readonly>
-              <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-            </div></input></td></tr> -->
-        </table>
+            <div>
+              <div class="dialog-row">
+                <div>
+                  <div class="dialog-label" style="width:40px;height:50px;text-align:center;line-height:50px;">地址</div>  
+                  <input id="order_dialog_address" type="text" class="easyui-textbox dialog-textbox" data-options="multiline: true" style="width: 380px; height: 65px"/>
+                </div>
+              </div> 
+              <div class="dialog-row">
+                <div>
+                  <div class="dialog-label" style="width:40px;height:100px;text-align:center;line-height:100px">详情</div>  
+                  <input id="order_dialog_detail" type="text" class="easyui-textbox dialog-textbox" data-options="multiline: true" style="width: 380px; height: 100px"/>
+                </div>
+              </div> 
+              
+            </div>
+
+          </div>
+
+          <div class="dialog-card" style="width:420px;padding-left:15px;border-left: 2px #C0C0C0; border-style: dashed;">
+            <div class="dialog-row" style="width:400px">
+              <div class="dialog-label">订单号：</div>
+              <div class="dialog-label" id="orders_dialog_order_id">---</div>
+              <button type="button" class="btn btn-default" style="float:right;margin-right:10px" onclick="">派单</button>
+            </div>
+            <table id="orders_dialog_carers_table"  class="easyui-datagrid" style="width:400px;height:350px;border:1px solid #C0C0C0;font-size:14px" data-options="">
+              <thead>
+                <tr>
+                  <th data-options="field:'carer_id',hidden:true,align:'center'">护工编号</th>
+                  <th data-options="field:'order_status',hidden:true,align:'center'">订单状态编号</th>
+                  <th data-options="field:'selected',width:30,align:'center'">&nbsp;&nbsp;</th>                  
+                  <th data-options="field:'name',width:70,align:'center'">护工姓名</th>
+                  <th data-options="field:'phone_no',width:125,align:'center'">手机号码</th>
+                  <th data-options="field:'order_time',width:50,align:'center'">新接单</th>
+                  <th data-options="field:'address',width:50,align:'center'">已完成</th>
+                  <th data-options="field:'order_status_name',width:75,align:'center'">状态</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
       </div>
-      <div id="orders_info_card_b" class="info-card-b"><!-- <img src="images/p_2.jpg" onclick="if(elder.method==='put') photo.doit(rhurl.root+'/uploadObject/user'+elder.uid);">
+      <!-- <img src="images/p_2.jpg" onclick="if(elder.method==='put') photo.doit(rhurl.root+'/uploadObject/user'+elder.uid);">
         <div id="epic" class="hide">请点击图片进行上传</div> -->
+      <div id="orders_info_card_b" class="">
       </div>
     </div>
 </div>

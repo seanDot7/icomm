@@ -56,6 +56,15 @@ hrefTable['/relative']='relative.drawRelativeList()';
 hrefTable['/elder_care_item']='care_item.drawItemList()';
 hrefTable['/orders']='orders.drawOrdersList()';
 
+var getDatetimeByMsDatetime = function(originalTime) {
+  // if (format === 'YY-MM-DD HH:mm:ss.S') {
+  var arrTemp = originalTime.split(':');
+  var ss = arrTemp[2].split('.');
+  var ss = ss[0];
+  return arrTemp[0] + ':' + arrTemp[1];
+  // }
+}
+
 
 var leftTop = {
     removeLefttree:function (){

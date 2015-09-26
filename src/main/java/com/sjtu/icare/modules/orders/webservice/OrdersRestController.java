@@ -91,11 +91,13 @@ public class OrdersRestController extends GeroBaseController{
 				Map<String, Object> resultMap = new HashMap<String, Object>(); 
 				resultMap.put("order_id", orderEntity.getId());
 				resultMap.put("elder_name", orderEntity.getElderName());
+				resultMap.put("elder_id", orderEntity.getElderId());
 				resultMap.put("phone_no", orderEntity.getPhoneNumber());
 				resultMap.put("order_time", orderEntity.getOrderTime());
 				resultMap.put("address", orderEntity.getAddress());
 				resultMap.put("item_detail", orderEntity.getItemDetail());
 				resultMap.put("carer_name", orderEntity.getCarerName());
+				resultMap.put("carer_id", orderEntity.getCarerId());
 				resultMap.put("order_status", orderEntity.getOrderStatus());
 				resultMap.put("service_rate", orderEntity.getServiceRate());
 				resultMap.put("community_id", orderEntity.getCommunityId());
