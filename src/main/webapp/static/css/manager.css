@@ -1423,7 +1423,7 @@ body .fc { /* extra precedence to overcome jqui */
 .dialog-photo {
   background-color: #CCCCCC;
   width: 155px;
-  height: 180px;
+  height: 220px;
   margin: 0 10px 10px 10px;
 }
 
@@ -1446,5 +1446,5 @@ body .fc { /* extra precedence to overcome jqui */
 }
 
 .dialog-row {
-  margin: 6px;
+  margin: 4px 6px 4px 6px;
 }

@@ -6,9 +6,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
+import org.apache.xmlbeans.PrePostExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sjtu.icare.common.config.ErrorConstants;
 import com.sjtu.icare.common.persistence.Page;
 import com.sjtu.icare.common.utils.BasicReturnedJson;
+import com.sjtu.icare.common.utils.MapListUtils;
+import com.sjtu.icare.common.utils.ParamUtils;
 import com.sjtu.icare.common.utils.StringUtils;
 import com.sjtu.icare.common.web.rest.GeroBaseController;
 import com.sjtu.icare.common.web.rest.MediaTypes;
@@ -34,6 +41,144 @@ public class OrdersRestController extends GeroBaseController{
 	private IOrdersService ordersService;
 	
 	@RequestMapping(method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+	public Object getOrders(
+			HttpServletRequest request,
+			@RequestParam(value="community_id", required=false) Integer communityId,
+			@RequestParam(value="order_id", required=false) Integer orderId,
+			@RequestParam(value="datetime_before", required=false) String datetimeBefore,
+			@RequestParam(value="elder_name", required=false) String elderName,
+			@RequestParam(value="phone_number", required=false) String phoneNumber,
+			@RequestParam(value="order_status", required=false) Integer orderStatus,
+			@RequestParam(value="fuzzy_query_params", required=false) String fuzzyQueryParams,
+			@RequestParam("page") int page,
+			@RequestParam("rows") int limit,
+			@RequestParam("sort") String orderByTag
+			) {
+		Page<OrderEntity> ordersPage = new Page<OrderEntity>(page, limit);
+		ordersPage = setOrderBy(ordersPage, orderByTag);
+		
+		// 参数检查
+		if (StringUtils.isBlank(fuzzyQueryParams))
+			fuzzyQueryParams = null;
+//		if (gender != null && !(gender.equals("0") || gender.equals("1"))) {
+//			String otherMessage = "gender 不符合格式:" +
+//					"[gender=" + gender + "]";
+//			String message = ErrorConstants.format(ErrorConstants.ELDER_INFO_GET_PARAM_INVALID, otherMessage);
+//			logger.error(message);
+//			throw new RestException(HttpStatus.BAD_REQUEST, message);
+//		}
+		
+		try {
+			// 获取基础的 JSON返回
+			BasicReturnedJson basicReturnedJson = new BasicReturnedJson();
+			
+			OrderEntity queryOrderEntity = new OrderEntity();
+			queryOrderEntity.setOrderId(orderId);
+			queryOrderEntity.setCommunityId(communityId);
+			queryOrderEntity.setOrderStatus(orderStatus);
+			queryOrderEntity.setDatetimeBefore(datetimeBefore);
+			queryOrderEntity.setElderName(elderName);
+			queryOrderEntity.setPhoneNumber(phoneNumber);
+			if (fuzzyQueryParams != null) {
+				if (!StringUtils.isNumeric(fuzzyQueryParams)) {
+					queryOrderEntity.setElderName(fuzzyQueryParams);
+				} else {
+					queryOrderEntity.setFuzzyQueryParams(fuzzyQueryParams);
+				}
+				
+			}
+			
+			queryOrderEntity.setPage(ordersPage);
+			
+			List<OrderEntity> orderEntities;
+			orderEntities = ordersService.getOrderEntities(queryOrderEntity);
+			
+			for (OrderEntity orderEntity : orderEntities) {
+				
+				Map<String, Object> resultMap = new HashMap<String, Object>(); 
+				resultMap.put("order_id", orderEntity.getId());
+				resultMap.put("elder_name", orderEntity.getElderName());
+				resultMap.put("elder_id", orderEntity.getElderId());
+				resultMap.put("phone_no", orderEntity.getPhoneNumber());
+				resultMap.put("order_time", orderEntity.getOrderTime());
+				resultMap.put("address", orderEntity.getAddress());
+				resultMap.put("item_detail", orderEntity.getItemDetail());
+				resultMap.put("carer_name", orderEntity.getCarerName());
+				resultMap.put("carer_id", orderEntity.getCarerId());
+				resultMap.put("order_status", orderEntity.getOrderStatus());
+				resultMap.put("rate", orderEntity.getRate());
+				resultMap.put("community_id", orderEntity.getCommunityId());
+				resultMap.put("item_id", orderEntity.getCareItemId());
+				resultMap.put("item_name", orderEntity.getItemName());
+				// TODO
+//				resultMap.put("operation", orderEntity.getOpe);
+				
+				basicReturnedJson.addEntity(resultMap);
+			}
+			
+			basicReturnedJson.setTotal((int) queryOrderEntity.getPage().getCount());
+			
+			return basicReturnedJson.getMap();
+			
+		} catch(Exception e) {
+			String otherMessage = "[" + e.getMessage() + "]";
+			String message = ErrorConstants.format(ErrorConstants.ORDERS_GET_SERVICE_FAILED, otherMessage);
+			logger.error(message);
+			throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, message);
+		}
+	}
+	
+	@RequestMapping(value="/{order_id}", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+	public Object getOrder(
+			HttpServletRequest request,
+			@PathVariable(value="order_id") Integer orderId
+			) {
+		
+		// TODO 参数检查
+		try {
+			// 获取基础的 JSON返回
+			BasicReturnedJson basicReturnedJson = new BasicReturnedJson();
+			
+			OrderEntity queryOrderEntity = new OrderEntity();
+			queryOrderEntity.setOrderId(orderId);
+			
+			List<OrderEntity> orderEntities;
+			orderEntities = ordersService.getOrderEntities(queryOrderEntity);
+			
+			if (orderEntities.size() == 1) {
+				OrderEntity orderEntity = orderEntities.get(0);
+				Map<String, Object> resultMap = new HashMap<String, Object>(); 
+				resultMap.put("order_id", orderEntity.getId());
+				resultMap.put("elder_name", orderEntity.getElderName());
+				resultMap.put("elder_id", orderEntity.getElderId());
+				resultMap.put("phone_no", orderEntity.getPhoneNumber());
+				resultMap.put("order_time", orderEntity.getOrderTime());
+				resultMap.put("address", orderEntity.getAddress());
+				resultMap.put("item_detail", orderEntity.getItemDetail());
+				resultMap.put("carer_name", orderEntity.getCarerName());
+				resultMap.put("carer_id", orderEntity.getCarerId());
+				resultMap.put("order_status", orderEntity.getOrderStatus());
+				resultMap.put("rate", orderEntity.getRate());
+				resultMap.put("community_id", orderEntity.getCommunityId());
+				resultMap.put("item_id", orderEntity.getCareItemId());
+				resultMap.put("item_name", orderEntity.getItemName());
+				
+				basicReturnedJson.addEntity(resultMap);
+			}
+			
+			basicReturnedJson.setTotal((int) queryOrderEntity.getPage().getCount());
+			
+			return basicReturnedJson.getMap();
+			
+		} catch(Exception e) {
+			String otherMessage = "[" + e.getMessage() + "]";
+			String message = ErrorConstants.format(ErrorConstants.ORDERS_GET_SERVICE_FAILED, otherMessage);
+			logger.error(message);
+			throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, message);
+		}
+	}
+	
+	@RequestMapping(value="/{orderId}/carers", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
 	public Object getElders(
 			HttpServletRequest request,
 			@RequestParam(value="community_id", required=false) Integer communityId,
@@ -99,7 +244,6 @@ public class OrdersRestController extends GeroBaseController{
 				resultMap.put("carer_name", orderEntity.getCarerName());
 				resultMap.put("carer_id", orderEntity.getCarerId());
 				resultMap.put("order_status", orderEntity.getOrderStatus());
-				resultMap.put("service_rate", orderEntity.getServiceRate());
 				resultMap.put("community_id", orderEntity.getCommunityId());
 				// TODO
 //				resultMap.put("operation", orderEntity.getOpe);
@@ -118,7 +262,6 @@ public class OrdersRestController extends GeroBaseController{
 			throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, message);
 		}
 	}
-	
 //	@Transactional
 //	@RequestMapping(method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
 //	public Object postElder(
@@ -303,71 +446,70 @@ public class OrdersRestController extends GeroBaseController{
 //		
 //	}
 //	
-//	@Transactional
-//	@RequestMapping(value="/{eid}", method = RequestMethod.PUT, produces = MediaTypes.JSON_UTF_8)
-//	public Object putElder(
-//			HttpServletRequest request,
-//			@PathVariable("gid") int geroId,
-//			@PathVariable("eid") int elderId,
-//			@RequestBody String inJson
-//			) {
-////		checkApi(request);
-////		List<String> permissions = new ArrayList<String>();
-////		permissions.add("admin:gero:"+geroId+":elder:info:update");
-//		
-//		// 将参数转化成驼峰格式的 Map
-//		Map<String, Object> tempRquestParamMap = ParamUtils.getMapByJson(inJson, logger);
-//		tempRquestParamMap.put("geroId", geroId);
-//		tempRquestParamMap.put("elderId", elderId);
-//		Map<String, Object> requestParamMap = MapListUtils.convertMapToCamelStyle(tempRquestParamMap);
-//		
-//		try {
-//			// 参数详细验证
-////			if (requestParamMap.get("areaId") != null && StringUtils.isBlank((CharSequence) requestParamMap.get("areaId")))
-////				throw new Exception();
-//			
-//			
-//		} catch(Exception e) {
-//			String otherMessage = "[" + inJson + "]";
-//			String message = ErrorConstants.format(ErrorConstants.ELDER_INFO_ELDER_PUT_PARAM_INVALID , otherMessage);
-//			logger.error(message);
-//			throw new RestException(HttpStatus.BAD_REQUEST, message);
-//		}
-//		
-//		// 获取基础的 JSON
-//		BasicReturnedJson basicReturnedJson = new BasicReturnedJson();
-//		
-//		// 插入数据
-//		try {
-//			// update Elder
-//			ElderEntity postElderEntity = new ElderEntity(); 
-//			BeanUtils.populate(postElderEntity, requestParamMap);
-//			postElderEntity.setId(elderId);
-//			elderInfoService.updateElder(postElderEntity);
-//			
-//			// update USER
-//			requestParamMap.put("userType", CommonConstants.ELDER_TYPE);
-//			requestParamMap.put("userId", elderId);
-//			User tempUser = systemService.getUserByUserTypeAndUserId(CommonConstants.ELDER_TYPE, elderId);
-//			
-////			permissions.add("user:"+tempUser.getId()+":info:read");
-////			checkPermissions(permissions);
-//			
-//			User postUser = new User(); 
-//			BeanUtils.populate(postUser, requestParamMap);
-//			postUser.setId(tempUser.getId());
-//			systemService.updateUser(postUser);
-//			
-//		} catch(Exception e) {
-//			String otherMessage = "[" + e.getMessage() + "]";
-//			String message = ErrorConstants.format(ErrorConstants.ELDER_INFO_ELDER_PUT_SERVICE_FAILED, otherMessage);
-//			logger.error(message);
-//			throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, message);
-//		}
-//
-//		return basicReturnedJson.getMap();
-//		
-//	}
+	@Transactional
+	@RequestMapping(value="/{order_id}", method = RequestMethod.PUT, produces = MediaTypes.JSON_UTF_8)
+	public Object putElder(
+			HttpServletRequest request,
+			@PathVariable("order_id") Integer orderId,
+			@RequestBody String inJson
+			) {
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+geroId+":elder:info:update");
+		
+		// 将参数转化成驼峰格式的 Map
+		Map<String, Object> tempRquestParamMap = ParamUtils.getMapByJson(inJson, logger);
+		tempRquestParamMap.put("id", orderId);
+		tempRquestParamMap.put("orderId", orderId);
+		Map<String, Object> requestParamMap = MapListUtils.convertMapToCamelStyle(tempRquestParamMap);
+		
+		Integer status = (Integer)requestParamMap.get("status");
+		Integer careItemId = (Integer)requestParamMap.get("careItemId");
+		try {
+			// TODO 参数详细验证
+			if (status >= 2 && careItemId <= 0)
+				throw new Exception("护理项目未选择");
+
+		} catch(Exception e) {
+			String otherMessage = "[" + inJson + "]";
+			String message = ErrorConstants.format(ErrorConstants.ORDERS_PUT_PARAM_FAILED, otherMessage);
+			logger.error(message);
+			throw new RestException(HttpStatus.BAD_REQUEST, message);
+		}
+		
+		
+		// 获取基础的 JSON
+		BasicReturnedJson basicReturnedJson = new BasicReturnedJson();
+		
+		// 插入数据
+		try {
+			OrderEntity postOrderEntity = new OrderEntity(); 
+			BeanUtils.populate(postOrderEntity, requestParamMap);
+			postOrderEntity.setOrderId(orderId);
+			postOrderEntity.setId(orderId);
+			postOrderEntity.setElderId(null);
+			postOrderEntity.setOrderTime(null);
+			// 只有派单时可以修改项目
+			if (postOrderEntity.getStatus() != 2) {
+				postOrderEntity.setCareItemId(null);
+				postOrderEntity.setCarerId(null);
+			}
+			if (postOrderEntity.getStatus() != 4) {
+				postOrderEntity.setRate(null);
+			}
+			
+			ordersService.updateOrder(postOrderEntity);
+			
+		} catch(Exception e) {
+			String otherMessage = "[" + e.getMessage() + "]";
+			String message = ErrorConstants.format(ErrorConstants.ORDERS_PUT_SERVICE_FAILED, otherMessage);
+			logger.error(message);
+			throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, message);
+		}
+
+		return basicReturnedJson.getMap();
+		
+	}
 //	
 //	@Transactional
 //	@RequestMapping(value="/{eid}", method = RequestMethod.DELETE, produces = MediaTypes.JSON_UTF_8)

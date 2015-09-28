@@ -21,4 +21,9 @@ public class OrdersService implements IOrdersService {
 	public List<OrderEntity> getOrderEntities(OrderEntity queryOrderEntity) {
 		return ordersDAO.getOrderEntities(queryOrderEntity);
 	}
+
+	@Override
+	public void updateOrder(OrderEntity postOrderEntity) {
+		ordersDAO.updateOrderEntity(postOrderEntity);
+	}
 }

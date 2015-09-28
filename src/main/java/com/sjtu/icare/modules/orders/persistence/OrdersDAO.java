@@ -15,4 +15,6 @@ import com.sjtu.icare.modules.orders.entity.OrderEntity;
 public interface OrdersDAO {
 
 	List<OrderEntity> getOrderEntities(OrderEntity queryOrderEntity);
+
+	void updateOrderEntity(OrderEntity postOrderEntity);
 }

@@ -42,7 +42,6 @@ public class OrderEntity extends DataEntity<OrderEntity> implements Serializable
     private String carerName;
     private String elderName;
     private String communityName;
-    private Integer serviceRate;
 
     private String phoneNumber;
     // Query property
@@ -117,20 +116,6 @@ public class OrderEntity extends DataEntity<OrderEntity> implements Serializable
 	 */
 	public void setOrderStatus(Integer orderStatus) {
 		this.status = orderStatus;
-	}
-
-	/**
-	 * @return the serviceRate
-	 */
-	public Integer getServiceRate() {
-		return serviceRate;
-	}
-
-	/**
-	 * @param serviceRate the serviceRate to set
-	 */
-	public void setServiceRate(Integer serviceRate) {
-		this.serviceRate = serviceRate;
 	}
 
 	/**

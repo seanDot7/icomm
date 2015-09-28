@@ -53,16 +53,41 @@
         	AND elder.name LIKE '%' + #{elderName} + '%'
         	</if>
         	<if test="phoneNumber != null">
-        	AND elder.phone_no = #{phoneNumber}
+        	AND elder.phone_no LIKE '%' + #{phoneNumber} + '%'
         	</if>
         	<if test="fuzzyQueryParams != null">
-        	AND (elder.phone_no = #{fuzzyQueryParams} OR o.id = #{fuzzyQueryParams})
+        	AND (elder.phone_no LIKE '%' + #{fuzzyQueryParams} + '%' OR o.id = #{fuzzyQueryParams})
         	</if>
         	
 
 		</where>
     </select>
 
+    <update id="updateOrderEntity">
+    
+        UPDATE
+            T_ORDER
+        <set>
+            <if test="status != null">
+            T_ORDER.status = #{status},
+            </if>
+            <if test="rate != null">
+            T_ORDER.rate = #{rate},
+            </if>
+            <if test="itemDetail != null">
+            T_ORDER.item_detail = #{itemDetail},
+            </if>
+            <if test="careItemId != null">
+            T_ORDER.care_item_id = #{careItemId},
+            </if>
+            <if test="carerId != null">
+            T_ORDER.carer_id = #{carerId},
+            </if>
+        </set>
+        WHERE
+            T_ORDER.id = #{id}
+            
+    </update>
   <!--   <select id="getAllElders" resultMap="com.sjtu.icare.modules.sys.persistence.UserMapper.UserMap">
     
         SELECT 
@@ -120,52 +145,7 @@
     </insert>
     
     
-    <update id="updateElder">
-    
-        UPDATE
-            T_ELDER
-        <set>
-            <if test="name != null">
-            T_ELDER.name = #{name},
-            </if>
-            <if test="nssfId != null">
-            T_ELDER.nssf_id = #{nssfId},
-            </if>
-            <if test="archiveId != null">
-            T_ELDER.archive_id = #{archiveId},
-            </if>
-            <if test="areaId != null">
-            T_ELDER.area_id = #{areaId},
-            </if>
-            <if test="careLevel != null">
-            T_ELDER.care_level = #{careLevel},
-            </if>
-            <if test="checkinDate != null">
-            T_ELDER.checkin_date = #{checkinDate},
-            </if>
-            <if test="checkoutDate != null">
-            T_ELDER.checkout_date = #{checkoutDate},
-            </if>
-            <if test="applyUrl != null">
-            T_ELDER.apply_url = #{applyUrl},
-            </if>
-            <if test="surveyUrl != null">
-            T_ELDER.survey_url = #{surveyUrl},
-            </if>
-            <if test="assessUrl != null">
-            T_ELDER.assess_url = #{assessUrl},
-            </if>
-            <if test="trackUrl != null">
-            T_ELDER.track_url = #{trackUrl},
-            </if>
-            <if test="padMac != null">
-            T_ELDER.pad_mac = #{padMac}
-            </if>
-        </set>
-        WHERE
-            T_ELDER.id = #{id}
-            
-    </update>
+
     
     <update id="deleteElder">
     

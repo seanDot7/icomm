@@ -8,4 +8,6 @@ public interface IOrdersService {
 
 	public List<OrderEntity> getOrderEntities(OrderEntity queryOrderEntity);
 
+	public void updateOrder(OrderEntity postOrderEntity);
+
 }

@@ -678,6 +678,8 @@
                     <th data-options="field:'order_status',hidden:true,align:'center'">订单状态编号</th>
                     <th data-options="field:'elder_id',hidden:true,align:'center'">用户ID</th>
                     <th data-options="field:'carer_id',hidden:true,align:'center'">护工ID</th>
+                    <th data-options="field:'item_id',hidden:true,align:'center'">项目ID</th>
+                    <th data-options="field:'item_name',hidden:true,align:'center'">项目ID</th>
 
                     <th data-options="field:'order_id',width:120,align:'center'">订单号</th>
                     <th data-options="field:'elder_name',width:70,align:'center'">用户姓名</th>
@@ -687,7 +689,7 @@
                     <th data-options="field:'item_detail',width:75,align:'center'">情况描述</th>
                     <th data-options="field:'carer_name',width:60,align:'center'">护工师傅</th>
                     <th data-options="field:'order_status_name',width:50,align:'center'">状态</th>
-                    <th data-options="field:'service_rate',width:60,align:'center'">服务评分</th>
+                    <th data-options="field:'rate',width:60,align:'center'">服务评分</th>
                     <th data-options="field:'operation',width:40,align:'center'">操作</th>
                   </tr>
                 </thead>
@@ -1315,7 +1317,7 @@
       </table>
 </div>
 <!-----------------------订单弹窗------------------------------>
-<div id="orders_dialog_form"  class="easyui-dialog" title="订单详情" style="width:920px;height:620px;padding:10px"
+<div id="orders_dialog_form"  class="easyui-dialog" title="订单详情" style="width:920px;height:600px;padding:10px"
       data-options="
         modal:true,
         closed:true,
@@ -1328,103 +1330,201 @@
           text:'修改',
           iconCls:'icon-edit',
           handler:function(){
-          if(elder.method!=='post')
-            elder.editElderInfo();
+            orders.editOrderInfo();
           }
         }],
         buttons: [{
           text:'确定',
           iconCls:'icon-ok',
           handler:function(){
-            if((elder.method==='put' && elder.flag)|| elder.method==='post'  )
-            {
-              elder.buttonclk();
-            }
-            else $('#elder-dialog-form').dialog('close');
+            orders.onEditConfirm();
+            $('#orders_dialog_form').dialog('close');
+            orders.drawOrdersList();
           }
         }]
       ">
-    <div id="orders_info_card" class="">
-      <div id="orders_info_card_a" class="">
-        <text id="epnote" style="font-size:17px;color:#f00;" class='hide'>*项为必填项,不能为空</text>
-          <div class="dialog-card" style="width: 438px">
-            <div>
-              <div class="dialog-photo" style="float: left">picture</div> 
-              <div class="dialog-photo-right">
-                <div class="dialog-row">
-                  <div>
-                    <div class="dialog-label">用户姓名</div>  
-                    <input id="order_dialog_username" type="text" class="easyui-validatebox textbox equalwidth dialog-input" />
-                  </div>
+  <div id="orders_info_card" class="" style="height:450px">
+    <div id="orders_info_card_a" class="">
+      <text id="epnote" style="font-size:17px;color:#f00;" class='hide'>*项为必填项,不能为空</text>
+        <div class="dialog-card" style="width:438px;height:250px">
+          <div>
+            <div class="dialog-photo" style="float: left">picture</div> 
+            <div class="dialog-photo-right">
+              <div class="dialog-row">
+                <div>
+                  <div class="dialog-label">用户姓名</div>  
+                  <input id="order_dialog_username" type="text" class="easyui-validatebox textbox equalwidth dialog-input" disabled="disabled" />
                 </div>
-                <div class="dialog-row">
-                  <div>
-                    <div class="dialog-label">手机号码</div>  
-                    <input id="order_dialog_phone_number" type="text" class="easyui-validatebox textbox equalwidth dialog-input" />
-                  </div>
-                </div>     
-                <div class="dialog-row">
-                  <div>
-                    <div class="dialog-label">订单时间</div>  
-                    <input id="order_dialog_order_time" type="text" class="easyui-validatebox textbox equalwidth dialog-input" />
-                  </div>
-                </div>  
-                <div class="dialog-row">   
-                  <div>
-                    <div class="dialog-label">订单状态</div> 
-                    <select id="order_dialog_order_status" class="form-control equalwidth dialog-input" value=""></select>
-                  </div>
+              </div>
+              <div class="dialog-row">
+                <div>
+                  <div class="dialog-label">手机号码</div>  
+                  <input id="order_dialog_phone_number" type="text" class="easyui-validatebox textbox equalwidth dialog-input" disabled="disabled" />
+                </div>
+              </div>     
+              <div class="dialog-row">
+                <div>
+                  <div class="dialog-label">订单时间</div>  
+                  <input id="order_dialog_order_time" type="text" class="easyui-validatebox textbox equalwidth dialog-input" disabled="disabled" />
+                </div>
+              </div>  
+              <div class="dialog-row">   
+                <div>
+                  <div class="dialog-label">订单状态</div> 
+                  <select id="order_dialog_order_status" class="form-control equalwidth dialog-input" value="" disabled="disabled" onchange="orders.onOrderDialogSelectStatusChange()" ></select>
+                </div>
+              </div>
+              <div class="dialog-row">   
+                <div>
+                  <div class="dialog-label">评&nbsp;&nbsp;分</div> 
+                  <select id="order_dialog_order_rate" class="form-control equalwidth dialog-input" value="" disabled="disabled" ></select>
                 </div>
               </div>
             </div>
-           
-            <div class="clear"></div>
+          </div>
+         
+          <div class="clear"></div>
 
+          <div>
+            <div class="dialog-row">
+              <div>
+                <div class="dialog-label" style="width:40px;height:50px;text-align:center;line-height:50px;">地址</div>  
+                <input id="order_dialog_address" type="text" class="easyui-textbox dialog-textbox" data-options="multiline:true,disabled:true" style="width: 380px; height: 65px"/>
+              </div>
+            </div> 
+            <div class="dialog-row">
+              <div>
+                <div class="dialog-label" style="width:40px;height:100px;text-align:center;line-height:100px">详情</div>  
+                <input id="order_dialog_detail" type="text" class="easyui-textbox dialog-textbox" data-options="multiline:true,disabled:true" style="width: 380px; height: 100px"/>
+              </div>
+            </div> 
+            
+          </div>
+
+        </div>
+
+        <div class="dialog-card" style="width:420px;padding-left:15px;border-left: 2px #C0C0C0; border-style: dashed;">
+          <div class="dialog-row" style="width:400px">
+            <div class="dialog-label">订单号：</div>
+            <div class="dialog-label" id="orders_dialog_order_id">---</div>
+            <button id="order_dialog_dispatch" type="button" class="btn btn-default" style="float:right;margin-right:10px" onclick="" disabled="disabled">派单</button>
+          </div>
+          <div class="dialog-row" style="width:400px">
             <div>
-              <div class="dialog-row">
-                <div>
-                  <div class="dialog-label" style="width:40px;height:50px;text-align:center;line-height:50px;">地址</div>  
-                  <input id="order_dialog_address" type="text" class="easyui-textbox dialog-textbox" data-options="multiline: true" style="width: 380px; height: 65px"/>
-                </div>
-              </div> 
-              <div class="dialog-row">
-                <div>
-                  <div class="dialog-label" style="width:40px;height:100px;text-align:center;line-height:100px">详情</div>  
-                  <input id="order_dialog_detail" type="text" class="easyui-textbox dialog-textbox" data-options="multiline: true" style="width: 380px; height: 100px"/>
-                </div>
-              </div> 
-              
+              <div class="dialog-label" style="width:50px">项目</div>  
+              <select id="order_dialog_item" class="form-control equalwidth dialog-input" value="" disabled="disabled" ></select>
             </div>
-
           </div>
-
-          <div class="dialog-card" style="width:420px;padding-left:15px;border-left: 2px #C0C0C0; border-style: dashed;">
-            <div class="dialog-row" style="width:400px">
-              <div class="dialog-label">订单号：</div>
-              <div class="dialog-label" id="orders_dialog_order_id">---</div>
-              <button type="button" class="btn btn-default" style="float:right;margin-right:10px" onclick="">派单</button>
-            </div>
-            <table id="orders_dialog_carers_table"  class="easyui-datagrid" style="width:400px;height:350px;border:1px solid #C0C0C0;font-size:14px" data-options="">
-              <thead>
-                <tr>
-                  <th data-options="field:'carer_id',hidden:true,align:'center'">护工编号</th>
-                  <th data-options="field:'order_status',hidden:true,align:'center'">订单状态编号</th>
-                  <th data-options="field:'selected',width:30,align:'center'">&nbsp;&nbsp;</th>                  
-                  <th data-options="field:'name',width:70,align:'center'">护工姓名</th>
-                  <th data-options="field:'phone_no',width:125,align:'center'">手机号码</th>
-                  <th data-options="field:'order_time',width:50,align:'center'">新接单</th>
-                  <th data-options="field:'address',width:50,align:'center'">已完成</th>
-                  <th data-options="field:'order_status_name',width:75,align:'center'">状态</th>
-                </tr>
-              </thead>
-            </table>
+          <table id="orders_dialog_carers_table"  class="easyui-datagrid" style="width:400px;height:320px;border:1px solid #C0C0C0;font-size:14px" data-options="">
+            <thead>
+              <tr>
+                <th data-options="field:'id',hidden:true,align:'center'">护工编号</th>
+                <th data-options="field:'order_status',hidden:true,align:'center'">订单状态编号</th>
+                <th data-options="field:'selected',width:30,align:'center'">&nbsp;&nbsp;</th>                  
+                <th data-options="field:'name',width:70,align:'center'">护工姓名</th>
+                <th data-options="field:'phone_no',width:125,align:'center'">手机号码</th>
+                <th data-options="field:'order_time',width:50,align:'center'">新接单</th>
+                <th data-options="field:'address',width:50,align:'center'">已完成</th>
+                <th data-options="field:'order_status_name',width:72,align:'center'">状态</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+    </div>
+    <!-- <img src="images/p_2.jpg" onclick="if(elder.method==='put') photo.doit(rhurl.root+'/uploadObject/user'+elder.uid);">
+      <div id="epic" class="hide">请点击图片进行上传</div> -->
+    <div id="orders_info_card_b" class="">
+    </div>
+  </div>
+</div>
+<!-- 添加订单 -->
+<div id="orders_dialog_add_order"  class="easyui-dialog" title="新订单" style="width:920px;height:600px;padding:10px"
+      data-options="
+        modal:true,
+        closed:true,
+        fix:true,
+        left:($(window).width()-700)*0.5,
+        top:($(window).height()-700)*0.5,
+        draggable:true,
+        iconCls: 'icon-save',
+        toolbar: [],
+        buttons: [{
+          text:'确定',
+          iconCls:'icon-ok',
+          handler:function(){
+            orders.onAddOrderConfirm();
+            $('#orders_dialog_add_order').dialog('close');
+            orders.drawOrdersList();
+          }
+        },{
+          text:'取消',
+          iconCls:'icon-cancel',
+          handler:function(){
+            $('#orders_dialog_add_order').dialog('close');
+          }
+        }]
+      ">
+  <!--------------------------老人列表-------------------------------->
+  <div id="orders_add_order_elders_list" style="height:700px;">
+    <div class="pers-s">老人信息中心</div>
+    <div class="old">
+      <div class="page-header">老人信息查询:</div>
+      <div class="Inquiry">
+        <div class="form-group group">
+          <label class="control" for="name">姓名:</label>
+          <div class="col-smm-2">
+            <input id="elder_name" class="form-control"  value=""></input>
           </div>
+        </div>
+        <div class="form-group group">
+          <label class="control" for="name">房间:</label>
+          <div class="col-smm-2">
+            <input id="elder_areafullname" type='button' onclick='elder.searcharea_id();' class="form-control"  value=""></input>
+            <input id="elder_areaid"  class="form-control hide"  value=""></input>
+          </div>
+        </div>
+        <div class="form-group group">
+          <label class="control" for="name">护理等级:</label>
+          <div class="col-smm-2">
+            <select id="elder_care_level" class="form-control"  value="">
+              <option value=''></option>
+              <option value='0'>专护</option>
+              <option value='1'>1级</option>
+              <option value='2'>2级</option>
+              <option value='3'>3级</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group group"> 
+          <div class="col-md-offset-2">
+            <button id="elder-reset" class="btn btn-default"  style='float:right;'onclick="elder.reset()"  >重置</button>
+          </div>
+        </div>
+        <div class="form-group group"> 
+          <div class="col-md-offset-2">
+            <button id="elder-search" class="btn btn-default" style='float:right;'onclick="elder.doSearch()"  >搜索</button>
+          </div>
+        </div>
       </div>
-      <!-- <img src="images/p_2.jpg" onclick="if(elder.method==='put') photo.doit(rhurl.root+'/uploadObject/user'+elder.uid);">
-        <div id="epic" class="hide">请点击图片进行上传</div> -->
-      <div id="orders_info_card_b" class="">
+      <div class="list" style="min-height:500px;width:100%">
+          <table id="elderpage"  class="easyui-datagrid" title="老人信息列表" style="height:400px;" data-options="onDblClickRow:elder.onElderDblClickRow">
+            <thead>
+              <tr>
+                <th data-options="field:'elder_id',hidden:true,align:'center'">标识号</th>
+                <th data-options="field:'id',hidden:true,align:'center'">标识号</th>
+                <th data-options="field:'area_fullname',width:150,align:'center'">房 间</th>
+                <th data-options="field:'name',width:110,align:'center'">姓 名</th>
+                <th data-options="field:'identity_no',width:200,align:'center'">身份证号</th>
+                <th data-options="field:'gender',width:100,align:'center'">性 别</th>
+                <th data-options="field:'phone_no',width:120,align:'center'">电话</th>
+                <th data-options="field:'care_level',width:100,align:'center'">护理等级</th>
+              </tr>
+            </thead>
+          </table>
       </div>
     </div>
+  </div>
+
 </div>
 
 <script type="text/javascript" src="/static/js/jquery-1.8.3.min.js" ></script>
