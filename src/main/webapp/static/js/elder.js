@@ -194,7 +194,7 @@ var elder={
     },
     buttonclk:function(){
         $('#elder-Info-card-a').find('.validatebox-text').validatebox('enableValidation').validatebox('validate');
-        if($('#ename').validatebox('isValid') && $('#ephone_no').validatebox('isValid') && $('#eidentity_no').validatebox('isValid') && $('#earea_fullname').validatebox('isValid') && $('#ebirthday').validatebox('isValid'))
+        if($('#ename').validatebox('isValid') && $('#ephone_no').validatebox('isValid') && $('#eidentity_no').validatebox('isValid'))
         {
         var sexc;
         var radios = document.getElementsByName("egender");

@@ -738,15 +738,15 @@
         <text id="epnote" style="font-size:17px;color:#f00;" class='hide'>*项为必填项,不能为空</text>
         <table>
           <tr><td class="td1"><text>*老人姓名： </text></td><td class="td2"><input id="ename"class="easyui-validatebox textbox equalwidth" required='required' missingMessage="不能为空"></input></td></tr>
-          <tr><td class="td1"><text>*出生日期：</text></td><td class="td2">
+          <tr><td class="td1"><text>出生日期：</text></td><td class="td2">
               <div class="input-group date form_date col-md-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                <input class="form-control easyui-validatebox textbox" size="16" id="ebirthday" type="text" required='required' value="" readonly />
+                <input class="form-control easyui-validatebox textbox" size="16" id="ebirthday" type="text" value="" readonly />
                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
               </div></td></tr>
           <tr><td class="td1"><text>*电    话： </text></td><td class="td2"><input id="ephone_no" class="easyui-validatebox textbox equalwidth" data-options="required:true,validType:'phoneNum'"></input></td></tr>
           <tr><td class="td1"><text>性    别：</text></td><td class="td2"><input type="radio" name="egender" value='0' />男 <input type="radio" name="egender" value='1' />女</td></tr>
           <tr><td class="td1"><text>*身份证号：</text></td><td class="td2"><input id="eidentity_no"class="easyui-validatebox textbox equalwidth" data-options="required:true,invalidMessage:'123',validType:'idcard'"></input></td></tr>
-          <tr><td class="td1"><text>*入住床号：</text></td><td class="td2"><input id="earea_fullname" onclick="elder.area_idclick();" class="easyui-validatebox textbox equalwidth" type="button" data-options="required:true"></input>
+          <!-- <tr><td class="td1"><text>入住床号：</text></td><td class="td2"><input id="earea_fullname" onclick="elder.area_idclick();" class="easyui-validatebox textbox equalwidth" type="button" data-options="required:true"></input> -->
             <input id="earea_id" class="hide"></input>
           </td></tr>
           <tr><td class="td1"><text>婚姻状况：</text></td><td class="td2"><select id="emarriage" class='equalwidth'>
@@ -1371,7 +1371,7 @@
               <div class="dialog-row">   
                 <div>
                   <div class="dialog-label">订单状态</div> 
-                  <select id="order_dialog_order_status" class="form-control equalwidth dialog-input" value="" disabled="disabled" onchange="orders.onOrderDialogSelectStatusChange()" ></select>
+                  <select id="order_dialog_order_status" class="form-control equalwidth dialog-input" value="" disabled="disabled" ></select>
                 </div>
               </div>
               <div class="dialog-row">   
@@ -1407,8 +1407,7 @@
           <div class="dialog-row" style="width:400px">
             <div class="dialog-label">订单号：</div>
             <div class="dialog-label" id="orders_dialog_order_id">---</div>
-            <button id="order_dialog_dispatch" type="button" class="btn btn-default" style="float:right;margin-right:10px" onclick="" disabled="disabled">派单</button>
-          </div>
+            <button id="order_dialog_next" type="button" class="btn btn-default" style="float:right;margin-right:10px" onclick="orders.onClickOrderDialogNext()" disabled="disabled"></button>
           <div class="dialog-row" style="width:400px">
             <div>
               <div class="dialog-label" style="width:50px">项目</div>  

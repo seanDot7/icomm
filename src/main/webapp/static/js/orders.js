@@ -114,7 +114,15 @@ var orders = {
     });
 
   },
-
+  onClickOrderDialogNext: function() {
+    var buttonNext = $('#order_dialog_next');
+    var orderStatusId = Number(buttonNext.data('orderStatusId'));
+    var nextStatusId = orderStatusId + 1;
+    if (nextStatusId === 4)
+      ++nextStatusId;
+    $('#order_dialog_order_status').val(nextStatusId);
+    orders.onEditConfirm();
+  },
   openOrderInfoDialog: function() {
     $("#orders_dialog_form").dialog("open");
     $("#orders_dialog_form").dialog("center");
@@ -150,6 +158,18 @@ var orders = {
       $('#order_dialog_phone_number').val(elderPhoneNumber);
       $('#order_dialog_order_time').val(orderTime);
       $('#order_dialog_order_rate').val(rate);
+      var buttonNext = $('#order_dialog_next');
+      buttonNext.data('orderStatusId', orderStatusId);
+      if (orderStatusId === 1) {
+        buttonNext.text('派单');
+      } else if (orderStatusId === 2) {
+        buttonNext.text('确认订单');
+      } else if (orderStatusId === 3 || orderStatusId === 4) {
+        buttonNext.text('评价');
+      } else if (orderStatusId >= 5) {
+        buttonNext.text('已评价');
+        buttonNext.attr('disabled', 'disabled');
+      }
       
       var selectOrderStatus = $('#order_dialog_order_status');
       selectOrderStatus.find('option').remove();
@@ -281,15 +301,17 @@ var orders = {
   editOrderInfo: function(){
     orders.isEditingOrderInfo = true;
 
-    $('#order_dialog_order_status').removeAttr('disabled');
+    // $('#order_dialog_order_status').removeAttr('disabled');
+    $('#order_dialog_next').removeAttr('disabled');
     // $('#order_dialog_order_rate').removeAttr('disabled');
     // $('#order_dialog_item').removeAttr('disabled');
     // $('#order_dialog_address').textbox('enable');
     // $('#order_dialog_detail').textbox('enable');
     // $('#order_dialog_dispatch').removeAttr('disabled');
     // $('tr input[name=selectedCarer]').removeAttr('disabled');
-    orders.onOrderDialogSelectStatusChange();
-    
+    // orders.onOrderDialogSelectStatusChange();
+    var orderStatusId = $('#order_dialog_order_status').val();
+    orders.changeEditableArea(orderStatusId); 
 
       // elder.flag=true;
       // $("#elder-dialog-form").dialog("open");
@@ -331,7 +353,8 @@ var orders = {
             leftTop.dealerror(XMLHttpRequest, textStatus, errorThrown);
           }, 
           success: function(msg){
-              orders.drawOrderInfoDialog();
+            orders.drawOrderInfoDialog();
+            orders.drawOrdersList();
           } 
       }); 
     }
@@ -474,7 +497,26 @@ var orders = {
   },
   onOrderDialogSelectStatusChange: function() {
     var status = Number($('#order_dialog_order_status').attr('value'));
-    if (status == 2) {
+    // if (status == 2) {
+    //   $('#order_dialog_item').removeAttr('disabled');
+    //   $('tr input[name=selectedCarer]').removeAttr('disabled');
+    //   $('#order_dialog_detail').textbox('enable');
+    //   $('#order_dialog_dispatch').removeAttr('disabled');
+    // } else {
+    //   $('#order_dialog_item').attr('disabled', 'disabled');
+    //   $('tr input[name=selectedCarer]').attr('disabled', 'disabled');
+    //   $('#order_dialog_detail').textbox('disable');
+    //   $('#order_dialog_dispatch').attr('disabled', 'disabled');
+    // }
+    // if (status == 4) {
+    //   $('#order_dialog_order_rate').removeAttr('disabled');
+    // } else {
+    //   $('#order_dialog_order_rate').attr('disabled', 'disabled');
+    // }
+  },
+  changeEditableArea: function(orderStatusId) {
+    orderStatusId = Number(orderStatusId)
+    if (orderStatusId === 1) {
       $('#order_dialog_item').removeAttr('disabled');
       $('tr input[name=selectedCarer]').removeAttr('disabled');
       $('#order_dialog_detail').textbox('enable');
@@ -485,7 +527,7 @@ var orders = {
       $('#order_dialog_detail').textbox('disable');
       $('#order_dialog_dispatch').attr('disabled', 'disabled');
     }
-    if (status == 4) {
+    if (orderStatusId === 3) {
       $('#order_dialog_order_rate').removeAttr('disabled');
     } else {
       $('#order_dialog_order_rate').attr('disabled', 'disabled');

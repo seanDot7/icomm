@@ -490,11 +490,11 @@ public class OrdersRestController extends GeroBaseController{
 			postOrderEntity.setElderId(null);
 			postOrderEntity.setOrderTime(null);
 			// 只有派单时可以修改项目
-			if (postOrderEntity.getStatus() != 2) {
+			if (postOrderEntity.getStatus() != 2 || postOrderEntity.getStatus() != 1) {
 				postOrderEntity.setCareItemId(null);
 				postOrderEntity.setCarerId(null);
 			}
-			if (postOrderEntity.getStatus() != 4) {
+			if (postOrderEntity.getStatus() != 5) {
 				postOrderEntity.setRate(null);
 			}
 			

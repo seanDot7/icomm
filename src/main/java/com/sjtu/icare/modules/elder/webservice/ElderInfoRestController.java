@@ -187,9 +187,9 @@ public class ElderInfoRestController extends GeroBaseController{
 				GeroAreaEntity requestGeroAreaEntity = new GeroAreaEntity();
 				requestGeroAreaEntity.setGeroId(geroId);
 				requestGeroAreaEntity.setId(elder.getAreaId());
-				GeroAreaEntity geroAreaEntity = geroAreaService.getGeroArea(requestGeroAreaEntity);
-				
-				resultMap.put("area_fullname", geroAreaEntity.getFullName());
+//				GeroAreaEntity geroAreaEntity = geroAreaService.getGeroArea(requestGeroAreaEntity);
+//				
+//				resultMap.put("area_fullname", geroAreaEntity.getFullName());
 				
 				resultMap.put("assess_url", elder.getAssessUrl());
 				resultMap.put("archive_id", elder.getArchiveId());
@@ -240,7 +240,7 @@ public class ElderInfoRestController extends GeroBaseController{
 			if (requestParamMap.get("name") == null
 //				|| requestParamMap.get("identityNo") == null
 //				|| requestParamMap.get("birthday") == null
-//				|| requestParamMap.get("phoneNo") == null
+				|| requestParamMap.get("phoneNo") == null
 //				|| requestParamMap.get("gender") == null
 //				|| requestParamMap.get("photoUrl") == null
 //				|| requestParamMap.get("age") == null
@@ -254,7 +254,7 @@ public class ElderInfoRestController extends GeroBaseController{
 //				|| requestParamMap.get("householdAddress") == null
 //				|| requestParamMap.get("wechatId") == null
 				// for Elder
-				|| requestParamMap.get("areaId") == null
+//				|| requestParamMap.get("areaId") == null
 //				|| requestParamMap.get("basicUrl") == null
 //				|| requestParamMap.get("leaveDate") == null
 //				|| requestParamMap.get("archiveId") == null
