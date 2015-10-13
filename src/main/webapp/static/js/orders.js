@@ -416,6 +416,9 @@ var orders = {
     $('#orders_page').datagrid('selectRow', id);
     orders.onOrdersDblClickRow(id);
   },
+  onSearchElderInfo: function() {
+    
+  },
   // buttonclk: function(){
   //     $('#elder-Info-card-a').find('.validatebox-text').validatebox('enableValidation').validatebox('validate');
   //     if($('#ename').validatebox('isValid') && $('#ephone_no').validatebox('isValid') && $('#eidentity_no').validatebox('isValid') && $('#earea_fullname').validatebox('isValid') && $('#ebirthday').validatebox('isValid'))
@@ -533,94 +536,9 @@ var orders = {
       $('#order_dialog_order_rate').attr('disabled', 'disabled');
     }
   },
-  // reset:function(){
-  //     $('#elder_name').attr('value',null);
-  //     $('#elder_areaid').attr('value',null);
-  //     $('#elder_areafullname').attr('value',null);
-  //     $('#elder_care_level').attr('value',null);
-  // },
 
-
-  // createTreeNode:function(node){
-  //     this.id=node.id;
-  //     this.text=node.name;
-  //     this.children=[];
-  //     iconCls='icon-blank';
-  //     this.attributes={"type":node.type,"level":node.level,'fullname':node.full_name}
-  // },
-  // findTreeChildren:function(id){
-  //     var result=[];
-  //     for(var i in elder.temparea){
-  //         if(elder.temparea[i].parent_id===id){
-  //             result.push(elder.temparea[i]);
-  //         }
-  //     }
-  //     return result;
-  // },
-  // createTreeData:function(node){
-  //     var result=[];
-  //     var childs= elder.findTreeChildren(node.id);
-  //     if (childs.length!==0){
-  //         for(var i in childs){
-  //             var temp= new elder.createTreeNode(childs[i]);
-  //             if (elder.findTreeChildren(childs[i].id).length!==0){
-  //                 temp.children=elder.createTreeData(childs[i]);
-  //             }
-  //             result.push(temp);
-  //         }
-  //     }
-  //     return result;
-  // },
-  // area_idclick:function(){
-  //     $('#area-dialog-form').dialog('open');
-  //     $("#area-dialog-form").dialog("center");
-  //     $('#areachoosetree li').remove();
-  //     $('#areachoosetree ul').remove();
-  //     $.ajax({
-  //         type: "get",
-  //         data:{page:1,rows:65535,sort:'ID'},
-  //         dataType: "json",
-  //         contentType: "application/json;charset=utf-8",
-  //         url:rhurl.origin+'/gero/'+gid+'/area',
-  //         timeout:deadtime,
-  //         success: function (msg) {
-  //             elder.temparea=msg.entities;
-  //             elder.areatemp=elder.createTreeData({"id":0,"types":0});
-  //             $("#areachoosetree").tree("loadData",elder.areatemp);
-  //             areavalue="#earea_id";
-  //             areanamevalue="#earea_fullname";
-  //             var node=$("#areachoosetree").tree('find',parseInt($('#earea_id').val()));
-  //             if(node)$("#areachoosetree").tree("check",node.target);
-  //         },
-  //         error: function(XMLHttpRequest, textStatus, errorThrown) {
-  //             leftTop.dealerror(XMLHttpRequest, textStatus, errorThrown);
-  //         }
-  //     });
-  // },
-  // searcharea_id:function(){
-  //     $('#area-dialog-form').dialog('open');
-  //     $("#area-dialog-form").dialog("center");
-  //     $('#areachoosetree li').remove();
-  //     $('#areachoosetree ul').remove();
-  //     $.ajax({
-  //         type: "get",
-  //         data:{page:1,rows:65535,sort:'ID'},
-  //         dataType: "json",
-  //         contentType: "application/json;charset=utf-8",
-  //         url:rhurl.origin+'/gero/'+gid+'/area',
-  //         timeout:deadtime,
-  //         success: function (msg) {
-  //             elder.temparea=msg.entities;
-  //             elder.areatemp=elder.createTreeData({"id":0,"types":0});
-  //             $("#areachoosetree").tree("loadData",elder.areatemp);
-  //             areavalue="#elder_areaid";
-  //             areanamevalue="#elder_areafullname";
-  //             var node=$("#areachoosetree").tree('find',parseInt($('#elder_areaid').val()));
-  //             if(node)$("#areachoosetree").tree("check",node.target);
-  //         },
-  //         error: function(XMLHttpRequest, textStatus, errorThrown) {
-  //             leftTop.dealerror(XMLHttpRequest, textStatus, errorThrown);
-  //         }
-  //     });
-  // }
+  drawPaneOrderAdd: function() {
+    $('.inf').addClass('hide');
+    $('#order_add').removeClass('hide');
+  }
 }

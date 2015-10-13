@@ -55,6 +55,8 @@ hrefTable['/areacareduty']='areacare.drawAreaCareList()';
 hrefTable['/relative']='relative.drawRelativeList()';
 hrefTable['/elder_care_item']='care_item.drawItemList()';
 hrefTable['/orders']='orders.drawOrdersList()';
+hrefTable['/orders/add']='orders.drawPaneOrderAdd()';
+
 
 var getDatetimeByMsDatetime = function(originalTime) {
   // if (format === 'YY-MM-DD HH:mm:ss.S') {

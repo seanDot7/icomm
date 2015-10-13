@@ -1,4 +1,4 @@
-﻿<%@page import="com.sjtu.icare.modules.sys.utils.UserUtils"%>
+<%@page import="com.sjtu.icare.modules.sys.utils.UserUtils"%>
 <%@page import="com.sjtu.icare.modules.sys.entity.User"%>
 <%@page import="com.sjtu.icare.modules.sys.utils.security.SystemAuthorizingRealm.UserPrincipal"%>
 <%@ page contentType="text/html;charset=UTF-8" %>
@@ -665,7 +665,7 @@
                 <div class="col-md-4">
                   <input id="orders_search_fuzzy_query" type="text" class="form-control" value="订单号/用户姓名/手机号码" onfocus="if(value=='订单号/用户姓名/手机号码') {value=''; this.style.color='#000000';}" onblur="if (value=='') {value='订单号/用户姓名/手机号码';this.style.color='#C0C0C0'}" style="color: #C0C0C0"></input>
                 </div>
-                <button id="order_search_confirm" class="btn btn-default" style="width=40px;float:left;" onclick="orders.doSearch()">搜索</button>
+                <utton id="order_search_confirm" class="btn btn-default" style="width=40px;float:left;" onclick="orders.doSearch()">搜索</button>
               </div>
             </div>
           </div>
@@ -696,6 +696,12 @@
               </table>
           </div>
         </div>
+      </div>     
+
+      <!--------------------------新增订单-------------------------------->
+      <!-- TODO -->
+      <div id="order_add" class="inf hide" style="min-height:700px;">
+        <div class="pers-s">新增订单</div>
       </div>
 
 
