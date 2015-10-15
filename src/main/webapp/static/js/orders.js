@@ -540,5 +540,12 @@ var orders = {
   drawPaneOrderAdd: function() {
     $('.inf').addClass('hide');
     $('#order_add').removeClass('hide');
+    var dateNow = new Date();
+    var strNow = (dateNow.getMonth()+1) + '/' + dateNow.getDate() + '/' + dateNow.getFullYear() + ' ' + dateNow.getHours() + ':' + dateNow.getMinutes() + ':' + dateNow.getSeconds();
+    $('#orders_search_time').datetimebox('setValue', strNow); 
+
   }
+  // onClickOrderDialogAddDetail:function(){
+  //   //
+  // }
 }

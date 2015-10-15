@@ -665,7 +665,7 @@
                 <div class="col-md-4">
                   <input id="orders_search_fuzzy_query" type="text" class="form-control" value="订单号/用户姓名/手机号码" onfocus="if(value=='订单号/用户姓名/手机号码') {value=''; this.style.color='#000000';}" onblur="if (value=='') {value='订单号/用户姓名/手机号码';this.style.color='#C0C0C0'}" style="color: #C0C0C0"></input>
                 </div>
-                <utton id="order_search_confirm" class="btn btn-default" style="width=40px;float:left;" onclick="orders.doSearch()">搜索</button>
+                <button id="order_search_confirm" class="btn btn-default" style="width=40px;float:left;" onclick="orders.doSearch()">搜索</button>
               </div>
             </div>
           </div>
@@ -702,6 +702,149 @@
       <!-- TODO -->
       <div id="order_add" class="inf hide" style="min-height:700px;">
         <div class="pers-s">新增订单</div>
+        <div class="orders">
+          <div class="page-header">老人信息查询:</div>
+          <div class="Inquiry">
+            <div class="panel panel-default">
+              <div class="form-group group">
+                <label class="control" for="name">姓名:</label>
+                <div class="col-sm-4">
+                  <input  id="order_add_dialog_name"class="form-control"  value=""></input>
+                </div>
+              </div>
+              <div class="form-group group">
+                <label class="control" for="name">手机:</label>
+                <div class="col-md-4">
+                  <input  id="order_add_dialog_phoneno"class="form-control"  value=""></input>
+                </div>
+              </div>
+              <div class="form-group group"> 
+                <label class="control"></label>                
+                <button id="order_search_confirm" class="btn btn-default" style="width=40px;float:left;" onclick="orders.doSearch()">搜索</button>
+                <label class="control"></label>
+                <button id="order_search_reset" class="btn btn-default" style="width=40px;float:left;" onclick="orders.doReset()">重置</button>
+              </div>
+            </div>
+
+            
+          </div>
+
+         
+                  
+            <div class='panel panel-default' style="overflow:scroll">
+              
+              <div class='form-group group'>
+                <div class='col-md-4'>•基本信息</div><br/>
+                <p>手机号：<input class='bp1'/>真实姓名：<input class='bp2'/></p>
+                <p>性别：<input type="radio" name="egenderxxx" value='0' />男 <input type="radio" name="egenderxxx" value='1' />女</p>
+                <p>小区：
+                <select  value="" class='bp1'>
+                  <option value=''></option>
+                </select>
+                详细地址：<input class='bp2'/>
+                </p>
+                <p>身份证号：<input class='bp1'/>社保卡：<input class='bp2'/></p>
+              </div>
+            </div>  
+            <div class='panel panel-default'>
+
+              <div class='form-group group'>
+                <div class='col-md-4'>•明细信息</div>
+                <p>紧急联系人姓名：<input class='bp1'/>紧急联系人电话：<input class='bp2'/></p>
+                <p>情况分类：
+                <select  value="" class='bp1'>
+                  <option value=''></option>
+                </select>
+                <button style='width:20px'>+</button>
+                </p>
+                <p >情况详细描述：<textarea rows="4" cols='70'></textarea></p>
+              </div>
+            </div>  
+            <div class='panel panel-default'>
+
+              <div class='form-group group'>
+                <div class='col-md-4'>•补充信息</div>
+                <p>通话开始时间：<input class='bp1'/>通话结束时间：<input class='bp2'/></p>
+                <p>通话类型：
+                <select  value="" class='bp1'>
+                  <option value=''></option>
+                </select>
+                </p>
+                <p >备注：<textarea rows="4" cols='70'></textarea></p>
+              </div>
+
+              <div class="form-group group"> 
+                <div class="col-md-offset-2">
+                  <button  class="btn btn-default"  style='float:left;'  >保存</button>
+                </div>
+              </div>
+              <div class="form-group group"> 
+                <div class="col-md-offset-2">
+                  <button  class="btn btn-default" style='float:left; margin-left:40px;'  >取消</button>
+                </div>
+              </div>
+            </div>
+
+         
+
+
+          <!-- <div class="page-header">新增记录:</div>  
+            <div class='panel panel-default'>
+              <img src='images/f_3.png' />
+            </div>
+            <div class='panel panel-default'>
+              
+              <div class='block'>
+                <div class='block-head'>•基本信息</div>
+                <p>手机号：<input class='bp1'/>真实姓名：<input class='bp2'/></p>
+                <p>性别：<input type="radio" name="egenderxxx" value='0' />男 <input type="radio" name="egenderxxx" value='1' />女</p>
+                <p>小区：
+                <select  value="" class='bp1'>
+                  <option value=''></option>
+                </select>
+                详细地址：<input class='bp2'/>
+                </p>
+                <p>身份证号：<input class='bp1'/>社保卡：<input class='bp2'/></p>
+              </div>
+
+              <div class='block'>
+                <div class='block-head'>•明细信息</div>
+                <p>紧急联系人姓名：<input class='bp1'/>紧急联系人电话：<input class='bp2'/></p>
+                <p>情况分类：
+                <select  value="" class='bp1'>
+                  <option value=''></option>
+                </select>
+                <button style='width:20px'>+</button>
+                </p>
+                <p >情况详细描述：<textarea rows="4" cols='70'></textarea></p>
+              </div>
+
+              <div class='block'>
+                <div class='block-head'>•补充信息</div>
+                <p>通话开始时间：<input class='bp1'/>通话结束时间：<input class='bp2'/></p>
+                <p>通话类型：
+                <select  value="" class='bp1'>
+                  <option value=''></option>
+                </select>
+                </p>
+                <p >备注：<textarea rows="4" cols='70'></textarea></p>
+              </div>
+
+              <div class="form-group group"> 
+              <div class="col-md-offset-2">
+                <button  class="btn btn-default"  style='float:left;'  >保存</button>
+              </div>
+            </div>
+            <div class="form-group group"> 
+              <div class="col-md-offset-2">
+                <button  class="btn btn-default" style='float:left; margin-left:40px;'  >取消</button>
+              </div>
+            </div>
+            </div>
+
+
+
+        </div> -->
       </div>
 
 
@@ -1442,7 +1585,7 @@
     </div>
   </div>
 </div>
-<!-- 添加订单 -->
+<!----------------------- 添加订单弹窗 ------------------------------>
 <div id="orders_dialog_add_order"  class="easyui-dialog" title="新订单" style="width:920px;height:600px;padding:10px"
       data-options="
         modal:true,
@@ -1469,6 +1612,149 @@
           }
         }]
       ">
+<div id="orders_add_card" class="" style="height:450px">
+    <div id="orders_add_card_a" class="">
+      <text id="epnote" style="font-size:17px;color:#f00;" class='hide'>*项为必填项,不能为空</text>
+        <div class="dialog-card" style="width:438px;height:250px">
+          <div>
+            <div class="dialog-photo" style="float: left">picture</div> 
+            <div class="dialog-photo-right">
+              <div class="dialog-row">
+                <div>
+                  <div class="dialog-label">用户姓名</div>  
+                  <input id="order_add_dialog_username" type="text" class="easyui-validatebox textbox equalwidth dialog-input"  />
+                </div>
+              </div>
+              <div class="dialog-row">
+                <div>
+                  <div class="dialog-label">手机号码</div>  
+                  <input id="order_add_dialog_phone_number" type="text" class="easyui-validatebox textbox equalwidth dialog-input"  />
+                </div>
+              </div>     
+              <div class="dialog-row">
+                <div>
+                  <div class="dialog-label">性&nbsp;&nbsp;别</div>  
+                    <select id="order_add_dialog_gender" class="form-control equalwidth dialog-input" value=""  >
+                     <option value=''></option>
+                     <option value='0'>男</option>
+                     <option value='1'>女</option>
+                    </select>
+                </div>
+              </div>  
+              <div class="dialog-row">   
+                <div>
+                  <div class="dialog-label">小&nbsp;&nbsp;区</div> 
+                    <select id="order_add_dialog_order_status" class="form-control equalwidth dialog-input" value=""  ></select>
+                </div>
+              </div>              
+            </div>
+          </div>
+         
+          <div class="clear"></div>
+
+          <div>
+            <div class="dialog-row">
+              <div>
+                <div class="dialog-label" style="width:60px;height:50px;text-align:center;line-height:50px;">地&nbsp;&nbsp;址</div>  
+                <input id="order_add_dialog_address" type="text" class="easyui-textbox dialog-textbox" data-options="multiline:true" style="width: 360px; height: 40px"/>
+              </div>
+            </div> 
+            <div class="dialog-row">
+              <div>
+                <div class="dialog-label" style="width:60px;height:30px;text-align:center;line-height:40px">身份证</div>  
+                <input id="order_add_dialog_IDno" type="text" class="easyui-textbox dialog-textbox" data-options="" style="width: 360px; height: 40px"/>
+              </div>
+            </div> 
+            <div class="dialog-row">
+              <div>
+                <div class="dialog-label" style="width:60px;height:30px;text-align:center;line-height:40px">社保卡</div>  
+                <input id="order_add_dialog_ssn" type="text" class="easyui-textbox dialog-textbox" data-options="" style="width: 360px; height: 40px"/>
+              </div>
+            </div> 
+          </div>
+
+        </div>
+
+        <div class="dialog-card" style="width:420px;padding-left:15px;border-left: 2px #C0C0C0; border-style: dashed;">
+          <div class="dialog-row" style="width:400px">
+            <div class="dialog-row">
+              <div>
+                <div class="dialog-label" style="width:150px;height:10px;text-align:center;line-height:30px">紧急联系人姓名：</div>  
+                <input id="order_add_dialog_contactname" type="text" class="easyui-textbox dialog-textbox" data-options="" style="width: 200px; height: 40px"/>
+              </div> 
+            </div> 
+            <div class="dialog-row">
+              <div> 
+                <div class="dialog-label" style="width:150px;height:40px;text-align:center;line-height:30px">紧急联系人电话：</div>  
+                <input id="order_add_dialog_contactphone" type="text" class="easyui-textbox dialog-textbox" data-options="" style="width: 200px; height: 40px"/>
+              </div>
+            </div> 
+            <div class="dialog-row">
+              <div> 
+                <div class="dialog-label" style="width:150px;height:40px;text-align:left;line-height:30px">情况分类：</div>  
+                <select id="order_add_dialog_detail" class="form-control equalwidth dialog-input" value=""  >
+                     <option value=''></option>
+                     <option value='0'>洗衣</option>
+                     <option value='1'>理发</option>
+                     <option value='2'>做饭</option>
+                     <option value='3'>按摩</option>
+                </select>
+                 <button id="order_add_dialog_detail_add" type="button" class="btn btn-default"  onclick="orders.onClickOrderDialogAddDetail()" >添加</button>
+              </div>
+            </div> 
+            <div class="dialog-row">
+              <div> 
+                <div class="dialog-label" style="width:150px;height:40px;text-align:left;line-height:30px">情况详细描述：</div>  
+              </div>
+            </div>
+            <div class="dialog-row">
+              <div> 
+                <input id="order_add_dialog_detail_description" type="text" class="easyui-textbox dialog-textbox" data-options="multiline:true" style="width: 400px; height: 180px"/>
+              </div>
+            </div>  
+            </div> 
+          
+        </div>
+        <div class="dialog-card" style="width:870px;border-top: 2px #C0C0C0; border-style: dashed;">
+          <div class="dialog-row" style="width:870px">
+            <div class="dialog-row">
+              <div>
+                <div>
+                <div class="dialog-label" style="width:130px;height:10px;text-align:center;line-height:30px">通话开始时间：</div>  
+                <input id="order_add_dialog_cellbegain" type="text" class="easyui-textbox dialog-textbox" data-options="" style="width: 170px; height: 30px"/>
+                </div>
+                <div>
+                <div class="dialog-label" style="width:130px;height:10px;text-align:center;line-height:30px">通话结束时间：</div>  
+                <input id="order_add_dialog_cellend" type="text" class="easyui-textbox dialog-textbox" data-options="" style="width: 170px; height: 30px"/>
+                </div>
+                <div>
+                <div class="dialog-label" style="width:100px;height:10px;text-align:center;line-height:30px">通话类型：</div>  
+                <select id="order_add_dialog_celltype" class="form-control equalwidth dialog-input" value=""  style="width: 150px; height: 30px">
+                    <option value=''></option>
+                    <option value='0'>本地通话</option>
+                    <option value='1'>国内长途</option>
+                    <option value='2'>国际漫游</option>
+                </select>
+                </div>
+              </div> 
+            </div>            
+            <div class="dialog-row">
+              <div> 
+                <div class="dialog-label" style="width:60px;height:40px;text-align:left;line-height:30px">备注：</div>
+                <input id="order_add_dialog_detail_description" type="text" class="easyui-textbox dialog-textbox" data-options="multiline:true" style="width: 750px; height: 30px"/>  
+              </div>
+            </div>
+            
+            </div> 
+          
+        </div>
+    </div>
+    
+    <div id="orders_info_card_b" class="">
+
+    </div>
+  </div>
+</div>
   <!--------------------------老人列表-------------------------------->
   <div id="orders_add_order_elders_list" style="height:700px;">
     <div class="pers-s">老人信息中心</div>
