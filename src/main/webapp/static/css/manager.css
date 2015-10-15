@@ -1448,3 +1448,49 @@ body .fc { /* extra precedence to overcome jqui */
 .dialog-row {
   margin: 4px 6px 4px 6px;
 }
+
+
+/*order add */
+.control-notbold{
+  font-family: "宋体";
+  line-height: 1.8;
+  font-size: 14px;
+  width: 100px;
+  float: left;
+  text-align: center;
+  
+}
+.control-wide{
+  font-family: "宋体";
+  line-height: 1.8;
+  font-size: 14px;
+  width: 120px;
+  float: left;
+  text-align: center;
+  
+}
+.control-wide-2{
+  font-family: "宋体";
+  line-height: 1.8;
+  font-size: 14px;
+  width: 100px;
+  float: left;
+  text-align: center;
+  
+}
+.control-header{
+  font-family: "宋体";
+  line-height: 1.8;
+  font-size: 18px;
+  width: 120px;
+  float: left;
+  text-align: center;
+  font-weight: bold;
+}
+
+.add-order-photo {
+  background-color: #CCCCCC;
+  width: 100px;
+  height: 130px;
+  margin: 0 10px 10px 10px;
+}

@@ -1,0 +1,7 @@
+diff a/src/main/webapp/WEB-INF/views/module/gero_management.jsp b/src/main/webapp/WEB-INF/views/module/gero_management.jsp	(rejected hunks)
+@@ -1,4 +1,4 @@
+-﻿<%@page import="com.sjtu.icare.modules.sys.utils.UserUtils"%>
++<%@page import="com.sjtu.icare.modules.sys.utils.UserUtils"%>
+ <%@page import="com.sjtu.icare.modules.sys.entity.User"%>
+ <%@page import="com.sjtu.icare.modules.sys.utils.security.SystemAuthorizingRealm.UserPrincipal"%>
+ <%@ page contentType="text/html;charset=UTF-8" %>
