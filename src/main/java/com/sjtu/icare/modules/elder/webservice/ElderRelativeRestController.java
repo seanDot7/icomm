@@ -88,7 +88,10 @@ public class ElderRelativeRestController  extends BasicController {
 			requestUser.setPage(pages);
 			
 			List<User> users;
-			users = relativeInfoService.getUsersOfRelatives(requestUser);
+			if (elderId == null)
+				users = relativeInfoService.getUsersOfRelatives(requestUser);
+			else
+				users = relativeInfoService.getUsersOfRelatives2(requestUser);
 			
 			basicReturnedJson.setTotal((int) requestUser.getPage().getCount());
 			

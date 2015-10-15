@@ -85,6 +85,11 @@
 	                AND T_USER.age <= #{ageMax}
 	                ]]> 
 	            </if>
+   	            <if test="phoneNo != null">
+	                <![CDATA[
+	                AND T_USER.phone_no LIKE '%' + #{phoneNo} + '%'
+	                ]]> 
+	            </if>
 	            <if test="careLevel != null">
                     AND T_ELDER.care_level = #{careLevel}
                 </if>

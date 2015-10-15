@@ -64,6 +64,7 @@ public class ElderInfoRestController extends GeroBaseController{
 			@RequestParam(value="age_max", required=false) Integer ageMax,
 			@RequestParam(value="care_level", required=false) Integer careLevel,
 			@RequestParam(value="area_id", required=false) Integer areaId,
+			@RequestParam(value="phone_number", required=false) String phoneNumber,
 			@RequestParam(value="fuzzy_match", required=false, defaultValue="true") Boolean fuzzyMatch,
 			@RequestParam("page") int page,
 			@RequestParam("rows") int limit,
@@ -109,6 +110,7 @@ public class ElderInfoRestController extends GeroBaseController{
 			queryUser.setUserType(CommonConstants.ELDER_TYPE);
 			queryUser.setGeroId(geroId);
 			queryUser.setPage(userPage);
+			queryUser.setPhoneNo(phoneNumber);
 			queryUser.setFuzzyMatch(fuzzyMatch);
 			
 			if (areaId == null)
