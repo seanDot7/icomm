@@ -708,22 +708,22 @@
               <div class="form-group group">
                 <label class="control" for="name">姓名:</label>
                 <div class="col-smm-2">
-                  <input  id="order_add_dialog_search_name"class="form-control"  value=""></input>
+                  <input  id="order_add_search_name"class="form-control"  value=""></input>
                 </div>
               </div>
               <div class="form-group group">
                 <label class="control" for="name">手机:</label>
                 <div class="col-smm-2">
-                  <input  id="order_add_dialog_search_phoneno"class="form-control"  value=""></input>
+                  <input  id="order_add_search_phoneno"class="form-control"  value=""></input>
                 </div>
               </div>
               <div class="form-group group"> 
                 <!-- <label class="control">&nbsp;</label>-->
-                <button id="order_add_search_confirm" class="btn btn-default" style="width=40px;float:left;" onclick="orders.doSearch()">搜索</button>
+                <button id="order_add_search_confirm" class="btn btn-default" style="width=40px;float:left;" onclick="orders.doAddSearch()">搜索</button>
                 <label class="control">&nbsp;</label>
-                <button id="order_add_search_reset" class="btn btn-default" style="width=40px;float:left;" onclick="orders.doReset()">重置</button>
+                <button id="order_add_reset" class="btn btn-default" style="width=40px;float:left;" onclick="orders.doAddReset()">重置</button>
                 <label class="control">&nbsp;</label>
-                <button  id="order_add_save" class="btn btn-default"  style='float:left;'  >保存</button>
+                <button  id="order_add_save" class="btn btn-default"  style='float:left;'  onclick="orders.doAddSave()">保存</button>
               </div>
           </div>
 
@@ -738,43 +738,43 @@
                 <div class="form-group group" >
                   <label class="control-notbold" for="name">真实姓名：</label>
                   <div class="col-smm-2">
-                    <input  id="order_add_dialog_name"class="form-control"  value=""></input>
+                    <input  id="order_add_name"class="form-control"  value=""></input>
                   </div>
                 </div>
                 <div class="form-group group">
                   <label class="control-notbold" for="name">手机号：</label>
                   <div class="col-smm-2">
-                    <input  id="order_add_dialog_phoneno"class="form-control"  value=""></input>
+                    <input  id="order_add_phoneno"class="form-control"  value=""></input>
                   </div>
                 </div>
                 <div class="form-group group">
                   <label class="control-notbold" for="name">性别：</label>
                   <div class="col-smm-2">
-                    <input type="radio" name="egenderxxx" value='0' >男 </input><input type="radio" name="egenderxxx" value='1' >女</input>
+                    <input type="radio" name="egenderxxx" value="0" >男 </input><input type="radio" name="egenderxxx" value="1" >女</input>
                   </div>
                 </div><br/>
                 <div class="form-group group">
                   <label class="control-notbold" for="name">小区：</label>
                   <div class="col-smm-3">
-                    <select id="order_add_dialog_community" class="form-control equalwidth dialog-input" value=""  ></select>
+                    <input  id="order_add_community"class="form-control"  value=""></input>   
                   </div>
                 </div>
                 <div class="form-group group">
                   <label class="control-notbold" for="name"  >详细地址：</label>
                   <div class="col-md-4">
-                    <input  id="order_add_dialog_address"class="form-control " value=""></input>
+                    <input  id="order_add_address"class="form-control " value=""></input>
                   </div>
                 </div><br/>
                 <div class="form-group group">
                   <label class="control-notbold" for="name">社保卡号：</label>
                   <div class="col-smm-3">
-                    <input  id="order_add_dialog_SSNno"class="form-control"  value=""></input>
+                    <input  id="order_add_SSNno"class="form-control"  value=""></input>
                   </div>
                 </div>
                 <div class="form-group group">
                   <label class="control-notbold" for="name">身份证号：</label>
                   <div class="col-md-4">
-                    <input  id="order_add_dialog_IDno"class="form-control"  value=""></input>
+                    <input  id="order_add_IDno"class="form-control"  value=""></input>
                   </div>
                 </div>
               <!-- </div> -->
@@ -786,20 +786,20 @@
                 <div class="form-group group">
                   <label class="control-wide" for="name">紧急联系人姓名：</label>
                   <div class="col-md-3">
-                    <input  id="order_add_dialog_emergename"class="form-control"  value=""></input>
+                    <input  id="order_add_emergename"class="form-control"  value=""></input>
                   </div>
                 </div>
                 <div class="form-group group">
                   <label class="control-wide" for="name">紧急联系人电话：</label>
                   <div class="col-md-3">
-                    <input  id="order_add_dialog_emergephoneno"class="form-control"  value=""></input>
+                    <input  id="order_add_emergephoneno"class="form-control"  value=""></input>
                   </div>
                 </div>
                 <br/>
                 <div class="form-group group">
                   <label class="control-wide" for="name">情况分类：</label>
                   <div class="col-md-3">
-                    <select id="order_add_dialog_order_type" class="form-control equalwidth dialog-input" value=""  >
+                    <select id="order_add_order_type" class="form-control equalwidth dialog-input" value=""  >
                        <option value=''></option>
                        <option value='0'>洗衣</option>
                        <option value='1'>理发</option>
@@ -810,7 +810,7 @@
                 </div>
                 <div class="form-group group">
                   <div class="col-sm-3">
-                    <button id="order_add_dialog_detail_add" type="button" class="btn btn-default"  onclick="orders.onClickOrderDialogAddDetail()" disabled="true"  >添加</button>
+                    <button id="order_add_detail_add" type="button" class="btn btn-default"  onclick="orders.onClickOrderDialogAddDetail()" disabled="true"  >添加</button>
                     <button id="order_add_dialog_detail_delete" type="button" class="btn btn-default"  onclick="orders.onClickOrderDialogDeleteDetail()" disabled="true" >删除</button>
                   </div>
                 </div>                
@@ -830,7 +830,7 @@
                 <div class="form-group group">
                   <label class="control-wide" for="name">情况详细描述：</label>
                   <div class="col-md-5">
-                    <textarea id="order_add_dialog_order_description"class="form-control"  value=""></textarea> 
+                    <textarea id="order_add_order_description"class="form-control"  value=""></textarea> 
                   </div>
                 </div>
                 
@@ -843,19 +843,19 @@
                 <div class="form-group group">
                   <label class="control-wide-2" for="name">通话开始时间：</label>
                   <div class="col-smm-3">
-                    <input  id="order_add_dialog_phonebegin"class="form-control"  value=""></input>
+                    <input  id="order_add_phonebegin"class="form-control"  value=""></input>
                   </div>
                 </div>
                 <div class="form-group group">
                   <label class="control-wide-2" for="name">通话结束时间：</label>
                   <div class="col-smm-3">
-                    <input  id="order_add_dialog_phoneend"class="form-control"  value=""></input>
+                    <input  id="order_add_phoneend"class="form-control"  value=""></input>
                   </div>
                 </div>
                 <div class="form-group group">
                   <label class="control" for="name">通话类型：</label>
                   <div class="col-smm-2">
-                    <select id="order_add_dialog_phonetype" class="form-control equalwidth dialog-input" value=""  >
+                    <select id="order_add_phonetype" class="form-control equalwidth dialog-input" value=""  >
                     <option value=''></option>
                     <option value='0'>本地通话</option>
                     <option value='1'>国内长途</option>
@@ -866,7 +866,7 @@
                 <div class="form-group group">
                   <label class="control" for="name">备注：</label>
                   <div class="col-md-5">
-                    <textarea id="order_add_dialog_remark"class="form-control"  value=""></textarea> 
+                    <textarea id="order_add_remark"class="form-control"  value=""></textarea> 
                   </div>
                 </div>
             </div>  
