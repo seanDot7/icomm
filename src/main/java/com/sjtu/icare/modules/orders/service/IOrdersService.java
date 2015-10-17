@@ -10,4 +10,6 @@ public interface IOrdersService {
 
 	public void updateOrder(OrderEntity postOrderEntity);
 
+	public void insertOrder(OrderEntity postOrderEntity);
+
 }

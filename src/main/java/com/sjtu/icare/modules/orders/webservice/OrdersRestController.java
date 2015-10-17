@@ -1,5 +1,6 @@
 package com.sjtu.icare.modules.orders.webservice;
 
+import java.awt.TexturePaint;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,17 +20,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sjtu.icare.common.config.CommonConstants;
 import com.sjtu.icare.common.config.ErrorConstants;
 import com.sjtu.icare.common.persistence.Page;
 import com.sjtu.icare.common.utils.BasicReturnedJson;
+import com.sjtu.icare.common.utils.DateUtils;
 import com.sjtu.icare.common.utils.MapListUtils;
 import com.sjtu.icare.common.utils.ParamUtils;
+import com.sjtu.icare.common.utils.PinyinUtils;
 import com.sjtu.icare.common.utils.StringUtils;
 import com.sjtu.icare.common.web.rest.GeroBaseController;
 import com.sjtu.icare.common.web.rest.MediaTypes;
 import com.sjtu.icare.common.web.rest.RestException;
+import com.sjtu.icare.modules.elder.entity.ElderEntity;
+import com.sjtu.icare.modules.elder.entity.ElderRelativeRelationshipEntity;
+import com.sjtu.icare.modules.elder.entity.RelativeEntity;
+import com.sjtu.icare.modules.elder.service.IElderInfoService;
+import com.sjtu.icare.modules.elder.service.IRelativeInfoService;
+import com.sjtu.icare.modules.elder.service.impl.ElderInfoService;
 import com.sjtu.icare.modules.orders.entity.OrderEntity;
 import com.sjtu.icare.modules.orders.service.IOrdersService;
+import com.sjtu.icare.modules.sys.entity.User;
+import com.sjtu.icare.modules.sys.service.SystemService;
 
 @RestController
 @RequestMapping({"${api.web}/orders"})
@@ -39,6 +51,12 @@ public class OrdersRestController extends GeroBaseController{
 	
 	@Autowired
 	private IOrdersService ordersService;
+	@Autowired
+	private IElderInfoService elderInfoService;
+	@Autowired
+	private IRelativeInfoService relativeInfoService;
+	@Autowired
+	private SystemService systemService;
 	
 	@RequestMapping(method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
 	public Object getOrders(
@@ -262,97 +280,204 @@ public class OrdersRestController extends GeroBaseController{
 			throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, message);
 		}
 	}
-//	@Transactional
-//	@RequestMapping(method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
-//	public Object postElder(
-//			HttpServletRequest request,
-//			@PathVariable("gid") int geroId,
-//			@RequestBody String inJson
-//			) {
-////		checkApi(request);
-////		List<String> permissions = new ArrayList<String>();
-////		permissions.add("admin:gero:"+geroId+":elder:info:add");
-////		checkPermissions(permissions);
-//		
-//		// 将参数转化成驼峰格式的 Map
-//		Map<String, Object> tempRquestParamMap = ParamUtils.getMapByJson(inJson, logger);
-//		Map<String, Object> requestParamMap = MapListUtils.convertMapToCamelStyle(tempRquestParamMap);
-//		requestParamMap.put("geroId", geroId);
-//		requestParamMap.put("registerDate", DateUtils.getDateTime());
-//		requestParamMap.put("password", CommonConstants.DEFAULT_PASSWORD);
-//		// TODO passworkd register date self gen
-//		try {
-//			
-//			if (requestParamMap.get("name") == null
-////				|| requestParamMap.get("identityNo") == null
-////				|| requestParamMap.get("birthday") == null
-////				|| requestParamMap.get("phoneNo") == null
-////				|| requestParamMap.get("gender") == null
-////				|| requestParamMap.get("photoUrl") == null
-////				|| requestParamMap.get("age") == null
-////				|| requestParamMap.get("nationality") == null
-////				|| requestParamMap.get("marriage") == null
-////				|| requestParamMap.get("nativePlace") == null
-////				|| requestParamMap.get("politicalStatus") == null
-////				|| requestParamMap.get("education") == null
-////				|| requestParamMap.get("zipCode") == null
-////				|| requestParamMap.get("residenceAddress") == null
-////				|| requestParamMap.get("householdAddress") == null
-////				|| requestParamMap.get("wechatId") == null
-//				// for Elder
-//				|| requestParamMap.get("areaId") == null
-////				|| requestParamMap.get("basicUrl") == null
-////				|| requestParamMap.get("leaveDate") == null
-////				|| requestParamMap.get("archiveId") == null
-//				)
-//				throw new Exception();
-//			
-//			// 参数详细验证
-//			
-//			// birthday
-//			// TODO
-//		} catch(Exception e) {
-//			String otherMessage = "[" + inJson + "]";
-//			String message = ErrorConstants.format(ErrorConstants.ELDER_INFO_POST_PARAM_INVALID, otherMessage);
-//			logger.error(message);
-//			throw new RestException(HttpStatus.BAD_REQUEST, message);
-//		}
-//		
-//		// 获取基础的 JSON
-//		BasicReturnedJson basicReturnedJson = new BasicReturnedJson();
-//		
-//		// 插入数据
-//		try {
-//			
-//			// insert into Elder
-//			ElderEntity postElderEntity = new ElderEntity(); 
-//			BeanUtils.populate(postElderEntity, requestParamMap);
-//			if (postElderEntity.getCareLevel() == null)
-//				postElderEntity.setCareLevel(3);
-//			Integer elderId = elderInfoService.insertElder(postElderEntity);
-//			
-//			// insert into User
-//			requestParamMap.put("userType", CommonConstants.ELDER_TYPE);
-//			requestParamMap.put("userId", elderId);
-//			
-//			User postUser = new User(); 
-//			BeanUtils.populate(postUser, requestParamMap);
-//			postUser.setUsername(postUser.getIdentityNo());
-//			Integer userId = systemService.insertUser(postUser);
-//			String pinyinName = PinyinUtils.getPinyin(postUser.getName() + userId);
-//			postUser.setUsername(pinyinName);
-//			systemService.updateUser(postUser);
-//			
-//		} catch(Exception e) {
-//			String otherMessage = "[" + e.getMessage() + "]";
-//			String message = ErrorConstants.format(ErrorConstants.ELDER_INFO_POST_SERVICE_FAILED, otherMessage);
-//			logger.error(message);
-//			throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, message);
-//		}
-//
-//		return basicReturnedJson.getMap();
-//		
-//	}
+	
+	@Transactional
+	@RequestMapping(method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
+	public Object postElder(
+			HttpServletRequest request,
+			@RequestBody String inJson
+			) {
+//		checkApi(request);
+//		List<String> permissions = new ArrayList<String>();
+//		permissions.add("admin:gero:"+geroId+":elder:info:add");
+//		checkPermissions(permissions);
+		
+		// 将参数转化成驼峰格式的 Map
+		Map<String, Object> tempRquestParamMap = ParamUtils.getMapByJson(inJson, logger);
+		Map<String, Object> requestParamMap = MapListUtils.convertMapToCamelStyle(tempRquestParamMap);
+		requestParamMap.put("orderTime", DateUtils.getDateTime());
+		boolean newElderFlag = false;
+		boolean newRelativeFlag = false;
+		if (requestParamMap.get("elderId") == null){
+			newElderFlag = true;
+		}
+		if (requestParamMap.get("relativeId") == null){
+			newRelativeFlag = true;
+		}
+		try {
+			if (requestParamMap.get("careItemId") == null) {
+				throw new Exception();
+			}
+			System.out.println(requestParamMap.get("elderId") );
+			
+			if(requestParamMap.get("elderName") == null || requestParamMap.get("elderPhoneNumber") == null || requestParamMap.get("communityId") == null){
+				
+				throw new Exception("老人姓名和老人电话号码是必须字段");
+			}
+				
+//			if (requestParamMap.get("elderId") != null) {
+//				postElderEntity = elderInfoService.getElderEntityByIdentityNo((String) requestParamMap.get("elderId"));
+//				if (postElderEntity == null)
+//					throw new Exception("没有查找到elderId对应的老人信息")；
+//			}
+			
+			if (requestParamMap.get("relativeName") == null || requestParamMap.get("relativePhoneNumber") == null) {
+				
+				throw new Exception();
+			}
+			
+//			if (requestParamMap.get("relativeId") != null) {
+//				RelativeEntity queryRelativeEntity = new RelativeEntity();
+//				queryRelativeEntity.setId((Integer) requestParamMap.get("relativeId"));
+//				postElderEntity = relativeInfoService.getRelative(queryRelativeEntity);
+//				if (postElderEntity == null)
+//					throw new Exception("没有查找到elderId对应的老人信息")；
+//			}
+			// 参数详细验证
+			
+			// birthday
+			// TODO
+		} catch(Exception e) {
+			String otherMessage = "[" + inJson + "]";
+			String message = ErrorConstants.format(ErrorConstants.ORDERS_INFO_POST_PARAM_INVALID, otherMessage);
+			logger.error(message);
+			throw new RestException(HttpStatus.BAD_REQUEST, message);
+		}
+		
+		// 获取基础的 JSON
+		BasicReturnedJson basicReturnedJson = new BasicReturnedJson();
+		
+		// 插入数据
+		try {
+			
+			ElderEntity postElderEntity = null;
+			User postElderUser = null;
+			RelativeEntity postRelativeEntity = null;
+			User postRelativeUser = null;
+			
+			Integer elderId = null;
+			Integer elderUserId = null;
+			Integer relativeId = null;
+			Integer relativeUserId = null;
+			
+			String elderName = (String) requestParamMap.get("elderName");
+			String elderPhoneNumber = (String) requestParamMap.get("elderPhoneNumber");
+			String relativeName = (String) requestParamMap.get("relativeName");
+			String relativePhoneNumber = (String) requestParamMap.get("relativePhoneNumber");
+			Integer careItemId = (Integer) requestParamMap.get("careItemId");
+			if(newElderFlag == true && newRelativeFlag == false){
+				throw new Exception("参数错误");
+			}
+			if (newElderFlag) {
+				// Add elder
+				postElderEntity = new ElderEntity(); 
+				postElderEntity.setName(elderName);
+				postElderEntity.setGeroId((Integer)requestParamMap.get("communityId"));
+				elderId = elderInfoService.insertElder(postElderEntity);
+				
+				// insert into User
+				requestParamMap.put("userType", CommonConstants.ELDER_TYPE);
+				requestParamMap.put("userId", elderId);
+				
+				postElderUser = new User(); 
+				postElderUser.setName(elderName);
+				postElderUser.setPhoneNo(elderPhoneNumber);
+				postElderUser.setUsername(postElderUser.getPhoneNo());
+				postElderUser.setUserType(CommonConstants.ELDER_TYPE);
+				postElderUser.setUserId(elderId);
+				postElderUser.setGeroId((Integer)requestParamMap.get("communityId"));
+				postElderUser.setResidenceAddress((String) requestParamMap.get("address"));
+				postElderUser.setPassword(CommonConstants.DEFAULT_PASSWORD);
+				postElderUser.setRegisterDate(DateUtils.getDateTime());
+				elderUserId = systemService.insertUser(postElderUser);
+				String pinyinName = PinyinUtils.getPinyin(postElderUser.getName() + elderUserId);
+				postElderUser.setUsername(pinyinName);
+				systemService.updateUser(postElderUser);
+			} else {
+				elderUserId = (Integer) requestParamMap.get("elderId");
+				User queryUser = new User();
+				queryUser.setId(elderUserId);
+				postElderUser = systemService.getUser(elderUserId);
+				if (postElderUser == null) {
+					throw new Exception("找不到对应的 user");
+				}
+				elderId = postElderUser.getUserId();
+				
+				ElderEntity queryElderEntity = new ElderEntity();
+				queryElderEntity.setId(elderId);
+				postElderEntity = elderInfoService.getElderEntity(queryElderEntity);
+				if (postElderEntity == null) {
+					throw new Exception("找不到对应的 elder");
+				}
+				
+			}
+			
+			if (newRelativeFlag) {
+				// Add relative
+				postRelativeEntity = new RelativeEntity(); 
+				postRelativeEntity.setName(relativeName);
+				postRelativeEntity.setElderId(elderId);
+				relativeId = relativeInfoService.insertRelative(postRelativeEntity);
+				
+				requestParamMap.put("userType", CommonConstants.RELATIVE_TYPE);
+				requestParamMap.put("userId", relativeId);
+				
+				postRelativeUser = new User();
+				postRelativeUser.setUsername(relativePhoneNumber);
+				postRelativeUser.setName(relativeName);
+				postRelativeUser.setPhoneNo(relativePhoneNumber);
+				postRelativeUser.setUserType(CommonConstants.RELATIVE_TYPE);
+				postRelativeUser.setUserId(relativeId);
+				postRelativeUser.setElderId(elderUserId);
+				postRelativeUser.setPassword(CommonConstants.DEFAULT_PASSWORD);
+				postRelativeUser.setRegisterDate(DateUtils.getDateTime());
+				relativeUserId = systemService.insertUser(postRelativeUser);
+				String pinyinName = PinyinUtils.getPinyin(postRelativeUser.getName() + relativeUserId);
+				postRelativeUser.setUsername(pinyinName);
+				systemService.updateUser(postRelativeUser);
+				// Bind relationship
+				ElderRelativeRelationshipEntity elderRelativeRelationshipEntity = new ElderRelativeRelationshipEntity();
+				elderRelativeRelationshipEntity.setElderUserId(elderUserId);
+				elderRelativeRelationshipEntity.setRelativeUserId(relativeUserId);
+				relativeInfoService.insertElderRelativeRelationship(elderRelativeRelationshipEntity);
+			} else {
+				relativeUserId = (Integer) requestParamMap.get("relativeId");
+				RelativeEntity queryRelativeEntity = new RelativeEntity();
+				queryRelativeEntity.setId(relativeId);
+				postRelativeUser = systemService.getUser(relativeUserId);
+				if (postRelativeUser == null) {
+					throw new Exception("找不到对应的 user");
+				}
+				relativeId = postRelativeUser.getUserId();
+				
+				queryRelativeEntity.setId(relativeId);
+				
+				postRelativeEntity =  relativeInfoService.getRelative(queryRelativeEntity);
+				if (postRelativeEntity == null) {
+					throw new Exception("找不到对应的 relative");
+				}
+				
+				
+			}
+			// Add order
+			OrderEntity postOrderEntity = new OrderEntity();
+			
+			BeanUtils.populate(postOrderEntity, requestParamMap);
+			postOrderEntity.setElderId(postElderUser.getId());
+			postOrderEntity.setCareItemId(careItemId);
+			postOrderEntity.setStatus(1);
+			ordersService.insertOrder(postOrderEntity);
+			
+		} catch(Exception e) {
+			String otherMessage = "[" + e.getMessage() + "]";
+			String message = ErrorConstants.format(ErrorConstants.ORDERS_POST_SERVICE_FAILED, otherMessage);
+			logger.error(message);
+			throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, message);
+		}
+
+		return basicReturnedJson.getMap();
+		
+	}
 //	
 //	@RequestMapping(value="/{eid}", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
 //	public Object getElder(

@@ -88,6 +88,15 @@
             T_ORDER.id = #{id}
             
     </update>
+    <insert id="insertOrderEntity">
+    	INSERT INTO
+            T_ORDER(carer_id,elder_id,care_item_id,item_name,item_detail,order_type,status,order_time,rate,rate_detail,
+            revisit_content,call_start,call_end,call_type,call_detail) 
+        VALUES
+            (#{carerId}, #{elderId}, #{careItemId}, #{itemName}, #{itemDetail}, #{orderType}, #{orderStatus}, #{orderTime}, 
+            #{rate}, #{rateDetail}, #{revisitContent}, #{callStart}, #{callEnd}, #{callType}, #{callDetail})
+            
+    </insert>
   <!--   <select id="getAllElders" resultMap="com.sjtu.icare.modules.sys.persistence.UserMapper.UserMap">
     
         SELECT 

@@ -221,6 +221,8 @@ public class ErrorConstants {
 	public static final String ORDERS_GET_SERVICE_FAILED = "600001 GET 订单：后台服务失败";
 	public static final String ORDERS_PUT_SERVICE_FAILED = "600002 PUT 订单：后台服务失败";
 	public static final String ORDERS_PUT_PARAM_FAILED = "600003 PUT 订单：参数错误";
+	public static final String ORDERS_INFO_POST_PARAM_INVALID = "600004 POST 订单：参数错误";
+	public static final String ORDERS_POST_SERVICE_FAILED = "600005 POST 订单：后台服务失败";
 	
 	
 	

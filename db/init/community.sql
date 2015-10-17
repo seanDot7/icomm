@@ -181,7 +181,7 @@ CREATE TABLE T_CARER_ITEM_RELATIONSHIP
 CREATE TABLE T_ORDER
 (
 	id					bigint				PRIMARY KEY IDENTITY,	--订单表id
-	carer_id			int				NOT NULL,				--关联T_STAFF表
+	carer_id			int				,				--关联T_STAFF表
 	elder_id			int				NOT NULL,				--关联T_ELDER表
 	care_item_id		int				NOT NULL,				--关联T_CARE_ITEM表
 	item_name			nvarchar(32)	NOT NULL,				--项目名
