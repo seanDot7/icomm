@@ -756,37 +756,47 @@ var orders = {
     var orderEntity = {};//POST数据Object
 
 
-    orderEntity.orderType        = $("#order_add_order_type").attr('value');/*<option value='0'>洗衣</option>
+    var transfer=function(strDatetimebox) {
+        var strDatetime = strDatetimebox.split(' ');
+        var arrDate = strDatetime[0].split('/');
+        var newDate = arrDate[2] + '-' + arrDate[0] + '-' + arrDate[1];
+        var newTime = strDatetime[1] ;
+        return newDate + ' ' + newTime;
+    };
+
+
+    orderEntity.care_item_id        = $("#order_add_order_type").attr('value');/*<option value='0'>洗衣</option>
                                                                                  <option value='1'>理发</option>
                                                                                  <option value='2'>做饭</option>
                                                                                  <option value='3'>按摩</option>*/
-    orderEntity.orderDescription = $("#order_add_order_description").val();  
-    orderEntity.phoneBegin       = $("#order_add_phonebegin").val();
-    orderEntity.phoneEnd         = $("#order_add_phoneend").val();
-    orderEntity.phoneType        = $("#order_add_phonetype").attr('value');/*<option value='0'>本地通话</option>
+    orderEntity.order_detail     = $("#order_add_order_description").val();  
+    orderEntity.call_start       = transfer($("#order_add_phonebegin").datetimebox('getValue'));
+    orderEntity.call_end        = transfer($("#order_add_phoneend").datetimebox('getValue'));
+    orderEntity.call_type        = $("#order_add_phonetype").attr('value');/*<option value='0'>本地通话</option>
                                                                               <option value='1'>国内长途</option>
                                                                               <option value='2'>国际漫游</option>*/
-    orderEntity.remark           = $("#order_add_remark").val();
+    orderEntity.call_detail           = $("#order_add_remark").val();
 
     if(orders.isAddedRelative){
-      orderEntity.elderId          = orders.addedElderId;
-      orderEntity.relativeId       = orders.addedRelativeId;
+      orderEntity.elder_id          = orders.addedElderId;
+      orderEntity.relative_id       = orders.addedRelativeId;
                                                    
     }else if(orders.isAddedElder){
-      orderEntity.elderId          = orders.addedElderId;
-      orderEntity.relativeName     = $("#order_add_emergename").val();
-      orderEntity.relativePhone    = $("#order_add_emergephoneno").val();
+      orderEntity.elder_id          = orders.addedElderId;
+      orderEntity.relative_name     = $("#order_add_emergename").val();
+      orderEntity.relative_phone_number    = $("#order_add_emergephoneno").val();
       
     }else{
-      orderEntity.elderName        = $("#order_add_name").val();
-      orderEntity.elderPhoneNumber = $("#order_add_phoneno").val();
-      orderEntity.elderGender      = $('input:radio[name="egenderxxx"]:checked').val();
-      orderEntity.elderAddress     = $("#order_add_address").val();
-      orderEntity.elderIdentityNo  = $("#order_add_IDno").val();
-      orderEntity.elderSSNno       = $("#order_add_SSNno").val();
-      orderEntity.elderCommunity   = $("#order_add_community").attr("value");
-      orderEntity.relativeName     = $("#order_add_emergename").val();
-      orderEntity.relativePhone    = $("#order_add_emergephoneno").val();
+      orderEntity.elder_name        = $("#order_add_name").val();
+      orderEntity.elder_phone_number = $("#order_add_phoneno").val();
+      orderEntity.elder_gender      = $('input:radio[name="egenderxxx"]:checked').val();
+      orderEntity.address     = $("#order_add_address").val();
+      orderEntity.elder_identity_no  = $("#order_add_IDno").val();
+      orderEntity.elder_ssn_no       = $("#order_add_SSNno").val();
+      orderEntity.community_id   = $("#order_add_community").attr("value");
+      orderEntity.community_name   = $("#order_add_community").text();
+      orderEntity.relative_name     = $("#order_add_emergename").val();
+      orderEntity.relative_phone_number    = $("#order_add_emergephoneno").val();
       
     }
 
