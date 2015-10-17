@@ -769,6 +769,7 @@ var orders = {
                                                                                  <option value='1'>理发</option>
                                                                                  <option value='2'>做饭</option>
                                                                                  <option value='3'>按摩</option>*/
+    orderEntity.item_name           = $("#order_add_order_type").text()
     orderEntity.order_detail     = $("#order_add_order_description").val();  
     orderEntity.call_start       = transfer($("#order_add_phonebegin").datetimebox('getValue'));
     orderEntity.call_end        = transfer($("#order_add_phoneend").datetimebox('getValue'));
