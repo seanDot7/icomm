@@ -545,12 +545,15 @@ var orders = {
   drawPaneOrderAdd: function() {
     $('.inf').addClass('hide');
     $('#order_add').removeClass('hide');
+
+    var dateNow = new Date();
+    var strNow = (dateNow.getMonth()+1) + '/' + dateNow.getDate() + '/' + dateNow.getFullYear() + ' ' + dateNow.getHours() + ':' + dateNow.getMinutes() + ':' + dateNow.getSeconds();
+    $("#order_add_phonebegin").datetimebox('setValue', strNow); 
     
   },
   fillBasicInfo:function(basicEntity){
     orders.isAddedElder = true;
     orders.addedElderId = basicEntity.id;
-    alert(orders.addedElderId);
     $("#order_add_name").val(basicEntity.name);
     $("#order_add_phoneno").val(basicEntity.phone_no);
     $('input:radio[name="egenderxxx"][value="'+ basicEntity.gender+'"]').attr("checked",true);
@@ -567,19 +570,62 @@ var orders = {
         var entities = leftTop.dealdata(data);
 
         var selectCommunity = $('#order_add_community');
-        
+        selectCommunity.find('option').remove();
+        selectCommunity.append('<option value=""></option>');
         for (var i=0; i<entities.length; ++i) {
           var community = entities[i];
-          if(community.id==basicEntity.gero_id){
-            $("#order_add_community").val(community.name);
-          }
+          selectCommunity.append('<option value="' + community.id + '">' + community.name + '</option>');
         }
+        $('#order_add_community').val(String(basicEntity.gero_id));
+
       },
       error:function(XMLHttpRequest, textStatus, errorThrown){
           leftTop.dealerror(XMLHttpRequest, textStatus, errorThrown);
       }
     });
-    
+    // $.ajax({
+    //   url: rhurl.origin+'/gero',
+    //   data: {page: 1, rows: 65535, sort: 'ID'},
+    //   type: 'GET',
+    //   timeout: deadtime,
+    //   success:function(data){
+    //     var entities = leftTop.dealdata(data);
+
+    //     var selectCommunity = $('#order_add_community');
+        
+    //     for (var i=0; i<entities.length; ++i) {
+    //       var community = entities[i];
+    //       if(community.id==basicEntity.gero_id){
+    //         selectCommunity.val(community.name);
+    //       }
+    //     }
+    //   },
+    //   error:function(XMLHttpRequest, textStatus, errorThrown){
+    //       leftTop.dealerror(XMLHttpRequest, textStatus, errorThrown);
+    //   }
+    // });
+    $.ajax({
+        url: rhurl.origin+'/gero/' + basicEntity.gero_id + '/care_item?page=1&rows=65536&sort=ID&order=asc',
+        type: 'GET',
+        timeout: deadtime,
+        success: function(data) {
+          var entities = leftTop.dealdata(data);
+
+          var selectItem = $('#order_add_order_type');
+          selectItem.find('option').remove();
+          selectItem.append('<option value="-1">---</option>');
+          for (var i=0; i<entities.length; ++i) {
+            selectItem.append('<option value="' + entities[i].id + '">' + entities[i].name + '</option>');
+          }
+          // if (itemId >= 0) {
+          //   selectItem.attr('value', itemId);
+          // }
+
+        },
+        error:function(XMLHttpRequest, textStatus, errorThrown){
+          leftTop.dealerror(XMLHttpRequest, textStatus, errorThrown);
+        }
+      });
 
   },
   fillDetailInfo:function(userId){
@@ -593,7 +639,6 @@ var orders = {
           if(entities.length>=1){
             orders.isAddedRelative = true;
             orders.addedRelativeId = entities[0].id;
-            alert(orders.addedRelativeId);
             $("#order_add_emergename").val(entities[0].name);
             $("#order_add_emergephoneno").val(entities[0].phone_no);
 
@@ -605,6 +650,7 @@ var orders = {
           leftTop.dealerror(XMLHttpRequest, textStatus, errorThrown);
         }
       });
+
   },
   doAddSearch:function(){
     var searchAddName=$("#order_add_search_name").val();
@@ -648,8 +694,8 @@ var orders = {
     $("#order_add_emergename").val("");
     $("#order_add_emergephoneno").val("");
     $("#order_add_order_type").attr('value','');
-    $("#order_add_phonebegin").val("");
-    $("#order_add_phoneend").val("");
+    //$("#order_add_phonebegin").val("");
+    $("#order_add_phoneend").datetimebox('setValue', '');
     $("#order_add_phonetype").attr('value','');
     $("#order_add_order_description").val("");
     $("#order_add_remark").val("");
@@ -690,17 +736,16 @@ var orders = {
     }else if($("#order_add_order_type").attr('value')==''){
       alert("请填写【情况分类】");
 
-    }else if($("#order_add_phonebegin").val()==''){
+    }else if($("#order_add_phonebegin").datetimebox('getValue')==''){
       alert("请填写【通话开始时间】");
 
-    }else if($("#order_add_phoneend").val()==''){
+    }else if($("#order_add_phoneend").datetimebox('getValue')==''){
       alert("请填写【通话结束时间】");
 
     }else if($("#order_add_phonetype").attr('value')==''){
       alert("请填写【通话类型】");
 
     }else{
-      alert("fillfinish");
       orders.fillObject();
     }
 
@@ -708,69 +753,46 @@ var orders = {
   },
 
   fillObject:function(){
-    var orderEntity;//POST数据Object
+    var orderEntity = {};//POST数据Object
 
-    alert(orders.addedElderId);
-    if(orders.isAddedRelative){
-      alert("isAddedRelative"+orders.isAddedRelative);
-      orderEntity.elderId          = orders.addedElderId;
-      orderEntity.relativeId       = orders.addedRelativeId;
-      orderEntity.orderType        = $("#order_add_order_type").attr('value');/*<option value='0'>洗衣</option>
+
+    orderEntity.orderType        = $("#order_add_order_type").attr('value');/*<option value='0'>洗衣</option>
                                                                                  <option value='1'>理发</option>
                                                                                  <option value='2'>做饭</option>
                                                                                  <option value='3'>按摩</option>*/
-      orderEntity.orderDescription = $("#order_add_order_description").val();  
-      orderEntity.phoneBegin       = $("#order_add_phonebegin").val();
-      orderEntity.phoneEnd         = $("#order_add_phoneend").val();
-      orderEntity.phoneType        = $("#order_add_phonetype").attr('value');/*<option value='0'>本地通话</option>
-                                                                                <option value='1'>国内长途</option>
-                                                                                <option value='2'>国际漫游</option>*/
-      orderEntity.remark           = $("#order_add_remark").val();                                             
+    orderEntity.orderDescription = $("#order_add_order_description").val();  
+    orderEntity.phoneBegin       = $("#order_add_phonebegin").val();
+    orderEntity.phoneEnd         = $("#order_add_phoneend").val();
+    orderEntity.phoneType        = $("#order_add_phonetype").attr('value');/*<option value='0'>本地通话</option>
+                                                                              <option value='1'>国内长途</option>
+                                                                              <option value='2'>国际漫游</option>*/
+    orderEntity.remark           = $("#order_add_remark").val();
+
+    if(orders.isAddedRelative){
+      orderEntity.elderId          = orders.addedElderId;
+      orderEntity.relativeId       = orders.addedRelativeId;
+                                                   
     }else if(orders.isAddedElder){
-      alert("isAddedElder"+orders.isAddedElder)
       orderEntity.elderId          = orders.addedElderId;
       orderEntity.relativeName     = $("#order_add_emergename").val();
       orderEntity.relativePhone    = $("#order_add_emergephoneno").val();
-      orderEntity.orderType        = $("#order_add_order_type").attr('value');/*<option value='0'>洗衣</option>
-                                                                                 <option value='1'>理发</option>
-                                                                                 <option value='2'>做饭</option>
-                                                                                 <option value='3'>按摩</option>*/
-      orderEntity.orderDescription = $("#order_add_order_description").val();  
-      orderEntity.phoneBegin       = $("#order_add_phonebegin").val();
-      orderEntity.phoneEnd         = $("#order_add_phoneend").val();
-      orderEntity.phoneType        = $("#order_add_phonetype").attr('value');/*<option value='0'>本地通话</option>
-                                                                                <option value='1'>国内长途</option>
-                                                                                <option value='2'>国际漫游</option>*/
-      orderEntity.remark           = $("#order_add_remark").val();
+      
     }else{
-      alert("hhh");
       orderEntity.elderName        = $("#order_add_name").val();
       orderEntity.elderPhoneNumber = $("#order_add_phoneno").val();
       orderEntity.elderGender      = $('input:radio[name="egenderxxx"]:checked').val();
       orderEntity.elderAddress     = $("#order_add_address").val();
       orderEntity.elderIdentityNo  = $("#order_add_IDno").val();
       orderEntity.elderSSNno       = $("#order_add_SSNno").val();
-      orderEntity.elderCommunity   = $("#order_add_community").val();
+      orderEntity.elderCommunity   = $("#order_add_community").attr("value");
       orderEntity.relativeName     = $("#order_add_emergename").val();
       orderEntity.relativePhone    = $("#order_add_emergephoneno").val();
-      orderEntity.orderType        = $("#order_add_order_type").attr('value');/*<option value='0'>洗衣</option>
-                                                                                 <option value='1'>理发</option>
-                                                                                 <option value='2'>做饭</option>
-                                                                                 <option value='3'>按摩</option>*/
-      orderEntity.orderDescription = $("#order_add_order_description").val();  
-      orderEntity.phoneBegin       = $("#order_add_phonebegin").val();
-      orderEntity.phoneEnd         = $("#order_add_phoneend").val();
-      orderEntity.phoneType        = $("#order_add_phonetype").attr('value');/*<option value='0'>本地通话</option>
-                                                                                <option value='1'>国内长途</option>
-                                                                                <option value='2'>国际漫游</option>*/
-      orderEntity.remark           = $("#order_add_remark").val();
+      
     }
 
-    alert("savefinish");
-    orders.objectPost();
+    orders.objectPost(orderEntity);
   },
-  objectPost:function(){
-    alert("startpost");
+  objectPost:function(orderEntity){
     $.ajax({
           url: rhurl.origin + '/orders', 
           type: 'POST', 
@@ -787,11 +809,7 @@ var orders = {
           } 
       }); 
 
-    alert("postfinish");
 
-  },
-
-  // onClickOrderDialogAddDetail:function(){
-  //   //
-  // }
+  },  
+  
 }
