@@ -769,8 +769,8 @@ var orders = {
                                                                                  <option value='1'>理发</option>
                                                                                  <option value='2'>做饭</option>
                                                                                  <option value='3'>按摩</option>*/
-    orderEntity.item_name           = $("#order_add_order_type").text()
-    orderEntity.order_detail     = $("#order_add_order_description").val();  
+    orderEntity.item_name           = $("#order_add_order_type").find("option[value=" + orderEntity.care_item_id + "]").text();
+    orderEntity.item_detail     = $("#order_add_order_description").val();  
     orderEntity.call_start       = transfer($("#order_add_phonebegin").datetimebox('getValue'));
     orderEntity.call_end        = transfer($("#order_add_phoneend").datetimebox('getValue'));
     orderEntity.call_type        = $("#order_add_phonetype").attr('value');/*<option value='0'>本地通话</option>
@@ -795,7 +795,7 @@ var orders = {
       orderEntity.elder_identity_no  = $("#order_add_IDno").val();
       orderEntity.elder_ssn_no       = $("#order_add_SSNno").val();
       orderEntity.community_id   = $("#order_add_community").attr("value");
-      orderEntity.community_name   = $("#order_add_community").text();
+      orderEntity.community_name   = $("#order_add_community").find("option[value=" + orderEntity.community_id + "]").text();
       orderEntity.relative_name     = $("#order_add_emergename").val();
       orderEntity.relative_phone_number    = $("#order_add_emergephoneno").val();
       
