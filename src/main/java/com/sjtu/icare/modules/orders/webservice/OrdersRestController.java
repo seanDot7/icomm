@@ -121,7 +121,10 @@ public class OrdersRestController extends GeroBaseController{
 				resultMap.put("order_time", orderEntity.getOrderTime());
 				resultMap.put("address", orderEntity.getAddress());
 				resultMap.put("item_detail", orderEntity.getItemDetail());
-				resultMap.put("carer_name", orderEntity.getCarerName());
+				if (orderEntity.getCarerId() != null) {
+					User tempCarerUser = systemService.getUser(orderEntity.getCarerId());
+					resultMap.put("carer_name", tempCarerUser.getName());
+				}
 				resultMap.put("carer_id", orderEntity.getCarerId());
 				resultMap.put("order_status", orderEntity.getOrderStatus());
 				resultMap.put("rate", orderEntity.getRate());
