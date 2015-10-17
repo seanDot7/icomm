@@ -364,7 +364,7 @@ public class OrdersRestController extends GeroBaseController{
 			String elderPhoneNumber = (String) requestParamMap.get("elderPhoneNumber");
 			String relativeName = (String) requestParamMap.get("relativeName");
 			String relativePhoneNumber = (String) requestParamMap.get("relativePhoneNumber");
-			Integer careItemId = Integer.getInteger((String) requestParamMap.get("careItemId")); 
+			Integer careItemId = Integer.parseInt((String) requestParamMap.get("careItemId")); 
 			if (newElderFlag == true && newRelativeFlag == false){
 				throw new Exception("参数错误");
 			}

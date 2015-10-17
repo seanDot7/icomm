@@ -186,7 +186,7 @@ CREATE TABLE T_ORDER
 	care_item_id		int				NOT NULL,				--关联T_CARE_ITEM表
 	item_name			nvarchar(32)	NOT NULL,				--项目名
 	item_detail			nvarchar(512)	,						--订单描述
-	order_type			int 			NOT NULL,				-- 0:call center
+	order_type			int 			,				-- 0:call center
 	status				int 			NOT NULL,				--订单状态（见后） 
 	order_time			datetime		,						--预订时间
 	rate 				int 			,						--评分
