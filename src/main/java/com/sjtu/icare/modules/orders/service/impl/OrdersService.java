@@ -26,4 +26,10 @@ public class OrdersService implements IOrdersService {
 	public void updateOrder(OrderEntity postOrderEntity) {
 		ordersDAO.updateOrderEntity(postOrderEntity);
 	}
+
+	@Override
+	public void insertOrder(OrderEntity postOrderEntity) {
+		ordersDAO.insertOrderEntity(postOrderEntity);
+		
+	}
 }
