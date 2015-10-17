@@ -17,4 +17,6 @@ public interface OrdersDAO {
 	List<OrderEntity> getOrderEntities(OrderEntity queryOrderEntity);
 
 	void updateOrderEntity(OrderEntity postOrderEntity);
+
+	void insertOrderEntity(OrderEntity postOrderEntity);
 }

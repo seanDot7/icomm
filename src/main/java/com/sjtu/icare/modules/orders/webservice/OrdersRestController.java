@@ -1,5 +1,6 @@
 package com.sjtu.icare.modules.orders.webservice;
 
+import java.awt.TexturePaint;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,7 @@ import com.sjtu.icare.common.web.rest.GeroBaseController;
 import com.sjtu.icare.common.web.rest.MediaTypes;
 import com.sjtu.icare.common.web.rest.RestException;
 import com.sjtu.icare.modules.elder.entity.ElderEntity;
+import com.sjtu.icare.modules.elder.entity.ElderRelativeRelationshipEntity;
 import com.sjtu.icare.modules.elder.entity.RelativeEntity;
 import com.sjtu.icare.modules.elder.service.IElderInfoService;
 import com.sjtu.icare.modules.elder.service.IRelativeInfoService;
@@ -283,7 +285,6 @@ public class OrdersRestController extends GeroBaseController{
 	@RequestMapping(method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
 	public Object postElder(
 			HttpServletRequest request,
-			@PathVariable("gid") int geroId,
 			@RequestBody String inJson
 			) {
 //		checkApi(request);
@@ -294,17 +295,23 @@ public class OrdersRestController extends GeroBaseController{
 		// 将参数转化成驼峰格式的 Map
 		Map<String, Object> tempRquestParamMap = ParamUtils.getMapByJson(inJson, logger);
 		Map<String, Object> requestParamMap = MapListUtils.convertMapToCamelStyle(tempRquestParamMap);
-		requestParamMap.put("geroId", geroId);
 		requestParamMap.put("orderTime", DateUtils.getDateTime());
-		boolean newElderFlag = true;
-		boolean newRelativeFlag = true;
+		boolean newElderFlag = false;
+		boolean newRelativeFlag = false;
+		if (requestParamMap.get("elderId") == null){
+			newElderFlag = true;
+		}
+		if (requestParamMap.get("relativeId") == null){
+			newRelativeFlag = true;
+		}
 		try {
 			if (requestParamMap.get("careItemId") == null) {
 				throw new Exception();
 			}
+			System.out.println(requestParamMap.get("elderId") );
 			
-			if (requestParamMap.get("elderId") == null
-				&& (requestParamMap.get("elderName") == null || requestParamMap.get("elderPhoneNumber") == null)) {
+			if(requestParamMap.get("elderName") == null || requestParamMap.get("elderPhoneNumber") == null || requestParamMap.get("communityId") == null){
+				
 				throw new Exception("老人姓名和老人电话号码是必须字段");
 			}
 				
@@ -313,8 +320,9 @@ public class OrdersRestController extends GeroBaseController{
 //				if (postElderEntity == null)
 //					throw new Exception("没有查找到elderId对应的老人信息")；
 //			}
-			if (requestParamMap.get("relativeId") == null
-				&& (requestParamMap.get("relativeName") == null || requestParamMap.get("relativePhoneNumber") == null)) {
+			
+			if (requestParamMap.get("relativeName") == null || requestParamMap.get("relativePhoneNumber") == null) {
+				
 				throw new Exception();
 			}
 			
@@ -356,11 +364,15 @@ public class OrdersRestController extends GeroBaseController{
 			String elderPhoneNumber = (String) requestParamMap.get("elderPhoneNumber");
 			String relativeName = (String) requestParamMap.get("relativeName");
 			String relativePhoneNumber = (String) requestParamMap.get("relativePhoneNumber");
-			String careItemId = (String) requestParamMap.get("careItemId");
+			Integer careItemId = (Integer) requestParamMap.get("careItemId");
+			if(newElderFlag == true && newRelativeFlag == false){
+				throw new Exception("参数错误");
+			}
 			if (newElderFlag) {
 				// Add elder
 				postElderEntity = new ElderEntity(); 
 				postElderEntity.setName(elderName);
+				postElderEntity.setGeroId((Integer)requestParamMap.get("communityId"));
 				elderId = elderInfoService.insertElder(postElderEntity);
 				
 				// insert into User
@@ -371,20 +383,33 @@ public class OrdersRestController extends GeroBaseController{
 				postElderUser.setName(elderName);
 				postElderUser.setPhoneNo(elderPhoneNumber);
 				postElderUser.setUsername(postElderUser.getPhoneNo());
+				postElderUser.setUserType(CommonConstants.ELDER_TYPE);
+				postElderUser.setUserId(elderId);
+				postElderUser.setGeroId((Integer)requestParamMap.get("communityId"));
+				postElderUser.setResidenceAddress((String) requestParamMap.get("address"));
+				postElderUser.setPassword(CommonConstants.DEFAULT_PASSWORD);
+				postElderUser.setRegisterDate(DateUtils.getDateTime());
 				elderUserId = systemService.insertUser(postElderUser);
 				String pinyinName = PinyinUtils.getPinyin(postElderUser.getName() + elderUserId);
 				postElderUser.setUsername(pinyinName);
 				systemService.updateUser(postElderUser);
 			} else {
-				// TODO
-				elderUserId = (Integer) requestParamMap.get("");
+				elderUserId = (Integer) requestParamMap.get("elderId");
+				User queryUser = new User();
+				queryUser.setId(elderUserId);
+				postElderUser = systemService.getUser(elderUserId);
+				if (postElderUser == null) {
+					throw new Exception("找不到对应的 user");
+				}
+				elderId = postElderUser.getUserId();
+				
 				ElderEntity queryElderEntity = new ElderEntity();
 				queryElderEntity.setId(elderId);
-				ElderEntity elderEntity = elderInfoService.getElderEntity(queryElderEntity);
-				if (elderEntity == null) {
+				postElderEntity = elderInfoService.getElderEntity(queryElderEntity);
+				if (postElderEntity == null) {
 					throw new Exception("找不到对应的 elder");
 				}
-				User user = systemService.getUserByUserTypeAndUserId(CommonConstants.ELDER_TYPE, elderId);
+				
 			}
 			
 			if (newRelativeFlag) {
@@ -397,32 +422,51 @@ public class OrdersRestController extends GeroBaseController{
 				requestParamMap.put("userType", CommonConstants.RELATIVE_TYPE);
 				requestParamMap.put("userId", relativeId);
 				
-				User requestUser = new User(); 
-				requestUser.setUsername(relativePhoneNumber);
-				requestUser.setPhoneNo(relativePhoneNumber);
-				relativeUserId = systemService.insertUser(requestUser);
-				String pinyinName = PinyinUtils.getPinyin(requestUser.getName() + relativeUserId);
-				requestUser.setUsername(pinyinName);
-				systemService.updateUser(requestUser);
+				postRelativeUser = new User();
+				postRelativeUser.setUsername(relativePhoneNumber);
+				postRelativeUser.setName(relativeName);
+				postRelativeUser.setPhoneNo(relativePhoneNumber);
+				postRelativeUser.setUserType(CommonConstants.RELATIVE_TYPE);
+				postRelativeUser.setUserId(relativeId);
+				postRelativeUser.setElderId(elderUserId);
+				postRelativeUser.setPassword(CommonConstants.DEFAULT_PASSWORD);
+				postRelativeUser.setRegisterDate(DateUtils.getDateTime());
+				relativeUserId = systemService.insertUser(postRelativeUser);
+				String pinyinName = PinyinUtils.getPinyin(postRelativeUser.getName() + relativeUserId);
+				postRelativeUser.setUsername(pinyinName);
+				systemService.updateUser(postRelativeUser);
 				// Bind relationship
+				ElderRelativeRelationshipEntity elderRelativeRelationshipEntity = new ElderRelativeRelationshipEntity();
+				elderRelativeRelationshipEntity.setElderUserId(elderUserId);
+				elderRelativeRelationshipEntity.setRelativeUserId(relativeUserId);
+				relativeInfoService.insertElderRelativeRelationship(elderRelativeRelationshipEntity);
 			} else {
-				// TODO
+				relativeUserId = (Integer) requestParamMap.get("relativeId");
+				RelativeEntity queryRelativeEntity = new RelativeEntity();
+				queryRelativeEntity.setId(relativeId);
+				postRelativeUser = systemService.getUser(relativeUserId);
+				if (postRelativeUser == null) {
+					throw new Exception("找不到对应的 user");
+				}
+				relativeId = postRelativeUser.getUserId();
+				
+				queryRelativeEntity.setId(relativeId);
+				
+				postRelativeEntity =  relativeInfoService.getRelative(queryRelativeEntity);
+				if (postRelativeEntity == null) {
+					throw new Exception("找不到对应的 relative");
+				}
+				
+				
 			}
 			// Add order
-			BeanUtils.populate(postElderEntity, requestParamMap);
-			elderId = elderInfoService.insertElder(postElderEntity);
+			OrderEntity postOrderEntity = new OrderEntity();
 			
-			// insert into User
-			requestParamMap.put("userType", CommonConstants.ELDER_TYPE);
-			requestParamMap.put("userId", elderId);
-			
-			User postUser = new User(); 
-			BeanUtils.populate(postUser, requestParamMap);
-			postUser.setUsername(postUser.getIdentityNo());
-			Integer userId = systemService.insertUser(postUser);
-			String pinyinName = PinyinUtils.getPinyin(postUser.getName() + userId);
-			postUser.setUsername(pinyinName);
-			systemService.updateUser(postUser);
+			BeanUtils.populate(postOrderEntity, requestParamMap);
+			postOrderEntity.setElderId(postElderUser.getId());
+			postOrderEntity.setCareItemId(careItemId);
+			postOrderEntity.setStatus(1);
+			ordersService.insertOrder(postOrderEntity);
 			
 		} catch(Exception e) {
 			String otherMessage = "[" + e.getMessage() + "]";
