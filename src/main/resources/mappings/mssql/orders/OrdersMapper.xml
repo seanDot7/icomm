@@ -32,8 +32,18 @@
   
     <select id="getOrderEntities" resultMap="OrderMap">
 		SELECT
-			o.*, elder.name AS elder_name, elder.phone_no AS phone_number, elder.residence_address AS address, carer.name AS carer_name, community.id AS community_id, community.name AS community_name
-		FROM ((T_ORDER AS o JOIN T_USER AS elder ON o.elder_id = elder.id) JOIN T_USER AS carer ON o.carer_id = carer.id) JOIN T_GERO AS community ON elder.gero_id = community.id
+			o.*, elder.name AS elder_name, elder.phone_no AS phone_number, elder.residence_address AS address, community.id AS community_id, community.name AS community_name
+			<!-- <if test="carerId != null"> 
+				carer.name AS carer_name
+			 </if> -->
+		FROM 
+			
+				(T_ORDER AS o JOIN T_USER AS elder ON o.elder_id = elder.id) 
+			<!-- 	<if test="carerId != null">
+				JOIN T_USER AS carer ON o.carer_id = carer.id
+			 </if> -->
+			 
+			JOIN T_GERO AS community ON elder.gero_id = community.id
 		<where>
 			<if test="orderId != null">
         	o.id = #{orderId}
