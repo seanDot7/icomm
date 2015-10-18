@@ -71,6 +71,7 @@
         	
 
 		</where>
+        ORDER BY o.order_time DESC
     </select>
 
     <update id="updateOrderEntity">
