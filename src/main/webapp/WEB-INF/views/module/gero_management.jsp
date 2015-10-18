@@ -756,7 +756,7 @@
                 <div class="form-group group">
                   <label class="control-notbold" for="name">小区：</label>
                   <div class="col-smm-3">
-                    <input  id="order_add_community"class="form-control"  value=""></input>   
+                    <select id="order_add_community"class="form-control"  value=""></select>   
                   </div>
                 </div>
                 <div class="form-group group">
@@ -841,15 +841,15 @@
               <!-- <div class='form-group group'> -->
                               
                 <div class="form-group group">
-                  <label class="control-wide-2" for="name">通话开始时间：</label>
+                  <label class="control-wide-2" for="name" >通话开始时间：</label>
                   <div class="col-smm-3">
-                    <input  id="order_add_phonebegin"class="form-control"  value=""></input>
+                    <input  id="order_add_phonebegin"class="easyui-datetimebox"  data-options="required:true" value="" style="height: 34px;width:170px"></input>
                   </div>
                 </div>
-                <div class="form-group group">
+                <div class="form-group group" style="padding-left: :10px" >
                   <label class="control-wide-2" for="name">通话结束时间：</label>
                   <div class="col-smm-3">
-                    <input  id="order_add_phoneend"class="form-control"  value=""></input>
+                    <input  id="order_add_phoneend"class="easyui-datetimebox"  data-options="required:true" value="" style="height: 34px;width:170px"></input>
                   </div>
                 </div>
                 <div class="form-group group">
@@ -875,16 +875,6 @@
           </div>
 
             
-              <!-- <div class="form-group group"> 
-                <div class="col-md-offset-2">
-                  <button  class="btn btn-default"  style='float:left;'  >保存</button>
-                </div>
-              </div>
-              <div class="form-group group"> 
-                <div class="col-md-offset-2">
-                  <button  class="btn btn-default" style='float:left; margin-left:40px;'  >取消</button>
-                </div>
-              </div> -->
          
       </div>
 

@@ -313,7 +313,9 @@ public class OrdersRestController extends GeroBaseController{
 			}
 			System.out.println(requestParamMap.get("elderId") );
 			
+
 			if ((requestParamMap.get("elderId") == null) && (requestParamMap.get("elderName") == null || requestParamMap.get("elderPhoneNumber") == null || requestParamMap.get("communityId") == null)) {
+
 				
 				throw new Exception("老人姓名和老人电话号码是必须字段");
 			}
@@ -324,6 +326,7 @@ public class OrdersRestController extends GeroBaseController{
 //					throw new Exception("没有查找到elderId对应的老人信息")；
 //			}
 			
+
 			if ((requestParamMap.get("relativeId") == null) && (requestParamMap.get("relativeName") == null || requestParamMap.get("relativePhoneNumber") == null)) {
 				
 				throw new Exception();
