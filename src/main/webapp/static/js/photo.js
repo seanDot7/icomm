@@ -36,6 +36,7 @@ var photo={
 			this.UploadPicDropzone.on("success", function(file, message ,xhr) {
 				$('#upload-pic-dropzone-message').html('上传成功');
 				this.removeAllFiles();
+				$("#elder-Info-card-b img").attr("src",data.photo_src).attr("width","178px").attr("height","220px");
 			});
 		}
 		// $('#photosubmit').dialog("close");
