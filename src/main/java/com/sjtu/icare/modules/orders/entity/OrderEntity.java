@@ -33,6 +33,7 @@ public class OrderEntity extends DataEntity<OrderEntity> implements Serializable
 	private Integer callType;
 	private String callDetail;
 	private Integer communityId;
+	private Integer areaId;
 	
 //	private String userId;
 //    private String username;
@@ -406,5 +407,19 @@ public class OrderEntity extends DataEntity<OrderEntity> implements Serializable
 
 	public void setFuzzyQueryParams(String fuzzyQueryParams) {
 		this.fuzzyQueryParams = fuzzyQueryParams;
+	}
+
+	/**
+	 * @return the areaId
+	 */
+	public Integer getAreaId() {
+		return areaId;
+	}
+
+	/**
+	 * @param areaId the areaId to set
+	 */
+	public void setAreaId(Integer areaId) {
+		this.areaId = areaId;
 	}
 }
