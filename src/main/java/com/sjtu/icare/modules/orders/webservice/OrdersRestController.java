@@ -1,6 +1,5 @@
 package com.sjtu.icare.modules.orders.webservice;
 
-import java.awt.TexturePaint;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
-import org.apache.xmlbeans.PrePostExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +35,6 @@ import com.sjtu.icare.modules.elder.entity.ElderRelativeRelationshipEntity;
 import com.sjtu.icare.modules.elder.entity.RelativeEntity;
 import com.sjtu.icare.modules.elder.service.IElderInfoService;
 import com.sjtu.icare.modules.elder.service.IRelativeInfoService;
-import com.sjtu.icare.modules.elder.service.impl.ElderInfoService;
 import com.sjtu.icare.modules.orders.entity.OrderEntity;
 import com.sjtu.icare.modules.orders.service.IOrdersService;
 import com.sjtu.icare.modules.sys.entity.User;
@@ -62,6 +59,7 @@ public class OrdersRestController extends GeroBaseController{
 	public Object getOrders(
 			HttpServletRequest request,
 			@RequestParam(value="community_id", required=false) Integer communityId,
+			@RequestParam(value="area_id", required=false) Integer areaId,
 			@RequestParam(value="order_id", required=false) Integer orderId,
 			@RequestParam(value="datetime_before", required=false) String datetimeBefore,
 			@RequestParam(value="elder_name", required=false) String elderName,
@@ -93,6 +91,7 @@ public class OrdersRestController extends GeroBaseController{
 			OrderEntity queryOrderEntity = new OrderEntity();
 			queryOrderEntity.setOrderId(orderId);
 			queryOrderEntity.setCommunityId(communityId);
+			queryOrderEntity.setAreaId(areaId);
 			queryOrderEntity.setOrderStatus(orderStatus);
 			queryOrderEntity.setDatetimeBefore(datetimeBefore);
 			queryOrderEntity.setElderName(elderName);
@@ -129,6 +128,7 @@ public class OrdersRestController extends GeroBaseController{
 				resultMap.put("order_status", orderEntity.getOrderStatus());
 				resultMap.put("rate", orderEntity.getRate());
 				resultMap.put("community_id", orderEntity.getCommunityId());
+				resultMap.put("area_id", orderEntity.getAreaId());
 				resultMap.put("item_id", orderEntity.getCareItemId());
 				resultMap.put("item_name", orderEntity.getItemName());
 				// TODO
@@ -181,6 +181,7 @@ public class OrdersRestController extends GeroBaseController{
 				resultMap.put("order_status", orderEntity.getOrderStatus());
 				resultMap.put("rate", orderEntity.getRate());
 				resultMap.put("community_id", orderEntity.getCommunityId());
+				resultMap.put("area_id", orderEntity.getAreaId());
 				resultMap.put("item_id", orderEntity.getCareItemId());
 				resultMap.put("item_name", orderEntity.getItemName());
 				
@@ -311,10 +312,16 @@ public class OrdersRestController extends GeroBaseController{
 			if (requestParamMap.get("careItemId") == null) {
 				throw new Exception();
 			}
-			System.out.println(requestParamMap.get("elderId") );
 			
+			if (requestParamMap.get("communityId") == null) {
+				throw new Exception("缺少community_id");
+			}
 
-			if ((requestParamMap.get("elderId") == null) && (requestParamMap.get("elderName") == null || requestParamMap.get("elderPhoneNumber") == null || requestParamMap.get("communityId") == null)) {
+			if (requestParamMap.get("areaId") == null) {
+				throw new Exception("缺少area_id");
+			}
+			
+			if ((requestParamMap.get("elderId") == null) && (requestParamMap.get("elderName") == null || requestParamMap.get("elderPhoneNumber") == null || requestParamMap.get("communityId") == null || requestParamMap.get("areaId") == null)) {
 
 				
 				throw new Exception("老人姓名和老人电话号码是必须字段");
@@ -371,14 +378,17 @@ public class OrdersRestController extends GeroBaseController{
 			String relativeName = (String) requestParamMap.get("relativeName");
 			String relativePhoneNumber = (String) requestParamMap.get("relativePhoneNumber");
 			Integer careItemId = Integer.parseInt((String) requestParamMap.get("careItemId")); 
+
 			if (newElderFlag == true && newRelativeFlag == false){
 				throw new Exception("参数错误");
 			}
 			if (newElderFlag) {
+				Integer areaId = Integer.parseInt((String) requestParamMap.get("areaId")); 
 				// Add elder
 				postElderEntity = new ElderEntity(); 
 				postElderEntity.setName(elderName);
 				postElderEntity.setGeroId(Integer.parseInt((String) requestParamMap.get("communityId")));
+				postElderEntity.setAreaId(areaId);
 				elderId = elderInfoService.insertElder(postElderEntity);
 				
 				// insert into User
@@ -391,6 +401,7 @@ public class OrdersRestController extends GeroBaseController{
 				postElderUser.setUsername(postElderUser.getPhoneNo());
 				postElderUser.setUserType(CommonConstants.ELDER_TYPE);
 				postElderUser.setUserId(elderId);
+				postElderUser.setAreaId(areaId);
 				postElderUser.setGeroId(Integer.parseInt((String) requestParamMap.get("communityId")));
 				postElderUser.setResidenceAddress((String) requestParamMap.get("address"));
 				postElderUser.setPassword(CommonConstants.DEFAULT_PASSWORD);
