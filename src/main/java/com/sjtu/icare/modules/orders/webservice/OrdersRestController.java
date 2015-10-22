@@ -316,10 +316,6 @@ public class OrdersRestController extends GeroBaseController{
 				throw new Exception();
 			}
 
-			if (requestParamMap.get("areaId") == null) {
-				throw new Exception("缺少area_id");
-			}
-			
 			if ((requestParamMap.get("elderId") == null) && (requestParamMap.get("elderName") == null || requestParamMap.get("elderPhoneNumber") == null || requestParamMap.get("communityId") == null || requestParamMap.get("areaId") == null)) {
 
 				
@@ -382,7 +378,7 @@ public class OrdersRestController extends GeroBaseController{
 				throw new Exception("参数错误");
 			}
 			if (newElderFlag) {
-				Integer areaId = Integer.parseInt((String) requestParamMap.get("areaId")); 
+				Integer areaId = (Integer) requestParamMap.get("areaId"); 
 				// Add elder
 				postElderEntity = new ElderEntity(); 
 				postElderEntity.setName(elderName);
@@ -410,7 +406,7 @@ public class OrdersRestController extends GeroBaseController{
 				postElderUser.setUsername(pinyinName);
 				systemService.updateUser(postElderUser);
 			} else {
-				elderUserId = Integer.parseInt((String)requestParamMap.get("elderId"));
+				elderUserId = (Integer) requestParamMap.get("elderId");
 				User queryUser = new User();
 				queryUser.setId(elderUserId);
 				postElderUser = systemService.getUser(elderUserId);
@@ -457,7 +453,7 @@ public class OrdersRestController extends GeroBaseController{
 				elderRelativeRelationshipEntity.setRelativeUserId(relativeUserId);
 				relativeInfoService.insertElderRelativeRelationship(elderRelativeRelationshipEntity);
 			} else {
-				relativeUserId = Integer.parseInt((String) requestParamMap.get("relativeId"));
+				relativeUserId = (Integer) requestParamMap.get("relativeId");
 				RelativeEntity queryRelativeEntity = new RelativeEntity();
 				queryRelativeEntity.setId(relativeId);
 				postRelativeUser = systemService.getUser(relativeUserId);
