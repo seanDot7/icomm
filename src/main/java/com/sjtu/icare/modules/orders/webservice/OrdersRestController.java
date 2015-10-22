@@ -378,7 +378,7 @@ public class OrdersRestController extends GeroBaseController{
 				// Add elder
 				postElderEntity = new ElderEntity(); 
 				postElderEntity.setName(elderName);
-				postElderEntity.setGeroId((Integer)requestParamMap.get("communityId"));
+				postElderEntity.setGeroId(Integer.parseInt((String) requestParamMap.get("communityId")));
 				elderId = elderInfoService.insertElder(postElderEntity);
 				
 				// insert into User
@@ -391,7 +391,7 @@ public class OrdersRestController extends GeroBaseController{
 				postElderUser.setUsername(postElderUser.getPhoneNo());
 				postElderUser.setUserType(CommonConstants.ELDER_TYPE);
 				postElderUser.setUserId(elderId);
-				postElderUser.setGeroId((Integer)requestParamMap.get("communityId"));
+				postElderUser.setGeroId(Integer.parseInt((String) requestParamMap.get("communityId")));
 				postElderUser.setResidenceAddress((String) requestParamMap.get("address"));
 				postElderUser.setPassword(CommonConstants.DEFAULT_PASSWORD);
 				postElderUser.setRegisterDate(DateUtils.getDateTime());
@@ -400,7 +400,7 @@ public class OrdersRestController extends GeroBaseController{
 				postElderUser.setUsername(pinyinName);
 				systemService.updateUser(postElderUser);
 			} else {
-				elderUserId = (Integer) requestParamMap.get("elderId");
+				elderUserId = Integer.parseInt((String)requestParamMap.get("elderId"));
 				User queryUser = new User();
 				queryUser.setId(elderUserId);
 				postElderUser = systemService.getUser(elderUserId);
@@ -447,7 +447,7 @@ public class OrdersRestController extends GeroBaseController{
 				elderRelativeRelationshipEntity.setRelativeUserId(relativeUserId);
 				relativeInfoService.insertElderRelativeRelationship(elderRelativeRelationshipEntity);
 			} else {
-				relativeUserId = (Integer) requestParamMap.get("relativeId");
+				relativeUserId = Integer.parseInt((String) requestParamMap.get("relativeId"));
 				RelativeEntity queryRelativeEntity = new RelativeEntity();
 				queryRelativeEntity.setId(relativeId);
 				postRelativeUser = systemService.getUser(relativeUserId);
