@@ -315,11 +315,10 @@ public class OrdersRestController extends GeroBaseController{
 			if (requestParamMap.get("careItemId") == null) {
 				throw new Exception();
 			}
-
-			if (requestParamMap.get("areaId") == null) {
-				throw new Exception("缺少area_id");
+			if (requestParamMap.get("communityId") == null) {
+				throw new Exception("required community_id");
 			}
-			
+
 			if ((requestParamMap.get("elderId") == null) && (requestParamMap.get("elderName") == null || requestParamMap.get("elderPhoneNumber") == null || requestParamMap.get("communityId") == null || requestParamMap.get("areaId") == null)) {
 
 				
@@ -377,6 +376,7 @@ public class OrdersRestController extends GeroBaseController{
 			String relativeName = (String) requestParamMap.get("relativeName");
 			String relativePhoneNumber = (String) requestParamMap.get("relativePhoneNumber");
 			Integer careItemId = Integer.parseInt((String) requestParamMap.get("careItemId")); 
+			Integer communityId = Integer.parseInt((String) requestParamMap.get("communityId"));
 
 			if (newElderFlag == true && newRelativeFlag == false){
 				throw new Exception("参数错误");
@@ -386,7 +386,7 @@ public class OrdersRestController extends GeroBaseController{
 				// Add elder
 				postElderEntity = new ElderEntity(); 
 				postElderEntity.setName(elderName);
-				postElderEntity.setGeroId(Integer.parseInt((String) requestParamMap.get("communityId")));
+				postElderEntity.setGeroId(communityId);
 				postElderEntity.setAreaId(areaId);
 				elderId = elderInfoService.insertElder(postElderEntity);
 				
@@ -401,7 +401,7 @@ public class OrdersRestController extends GeroBaseController{
 				postElderUser.setUserType(CommonConstants.ELDER_TYPE);
 				postElderUser.setUserId(elderId);
 				postElderUser.setAreaId(areaId);
-				postElderUser.setGeroId(Integer.parseInt((String) requestParamMap.get("communityId")));
+				postElderUser.setGeroId(communityId);
 				postElderUser.setResidenceAddress((String) requestParamMap.get("address"));
 				postElderUser.setPassword(CommonConstants.DEFAULT_PASSWORD);
 				postElderUser.setRegisterDate(DateUtils.getDateTime());
@@ -410,7 +410,7 @@ public class OrdersRestController extends GeroBaseController{
 				postElderUser.setUsername(pinyinName);
 				systemService.updateUser(postElderUser);
 			} else {
-				elderUserId = Integer.parseInt((String)requestParamMap.get("elderId"));
+				elderUserId = (Integer) requestParamMap.get("elderId");
 				User queryUser = new User();
 				queryUser.setId(elderUserId);
 				postElderUser = systemService.getUser(elderUserId);
@@ -447,6 +447,7 @@ public class OrdersRestController extends GeroBaseController{
 				postRelativeUser.setElderId(elderUserId);
 				postRelativeUser.setPassword(CommonConstants.DEFAULT_PASSWORD);
 				postRelativeUser.setRegisterDate(DateUtils.getDateTime());
+				postRelativeUser.setGeroId(communityId);
 				relativeUserId = systemService.insertUser(postRelativeUser);
 				String pinyinName = PinyinUtils.getPinyin(postRelativeUser.getName() + relativeUserId);
 				postRelativeUser.setUsername(pinyinName);
@@ -457,7 +458,7 @@ public class OrdersRestController extends GeroBaseController{
 				elderRelativeRelationshipEntity.setRelativeUserId(relativeUserId);
 				relativeInfoService.insertElderRelativeRelationship(elderRelativeRelationshipEntity);
 			} else {
-				relativeUserId = Integer.parseInt((String) requestParamMap.get("relativeId"));
+				relativeUserId = (Integer) requestParamMap.get("relativeId");
 				RelativeEntity queryRelativeEntity = new RelativeEntity();
 				queryRelativeEntity.setId(relativeId);
 				postRelativeUser = systemService.getUser(relativeUserId);
