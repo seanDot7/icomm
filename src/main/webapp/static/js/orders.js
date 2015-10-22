@@ -542,6 +542,8 @@ var orders = {
     }
   },
 
+
+//新增订单
   drawPaneOrderAdd: function() {
     $('.inf').addClass('hide');
     $('#order_add').removeClass('hide');
@@ -605,27 +607,7 @@ var orders = {
           leftTop.dealerror(XMLHttpRequest, textStatus, errorThrown);
       }
     });
-    // $.ajax({
-    //   url: rhurl.origin+'/gero',
-    //   data: {page: 1, rows: 65535, sort: 'ID'},
-    //   type: 'GET',
-    //   timeout: deadtime,
-    //   success:function(data){
-    //     var entities = leftTop.dealdata(data);
-
-    //     var selectCommunity = $('#order_add_community');
-        
-    //     for (var i=0; i<entities.length; ++i) {
-    //       var community = entities[i];
-    //       if(community.id==basicEntity.gero_id){
-    //         selectCommunity.val(community.name);
-    //       }
-    //     }
-    //   },
-    //   error:function(XMLHttpRequest, textStatus, errorThrown){
-    //       leftTop.dealerror(XMLHttpRequest, textStatus, errorThrown);
-    //   }
-    // });
+    
     $.ajax({
         url: rhurl.origin+'/gero/' + basicEntity.gero_id + '/care_item?page=1&rows=65536&sort=ID&order=asc',
         type: 'GET',
@@ -766,6 +748,10 @@ var orders = {
     }else if($("#order_add_phonetype").attr('value')==''){
       alert("请填写【通话类型】");
 
+    }else if(!orders.isAddedElder && orders.isAddedRelative){
+      alert("新建老人，请修改紧急联系人信息");
+      $("#order_add_emergename").val("");
+      $("#order_add_emergephoneno").val("");
     }else{
       orders.fillObject();
     }
@@ -786,41 +772,35 @@ var orders = {
     };
 
 
-    orderEntity.care_item_id        = String($("#order_add_order_type").attr('value'));/*<option value='0'>洗衣</option>
-                                                                                 <option value='1'>理发</option>
-                                                                                 <option value='2'>做饭</option>
-                                                                                 <option value='3'>按摩</option>*/
-    orderEntity.item_name           = String($("#order_add_order_type").find("option[value=" + orderEntity.care_item_id + "]").text());
-    orderEntity.item_detail         = String($("#order_add_order_description").val());  
-    orderEntity.call_start          = String(transfer($("#order_add_phonebegin").datetimebox('getValue')));
-    orderEntity.call_end            = String(transfer($("#order_add_phoneend").datetimebox('getValue')));
-    orderEntity.call_type           = String($("#order_add_phonetype").attr('value'));/*<option value='0'>本地通话</option>
+    orderEntity.care_item_id          = String($("#order_add_order_type").attr('value'));
+    orderEntity.item_name             = String($("#order_add_order_type").find("option[value=" + orderEntity.care_item_id + "]").text());
+    orderEntity.item_detail           = String($("#order_add_order_description").val());  
+    orderEntity.call_start            = String(transfer($("#order_add_phonebegin").datetimebox('getValue')));
+    orderEntity.call_end              = String(transfer($("#order_add_phoneend").datetimebox('getValue')));
+    orderEntity.call_type             = String($("#order_add_phonetype").attr('value'));/*<option value='0'>本地通话</option>
                                                                               <option value='1'>国内长途</option>
                                                                               <option value='2'>国际漫游</option>*/
-    orderEntity.call_detail         = String($("#order_add_remark").val());
-    orderEntity.community_id        = String(gid);
-    //orderEntity.area_id            =$
+    orderEntity.call_detail           = String($("#order_add_remark").val());
+    orderEntity.community_id          = String(gid);
     if(orders.isAddedRelative){
-      orderEntity.elder_id          = String(orders.addedElderId);
-      orderEntity.relative_id       = String(orders.addedRelativeId);
+      orderEntity.elder_id            = String(orders.addedElderId);
+      orderEntity.relative_id         = String(orders.addedRelativeId);
                                                    
     }else if(orders.isAddedElder){
-      orderEntity.elder_id          = String(orders.addedElderId);
-      orderEntity.relative_name     = String($("#order_add_emergename").val());
+      orderEntity.elder_id            = String(orders.addedElderId);
+      orderEntity.relative_name       = String($("#order_add_emergename").val());
       orderEntity.relative_phone_number    = String($("#order_add_emergephoneno").val());
       
     }else{
-      orderEntity.elder_name         = String($("#order_add_name").val());
-      orderEntity.elder_phone_number = String($("#order_add_phoneno").val());
-      orderEntity.elder_gender       = String($('input:radio[name="egenderxxx"]:checked').val());
-      orderEntity.address            = String($("#order_add_address").val());
-      orderEntity.elder_identity_no  = String($("#order_add_IDno").val());
-      orderEntity.elder_ssn_no       = String($("#order_add_SSNno").val());
-      orderEntity.area_id            = String($("#order_add_community").attr("value"));
-      orderEntity.area_name          = String($("#order_add_community").find("option[value=" + orderEntity.community_id + "]").text());
-      
-      // orderEntity.community_name   = $("#order_add_community").find("option[value=" + orderEntity.community_id + "]").text();
-      orderEntity.relative_name     = String($("#order_add_emergename").val());
+      orderEntity.elder_name          = String($("#order_add_name").val());
+      orderEntity.elder_phone_number  = String($("#order_add_phoneno").val());
+      orderEntity.elder_gender        = String($('input:radio[name="egenderxxx"]:checked').val());
+      orderEntity.address             = String($("#order_add_address").val());
+      orderEntity.elder_identity_no   = String($("#order_add_IDno").val());
+      orderEntity.elder_ssn_no        = String($("#order_add_SSNno").val());
+      orderEntity.area_id             = String($("#order_add_community").attr("value"));
+      orderEntity.area_name           = String($("#order_add_community").find("option[value=" + orderEntity.community_id + "]").text());
+      orderEntity.relative_name       = String($("#order_add_emergename").val());
       orderEntity.relative_phone_number    = String($("#order_add_emergephoneno").val());
       
     }
@@ -847,37 +827,16 @@ var orders = {
 
   },  
   elderAddOnChange:function(){
-    orders.addedRelativeId = '';
+    //orders.addedRelativeId = '';
     orders.addedElderId = '';
     orders.isAddedElder = false;
-    orders.isAddedRelative= false;
-    // var tempInput;
-    // tempInput=$(this).val();
-   
-    // $("#order_add_search_name").val("");
-    // $("#order_add_search_phoneno").val("");
-    // $("#order_add_name").val("");
-    // $("#order_add_phoneno").val("");
-    // $('input:radio[name="egenderxxx"]').attr("checked",false);
-    // $("#order_add_address").val("");
-    // $("#order_add_IDno").val("");
-    // $("#order_add_SSNno").val("");
-    // $("#order_add_community").val("");
-    $("#order_add_emergename").val("");
-    $("#order_add_emergephoneno").val("");
-
-    // $(this).val(tempInput);
+    //orders.isAddedRelative= false;
+    
   },
   relativeAddOnChange:function(){
     orders.addedRelativeId = '';
     orders.isAddedRelative= false;
-    // var tempInput=$(this).val();
-
-
-    // $("#order_add_emergename").val("");
-    // $("#order_add_emergephoneno").val("");
-
-    // $(this).val(tempInput);
+    
   },
   
 }

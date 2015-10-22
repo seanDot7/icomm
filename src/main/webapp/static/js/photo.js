@@ -36,7 +36,22 @@ var photo={
 			this.UploadPicDropzone.on("success", function(file, message ,xhr) {
 				$('#upload-pic-dropzone-message').html('上传成功');
 				this.removeAllFiles();
-				$("#elder-Info-card-b img").attr("src",data.photo_src).attr("width","178px").attr("height","220px");
+				$.ajax({
+        			type: "get",
+        			dataType: "json",
+        			contentType: "application/json;charset=utf-8",
+        			url: rhurl.origin+"/gero/"+gid+"/elder/" + $('#elderpage').datagrid('getSelected').elder_id,
+                    timeout:deadtime,
+        			success: function (msg) {
+                        var data=leftTop.dealdata(msg);
+                        $("#elder-Info-card-b img").attr("src",data[0].photo_src).attr("width","178px").attr("height","220px");
+                        
+        			},
+        			error: function(XMLHttpRequest, textStatus, errorThrown) {
+            			leftTop.dealerror(XMLHttpRequest, textStatus, errorThrown);
+        			}
+    			});
+				
 			});
 		}
 		// $('#photosubmit').dialog("close");
