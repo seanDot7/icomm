@@ -33,6 +33,7 @@ public class OrderEntity extends DataEntity<OrderEntity> implements Serializable
 	private Integer callType;
 	private String callDetail;
 	private Integer communityId;
+	private Integer areaId;
 	
 //	private String userId;
 //    private String username;

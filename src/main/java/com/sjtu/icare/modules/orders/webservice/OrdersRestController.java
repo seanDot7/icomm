@@ -204,6 +204,7 @@ public class OrdersRestController extends GeroBaseController{
 	public Object getElders(
 			HttpServletRequest request,
 			@RequestParam(value="community_id", required=false) Integer communityId,
+			@RequestParam(value="area_id", required=false) Integer areaId,
 			@RequestParam(value="order_id", required=false) Integer orderId,
 			@RequestParam(value="datetime_before", required=false) String datetimeBefore,
 			@RequestParam(value="elder_name", required=false) String elderName,
@@ -235,6 +236,7 @@ public class OrdersRestController extends GeroBaseController{
 			OrderEntity queryOrderEntity = new OrderEntity();
 			queryOrderEntity.setOrderId(orderId);
 			queryOrderEntity.setCommunityId(communityId);
+			queryOrderEntity.setAreaId(areaId);
 			queryOrderEntity.setOrderStatus(orderStatus);
 			queryOrderEntity.setDatetimeBefore(datetimeBefore);
 			queryOrderEntity.setElderName(elderName);
@@ -267,6 +269,7 @@ public class OrdersRestController extends GeroBaseController{
 				resultMap.put("carer_id", orderEntity.getCarerId());
 				resultMap.put("order_status", orderEntity.getOrderStatus());
 				resultMap.put("community_id", orderEntity.getCommunityId());
+				resultMap.put("area_id", orderEntity.getAreaId());
 				// TODO
 //				resultMap.put("operation", orderEntity.getOpe);
 				
@@ -311,10 +314,6 @@ public class OrdersRestController extends GeroBaseController{
 		try {
 			if (requestParamMap.get("careItemId") == null) {
 				throw new Exception();
-			}
-			
-			if (requestParamMap.get("communityId") == null) {
-				throw new Exception("缺少community_id");
 			}
 
 			if (requestParamMap.get("areaId") == null) {
