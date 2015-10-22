@@ -21,7 +21,7 @@ var photo={
 		}
 		if (typeof(this.UploadPicDropzone) != "string") {
 			this.UploadPicDropzone.options.url = url;
-			$('#upload-pic-dropzone-message').html('选择图片上传');
+			$('#upload-pic-dropzone-message').html('');
 			this.UploadPicDropzone.on("sending", function(file) {
 				$('#upload-pic-dropzone-message').html('上传中……');
 				this.removeAllFiles();

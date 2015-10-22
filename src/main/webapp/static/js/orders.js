@@ -549,6 +549,27 @@ var orders = {
     var dateNow = new Date();
     var strNow = (dateNow.getMonth()+1) + '/' + dateNow.getDate() + '/' + dateNow.getFullYear() + ' ' + dateNow.getHours() + ':' + dateNow.getMinutes() + ':' + dateNow.getSeconds();
     $("#order_add_phonebegin").datetimebox('setValue', strNow); 
+
+    $.ajax({
+      url: rhurl.origin+'/gero',
+      data: {page: 1, rows: 65535, sort: 'ID'},
+      type: 'GET',
+      timeout: deadtime,
+      success:function(data){
+        var entities = leftTop.dealdata(data);
+
+        var selectCommunity = $('#order_add_community');
+        selectCommunity.find('option').remove();
+        selectCommunity.append('<option value=""></option>');
+        for (var i=0; i<entities.length; ++i) {
+          var community = entities[i];
+          selectCommunity.append('<option value="' + community.id + '">' + community.name + '</option>');
+        }
+      },
+      error:function(XMLHttpRequest, textStatus, errorThrown){
+          leftTop.dealerror(XMLHttpRequest, textStatus, errorThrown);
+      }
+    });
     
   },
   fillBasicInfo:function(basicEntity){
@@ -696,7 +717,7 @@ var orders = {
     $("#order_add_order_type").attr('value','');
     //$("#order_add_phonebegin").val("");
     $("#order_add_phoneend").datetimebox('setValue', '');
-    $("#order_add_phonetype").attr('value','');
+    $("#order_add_phonetype").attr('value','0');
     $("#order_add_order_description").val("");
     $("#order_add_remark").val("");
     orders.addedRelativeId = '';
@@ -705,8 +726,7 @@ var orders = {
     orders.isAddedRelative= false;
   },
   doAddSave:function(){
-    // alert($("#order_add_name").val()=='');
-    // alert($("#order_add_order_type").attr('value'));
+    
     if($("#order_add_name").val()==''){
       alert("请填写【真实姓名】");
     }else if($("#order_add_phoneno").val()==''){
@@ -724,8 +744,8 @@ var orders = {
     // }else if($("#order_add_SSNno").val()==null||$("#order_add_SSNno").val()==undefined){
     //   alert("请填写【社保卡号】");
 
-    }else if($("#order_add_IDno").val()==''){
-      alert("请填写【身份证号】");
+    // }else if($("#order_add_IDno").val()==''){
+    //   alert("请填写【身份证号】");
 
     }else if($("#order_add_emergename").val()==''){
       alert("请填写【紧急联系人姓名】");
@@ -822,5 +842,15 @@ var orders = {
 
 
   },  
+  elderAddOnChange:function(){
+    orders.addedRelativeId = '';
+    orders.addedElderId = '';
+    orders.isAddedElder = false;
+    orders.isAddedRelative= false;
+  },
+  relativeAddOnChange:function(){
+    orders.addedRelativeId = '';
+    orders.isAddedRelative= false;
+  },
   
 }

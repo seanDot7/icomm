@@ -736,31 +736,31 @@
               <!-- <div class='form-group group'> -->
                               
                 <div class="form-group group" >
-                  <label class="control-notbold" for="name">真实姓名：</label>
+                  <label class="control-notbold" for="name">*真实姓名：</label>
                   <div class="col-smm-2">
-                    <input  id="order_add_name"class="form-control"  value=""></input>
+                    <input  id="order_add_name"class="form-control"  value="" onchange="orders.elderAddOnChange()"></input>
                   </div>
                 </div>
                 <div class="form-group group">
-                  <label class="control-notbold" for="name">手机号：</label>
+                  <label class="control-notbold" for="name" >*手机号：</label>
                   <div class="col-smm-2">
-                    <input  id="order_add_phoneno"class="form-control"  value=""></input>
+                  <input id="order_add_phoneno" class="easyui-validatebox textbox equalwidth" data-options="required:true,validType:'phoneNum'"style="height: 34px;width:130px"onchange="orders.elderAddOnChange()"></input>
                   </div>
                 </div>
                 <div class="form-group group">
-                  <label class="control-notbold" for="name">性别：</label>
+                  <label class="control-notbold" for="name" >*性别：</label>
                   <div class="col-smm-2">
-                    <input type="radio" name="egenderxxx" value="0" >男 </input><input type="radio" name="egenderxxx" value="1" >女</input>
+                    <input type="radio" name="egenderxxx" value="0" onchange="orders.elderAddOnChange()">男 </input><input type="radio" name="egenderxxx" value="1" onchange="orders.elderAddOnChange()">女</input>
                   </div>
                 </div><br/>
                 <div class="form-group group">
-                  <label class="control-notbold" for="name">小区：</label>
+                  <label class="control-notbold" for="name" onchange="orders.elderAddOnChange()">*小区：</label>
                   <div class="col-smm-3">
                     <select id="order_add_community"class="form-control"  value=""></select>   
                   </div>
                 </div>
                 <div class="form-group group">
-                  <label class="control-notbold" for="name"  >详细地址：</label>
+                  <label class="control-notbold" for="name"  onchange="orders.elderAddOnChange()">*详细地址：</label>
                   <div class="col-md-4">
                     <input  id="order_add_address"class="form-control " value=""></input>
                   </div>
@@ -784,20 +784,21 @@
               <!-- <div class='form-group group'> -->
                               
                 <div class="form-group group">
-                  <label class="control-wide" for="name">紧急联系人姓名：</label>
+                  <label class="control-wide" for="name">*紧急联系人姓名：</label>
                   <div class="col-md-3">
-                    <input  id="order_add_emergename"class="form-control"  value=""></input>
+                    <input  id="order_add_emergename"class="form-control"  value="" onchange="orders.relativeAddOnChange()"></input>
                   </div>
                 </div>
                 <div class="form-group group">
-                  <label class="control-wide" for="name">紧急联系人电话：</label>
+                  <label class="control-wide" for="name">*紧急联系人电话：</label>
                   <div class="col-md-3">
-                    <input  id="order_add_emergephoneno"class="form-control"  value=""></input>
+<!--                     <input  id="order_add_emergephoneno"class="form-control"  value=""></input>
+ -->                    <input id="order_add_emergephoneno" class="easyui-validatebox textbox equalwidth" data-options="required:true,validType:'phoneNum'"style="height: 34px;width:178px"onchange="orders.relativeAddOnChange()"></input>
                   </div>
                 </div>
                 <br/>
                 <div class="form-group group">
-                  <label class="control-wide" for="name">情况分类：</label>
+                  <label class="control-wide" for="name">*情况分类：</label>
                   <div class="col-md-3">
                     <select id="order_add_order_type" class="form-control equalwidth dialog-input" value=""  >
                        <option value=''></option>
@@ -828,7 +829,7 @@
                 </div>
                 <br/> -->
                 <div class="form-group group">
-                  <label class="control-wide" for="name">情况详细描述：</label>
+                  <label class="control-wide" for="name">情况详细描述(选填)：</label>
                   <div class="col-md-5">
                     <textarea id="order_add_order_description"class="form-control"  value=""></textarea> 
                   </div>
@@ -855,16 +856,16 @@
                 <div class="form-group group">
                   <label class="control" for="name">通话类型：</label>
                   <div class="col-smm-2">
-                    <select id="order_add_phonetype" class="form-control equalwidth dialog-input" value=""  >
+                    <select id="order_add_phonetype" class="form-control equalwidth dialog-input" value="0"  >
                     <option value=''></option>
-                    <option value='0'>本地通话</option>
+                    <option value='0'selected="selected">本地通话</option>
                     <option value='1'>国内长途</option>
                     <option value='2'>国际漫游</option></select>
                   </div>
                 </div>                
                 <br/>
                 <div class="form-group group">
-                  <label class="control" for="name">备注：</label>
+                  <label class="control" for="name">备注(选填)：</label>
                   <div class="col-md-5">
                     <textarea id="order_add_remark"class="form-control"  value=""></textarea> 
                   </div>
@@ -1415,7 +1416,7 @@
         iconCls: 'icon-edit',
       ">
       <form id="upload-pic-dropzone" class="alert alert-info" style="height:100px;">
-        将文件拖拽至此区域进行上传（或点击此区域）
+        点击此区域,选择图片上传
       </form>
       <div id="upload-pic-dropzone-message" class="alert alert-info" role="alert"></div>
 </div>
