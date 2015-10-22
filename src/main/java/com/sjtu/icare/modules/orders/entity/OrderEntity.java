@@ -47,7 +47,7 @@ public class OrderEntity extends DataEntity<OrderEntity> implements Serializable
     // Query property
 	private String datetimeBefore;
 	private String fuzzyQueryParams;
-	//private Integer areaId;
+	private Integer areaId;
 
 	/**
 	 * @return the phoneNumber

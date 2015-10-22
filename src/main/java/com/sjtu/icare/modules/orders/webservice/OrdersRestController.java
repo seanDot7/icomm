@@ -410,7 +410,7 @@ public class OrdersRestController extends GeroBaseController{
 				postElderUser.setUsername(pinyinName);
 				systemService.updateUser(postElderUser);
 			} else {
-				elderUserId = (Integer) requestParamMap.get("elderId");
+				elderUserId = Integer.parseInt((String) requestParamMap.get("elderId"));
 				User queryUser = new User();
 				queryUser.setId(elderUserId);
 				postElderUser = systemService.getUser(elderUserId);
@@ -458,7 +458,7 @@ public class OrdersRestController extends GeroBaseController{
 				elderRelativeRelationshipEntity.setRelativeUserId(relativeUserId);
 				relativeInfoService.insertElderRelativeRelationship(elderRelativeRelationshipEntity);
 			} else {
-				relativeUserId = (Integer) requestParamMap.get("relativeId");
+				relativeUserId = Integer.parseInt((String) requestParamMap.get("relativeId"));
 				RelativeEntity queryRelativeEntity = new RelativeEntity();
 				queryRelativeEntity.setId(relativeId);
 				postRelativeUser = systemService.getUser(relativeUserId);

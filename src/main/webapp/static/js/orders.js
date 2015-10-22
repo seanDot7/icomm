@@ -786,42 +786,42 @@ var orders = {
     };
 
 
-    orderEntity.care_item_id        = Number($("#order_add_order_type").attr('value'));/*<option value='0'>洗衣</option>
+    orderEntity.care_item_id        = String($("#order_add_order_type").attr('value'));/*<option value='0'>洗衣</option>
                                                                                  <option value='1'>理发</option>
                                                                                  <option value='2'>做饭</option>
                                                                                  <option value='3'>按摩</option>*/
-    orderEntity.item_name           = $("#order_add_order_type").find("option[value=" + orderEntity.care_item_id + "]").text();
-    orderEntity.item_detail         = $("#order_add_order_description").val();  
-    orderEntity.call_start          = transfer($("#order_add_phonebegin").datetimebox('getValue'));
-    orderEntity.call_end            = transfer($("#order_add_phoneend").datetimebox('getValue'));
-    orderEntity.call_type           = $("#order_add_phonetype").attr('value');/*<option value='0'>本地通话</option>
+    orderEntity.item_name           = String($("#order_add_order_type").find("option[value=" + orderEntity.care_item_id + "]").text());
+    orderEntity.item_detail         = String($("#order_add_order_description").val());  
+    orderEntity.call_start          = String(transfer($("#order_add_phonebegin").datetimebox('getValue')));
+    orderEntity.call_end            = String(transfer($("#order_add_phoneend").datetimebox('getValue')));
+    orderEntity.call_type           = String($("#order_add_phonetype").attr('value'));/*<option value='0'>本地通话</option>
                                                                               <option value='1'>国内长途</option>
                                                                               <option value='2'>国际漫游</option>*/
-    orderEntity.call_detail         = $("#order_add_remark").val();
-    orderEntity.community_id        = Number(gid);
+    orderEntity.call_detail         = String($("#order_add_remark").val());
+    orderEntity.community_id        = String(gid);
     //orderEntity.area_id            =$
     if(orders.isAddedRelative){
-      orderEntity.elder_id          = Number(orders.addedElderId);
-      orderEntity.relative_id       = Number(orders.addedRelativeId);
+      orderEntity.elder_id          = String(orders.addedElderId);
+      orderEntity.relative_id       = String(orders.addedRelativeId);
                                                    
     }else if(orders.isAddedElder){
-      orderEntity.elder_id          = Number(orders.addedElderId);
-      orderEntity.relative_name     = $("#order_add_emergename").val();
-      orderEntity.relative_phone_number    = $("#order_add_emergephoneno").val();
+      orderEntity.elder_id          = String(orders.addedElderId);
+      orderEntity.relative_name     = String($("#order_add_emergename").val());
+      orderEntity.relative_phone_number    = String($("#order_add_emergephoneno").val());
       
     }else{
-      orderEntity.elder_name         = $("#order_add_name").val();
-      orderEntity.elder_phone_number = $("#order_add_phoneno").val();
-      orderEntity.elder_gender       = $('input:radio[name="egenderxxx"]:checked').val();
-      orderEntity.address            = $("#order_add_address").val();
-      orderEntity.elder_identity_no  = $("#order_add_IDno").val();
-      orderEntity.elder_ssn_no       = $("#order_add_SSNno").val();
-      orderEntity.area_id            = Number($("#order_add_community").attr("value"));
-      orderEntity.area_name          = $("#order_add_community").find("option[value=" + orderEntity.community_id + "]").text();
+      orderEntity.elder_name         = String($("#order_add_name").val());
+      orderEntity.elder_phone_number = String($("#order_add_phoneno").val());
+      orderEntity.elder_gender       = String($('input:radio[name="egenderxxx"]:checked').val());
+      orderEntity.address            = String($("#order_add_address").val());
+      orderEntity.elder_identity_no  = String($("#order_add_IDno").val());
+      orderEntity.elder_ssn_no       = String($("#order_add_SSNno").val());
+      orderEntity.area_id            = String($("#order_add_community").attr("value"));
+      orderEntity.area_name          = String($("#order_add_community").find("option[value=" + orderEntity.community_id + "]").text());
       
       // orderEntity.community_name   = $("#order_add_community").find("option[value=" + orderEntity.community_id + "]").text();
-      orderEntity.relative_name     = $("#order_add_emergename").val();
-      orderEntity.relative_phone_number    = $("#order_add_emergephoneno").val();
+      orderEntity.relative_name     = String($("#order_add_emergename").val());
+      orderEntity.relative_phone_number    = String($("#order_add_emergephoneno").val());
       
     }
 
