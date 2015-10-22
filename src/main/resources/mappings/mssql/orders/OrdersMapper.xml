@@ -28,22 +28,25 @@
 		<result property="elderName" column="elder_name" />
 		<result property="carerName" column="carer_name" />
 		<result property="address" column="address" />
+		<result property="areaId" column="area_id" />
+		<result property="areaName" column="area_name" />
 	</resultMap>
   
     <select id="getOrderEntities" resultMap="OrderMap">
 		SELECT
-			o.*, elder.name AS elder_name, elder.phone_no AS phone_number, elder.residence_address AS address, community.id AS community_id, community.name AS community_name
+			o.*, elder.name AS elder_name, elder.phone_no AS phone_number, elder.residence_address AS address, community.id AS community_id, community.name AS community_name, elderext.area_id AS area_id
 			<!-- <if test="carerId != null"> 
 				carer.name AS carer_name
 			 </if> -->
 		FROM 
 			
-				(T_ORDER AS o JOIN T_USER AS elder ON o.elder_id = elder.id) 
+				((T_ORDER AS o JOIN T_USER AS elder ON o.elder_id = elder.id) 
 			<!-- 	<if test="carerId != null">
 				JOIN T_USER AS carer ON o.carer_id = carer.id
 			 </if> -->
 			 
-			JOIN T_AREA AS community ON elder.area_id = community.id
+			JOIN T_GERO AS community ON elder.gero_id = community.id)
+			JOIN T_ELDER AS elderext ON elder.user_id = elderext.id
 		<where>
 			<if test="orderId != null">
         	o.id = #{orderId}
@@ -51,6 +54,9 @@
         	<if test="communityId != null">
         	AND elder.gero_id = #{communityId}
         	</if> 
+        	<if test="areaId != null">
+        	AND elderext.area_id = #{areaId}
+        	</if>
         	<if test="status != null">
         	AND o.status = #{status}
         	</if> 
