@@ -45,7 +45,7 @@ var orders = {
 
     // 社区选项绘制
     $.ajax({
-      url: rhurl.origin+'/gero',
+      url: rhurl.origin+'/gero/' + gid + '/area?level=1',
       data: {page: 1, rows: 65535, sort: 'ID'},
       type: 'GET',
       timeout: deadtime,
@@ -196,7 +196,7 @@ var orders = {
       }
 
       $.ajax({
-        url: rhurl.origin+'/gero/' + communityId + '/care_item?page=1&rows=65536&sort=ID&order=asc',
+        url: rhurl.origin+'/gero/' + gid + '/care_item?page=1&rows=65536&sort=ID&order=asc',
         type: 'GET',
         timeout: deadtime,
         success: function(data) {
@@ -229,7 +229,7 @@ var orders = {
         striped: true, 
         border: true, 
         collapsible: false,//是否可折叠的 
-        url: rhurl.origin+'/gero/' + communityId + '/staff?role=护工',
+        url: rhurl.origin+'/gero/' + gid + '/staff?role=护工',
         method: 'get',
         remoteSort: true,  
         sortName: 'ID',
@@ -562,7 +562,7 @@ var orders = {
     $("#order_add_search_name").val(basicEntity.name);
     $("#order_add_search_phoneno").val(basicEntity.phone_no);
     $.ajax({
-      url: rhurl.origin+'/gero',
+      url: rhurl.origin+'/gero/' + gid + '/area?level=1',
       data: {page: 1, rows: 65535, sort: 'ID'},
       type: 'GET',
       timeout: deadtime,

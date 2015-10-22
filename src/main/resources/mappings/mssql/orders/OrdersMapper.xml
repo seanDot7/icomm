@@ -43,7 +43,7 @@
 				JOIN T_USER AS carer ON o.carer_id = carer.id
 			 </if> -->
 			 
-			JOIN T_GERO AS community ON elder.gero_id = community.id
+			JOIN T_AREA AS community ON elder.area_id = community.id
 		<where>
 			<if test="orderId != null">
         	o.id = #{orderId}

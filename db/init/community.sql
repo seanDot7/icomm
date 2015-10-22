@@ -50,7 +50,7 @@ CREATE TABLE T_USER
 	union_id			varchar(32)		,						--微信用户id（跨应用，见微信api）
 	subscribe			char(1)			,						--是否关注，取关后为0
 	subscribe_time		datetime		,						--用户关注时间
-	
+    area_id             int             ,                       --街道ID	
 	CONSTRAINT uc_UserID UNIQUE (user_type,user_id)
 )
 ;
