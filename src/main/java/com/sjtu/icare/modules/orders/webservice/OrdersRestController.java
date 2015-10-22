@@ -62,6 +62,7 @@ public class OrdersRestController extends GeroBaseController{
 	public Object getOrders(
 			HttpServletRequest request,
 			@RequestParam(value="community_id", required=false) Integer communityId,
+			@RequestParam(value="area_id", required=false) Integer areaId,
 			@RequestParam(value="order_id", required=false) Integer orderId,
 			@RequestParam(value="datetime_before", required=false) String datetimeBefore,
 			@RequestParam(value="elder_name", required=false) String elderName,
@@ -93,6 +94,7 @@ public class OrdersRestController extends GeroBaseController{
 			OrderEntity queryOrderEntity = new OrderEntity();
 			queryOrderEntity.setOrderId(orderId);
 			queryOrderEntity.setCommunityId(communityId);
+			queryOrderEntity.setAreaId(areaId);
 			queryOrderEntity.setOrderStatus(orderStatus);
 			queryOrderEntity.setDatetimeBefore(datetimeBefore);
 			queryOrderEntity.setElderName(elderName);
@@ -129,6 +131,7 @@ public class OrdersRestController extends GeroBaseController{
 				resultMap.put("order_status", orderEntity.getOrderStatus());
 				resultMap.put("rate", orderEntity.getRate());
 				resultMap.put("community_id", orderEntity.getCommunityId());
+				resultMap.put("area_id", orderEntity.getAreaId());
 				resultMap.put("item_id", orderEntity.getCareItemId());
 				resultMap.put("item_name", orderEntity.getItemName());
 				// TODO
@@ -181,6 +184,7 @@ public class OrdersRestController extends GeroBaseController{
 				resultMap.put("order_status", orderEntity.getOrderStatus());
 				resultMap.put("rate", orderEntity.getRate());
 				resultMap.put("community_id", orderEntity.getCommunityId());
+				resultMap.put("area_id", orderEntity.getAreaId());
 				resultMap.put("item_id", orderEntity.getCareItemId());
 				resultMap.put("item_name", orderEntity.getItemName());
 				
@@ -203,6 +207,7 @@ public class OrdersRestController extends GeroBaseController{
 	public Object getElders(
 			HttpServletRequest request,
 			@RequestParam(value="community_id", required=false) Integer communityId,
+			@RequestParam(value="area_id", required=false) Integer areaId,
 			@RequestParam(value="order_id", required=false) Integer orderId,
 			@RequestParam(value="datetime_before", required=false) String datetimeBefore,
 			@RequestParam(value="elder_name", required=false) String elderName,
@@ -234,6 +239,7 @@ public class OrdersRestController extends GeroBaseController{
 			OrderEntity queryOrderEntity = new OrderEntity();
 			queryOrderEntity.setOrderId(orderId);
 			queryOrderEntity.setCommunityId(communityId);
+			queryOrderEntity.setAreaId(areaId);
 			queryOrderEntity.setOrderStatus(orderStatus);
 			queryOrderEntity.setDatetimeBefore(datetimeBefore);
 			queryOrderEntity.setElderName(elderName);
@@ -266,6 +272,7 @@ public class OrdersRestController extends GeroBaseController{
 				resultMap.put("carer_id", orderEntity.getCarerId());
 				resultMap.put("order_status", orderEntity.getOrderStatus());
 				resultMap.put("community_id", orderEntity.getCommunityId());
+				resultMap.put("area_id", orderEntity.getAreaId());
 				// TODO
 //				resultMap.put("operation", orderEntity.getOpe);
 				
@@ -311,8 +318,12 @@ public class OrdersRestController extends GeroBaseController{
 			if (requestParamMap.get("careItemId") == null) {
 				throw new Exception();
 			}
-			System.out.println(requestParamMap.get("elderId") );
-			
+			if (requestParamMap.get("areaId") == null) {
+				throw new Exception();
+			}
+			if (requestParamMap.get("communityId") == null) {
+				throw new Exception();
+			}		
 
 			if ((requestParamMap.get("elderId") == null) && (requestParamMap.get("elderName") == null || requestParamMap.get("elderPhoneNumber") == null || requestParamMap.get("communityId") == null)) {
 
@@ -371,6 +382,8 @@ public class OrdersRestController extends GeroBaseController{
 			String relativeName = (String) requestParamMap.get("relativeName");
 			String relativePhoneNumber = (String) requestParamMap.get("relativePhoneNumber");
 			Integer careItemId = Integer.parseInt((String) requestParamMap.get("careItemId")); 
+			Integer communityId = Integer.parseInt((String) requestParamMap.get("communityId"));
+			Integer areaId = Integer.parseInt((String) requestParamMap.get("areaId")); 
 			if (newElderFlag == true && newRelativeFlag == false){
 				throw new Exception("参数错误");
 			}
@@ -378,7 +391,8 @@ public class OrdersRestController extends GeroBaseController{
 				// Add elder
 				postElderEntity = new ElderEntity(); 
 				postElderEntity.setName(elderName);
-				postElderEntity.setGeroId((Integer)requestParamMap.get("communityId"));
+				postElderEntity.setGeroId(communityId);
+				postElderEntity.setAreaId(areaId);
 				elderId = elderInfoService.insertElder(postElderEntity);
 				
 				// insert into User
@@ -391,7 +405,8 @@ public class OrdersRestController extends GeroBaseController{
 				postElderUser.setUsername(postElderUser.getPhoneNo());
 				postElderUser.setUserType(CommonConstants.ELDER_TYPE);
 				postElderUser.setUserId(elderId);
-				postElderUser.setGeroId((Integer)requestParamMap.get("communityId"));
+				postElderUser.setGeroId(communityId);
+				postElderUser.setAreaId(areaId);
 				postElderUser.setResidenceAddress((String) requestParamMap.get("address"));
 				postElderUser.setPassword(CommonConstants.DEFAULT_PASSWORD);
 				postElderUser.setRegisterDate(DateUtils.getDateTime());
@@ -400,7 +415,7 @@ public class OrdersRestController extends GeroBaseController{
 				postElderUser.setUsername(pinyinName);
 				systemService.updateUser(postElderUser);
 			} else {
-				elderUserId = (Integer) requestParamMap.get("elderId");
+				elderUserId = Integer.parseInt((String)requestParamMap.get("elderId"));
 				User queryUser = new User();
 				queryUser.setId(elderUserId);
 				postElderUser = systemService.getUser(elderUserId);
@@ -447,7 +462,7 @@ public class OrdersRestController extends GeroBaseController{
 				elderRelativeRelationshipEntity.setRelativeUserId(relativeUserId);
 				relativeInfoService.insertElderRelativeRelationship(elderRelativeRelationshipEntity);
 			} else {
-				relativeUserId = (Integer) requestParamMap.get("relativeId");
+				relativeUserId = Integer.parseInt((String) requestParamMap.get("relativeId"));
 				RelativeEntity queryRelativeEntity = new RelativeEntity();
 				queryRelativeEntity.setId(relativeId);
 				postRelativeUser = systemService.getUser(relativeUserId);
