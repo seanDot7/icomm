@@ -82,7 +82,7 @@ var orders = {
       striped: true, 
       border: true, 
       collapsible: false,//是否可折叠的 
-      url: rhurl.origin+'/orders',  
+      url: rhurl.origin+'/orders?community_id=' + gid,  
       method: 'get',
       remoteSort: true,  
       sortName: 'ID',
@@ -476,7 +476,7 @@ var orders = {
   // },
   doSearch:function(){
     $('#orders_page').datagrid('load', {
-      community_id: $('#orders_search_community').val(), 
+      area_id: $('#orders_search_community').val(), 
       order_status: $('#orders_search_status').val(),
       datetime_before: (function(strDatetimebox) {
         var strDatetime = strDatetimebox.split(' ');

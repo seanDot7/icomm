@@ -1,6 +1,5 @@
 package com.sjtu.icare.modules.orders.webservice;
 
-import java.awt.TexturePaint;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
-import org.apache.xmlbeans.PrePostExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +35,6 @@ import com.sjtu.icare.modules.elder.entity.ElderRelativeRelationshipEntity;
 import com.sjtu.icare.modules.elder.entity.RelativeEntity;
 import com.sjtu.icare.modules.elder.service.IElderInfoService;
 import com.sjtu.icare.modules.elder.service.IRelativeInfoService;
-import com.sjtu.icare.modules.elder.service.impl.ElderInfoService;
 import com.sjtu.icare.modules.orders.entity.OrderEntity;
 import com.sjtu.icare.modules.orders.service.IOrdersService;
 import com.sjtu.icare.modules.sys.entity.User;
@@ -318,14 +315,12 @@ public class OrdersRestController extends GeroBaseController{
 			if (requestParamMap.get("careItemId") == null) {
 				throw new Exception();
 			}
-			if (requestParamMap.get("areaId") == null) {
-				throw new Exception();
-			}
-			if (requestParamMap.get("communityId") == null) {
-				throw new Exception();
-			}		
 
-			if ((requestParamMap.get("elderId") == null) && (requestParamMap.get("elderName") == null || requestParamMap.get("elderPhoneNumber") == null || requestParamMap.get("communityId") == null)) {
+			if (requestParamMap.get("areaId") == null) {
+				throw new Exception("缺少area_id");
+			}
+			
+			if ((requestParamMap.get("elderId") == null) && (requestParamMap.get("elderName") == null || requestParamMap.get("elderPhoneNumber") == null || requestParamMap.get("communityId") == null || requestParamMap.get("areaId") == null)) {
 
 				
 				throw new Exception("老人姓名和老人电话号码是必须字段");
@@ -382,16 +377,16 @@ public class OrdersRestController extends GeroBaseController{
 			String relativeName = (String) requestParamMap.get("relativeName");
 			String relativePhoneNumber = (String) requestParamMap.get("relativePhoneNumber");
 			Integer careItemId = Integer.parseInt((String) requestParamMap.get("careItemId")); 
-			Integer communityId = Integer.parseInt((String) requestParamMap.get("communityId"));
-			Integer areaId = Integer.parseInt((String) requestParamMap.get("areaId")); 
+
 			if (newElderFlag == true && newRelativeFlag == false){
 				throw new Exception("参数错误");
 			}
 			if (newElderFlag) {
+				Integer areaId = Integer.parseInt((String) requestParamMap.get("areaId")); 
 				// Add elder
 				postElderEntity = new ElderEntity(); 
 				postElderEntity.setName(elderName);
-				postElderEntity.setGeroId(communityId);
+				postElderEntity.setGeroId(Integer.parseInt((String) requestParamMap.get("communityId")));
 				postElderEntity.setAreaId(areaId);
 				elderId = elderInfoService.insertElder(postElderEntity);
 				
@@ -405,8 +400,8 @@ public class OrdersRestController extends GeroBaseController{
 				postElderUser.setUsername(postElderUser.getPhoneNo());
 				postElderUser.setUserType(CommonConstants.ELDER_TYPE);
 				postElderUser.setUserId(elderId);
-				postElderUser.setGeroId(communityId);
 				postElderUser.setAreaId(areaId);
+				postElderUser.setGeroId(Integer.parseInt((String) requestParamMap.get("communityId")));
 				postElderUser.setResidenceAddress((String) requestParamMap.get("address"));
 				postElderUser.setPassword(CommonConstants.DEFAULT_PASSWORD);
 				postElderUser.setRegisterDate(DateUtils.getDateTime());
