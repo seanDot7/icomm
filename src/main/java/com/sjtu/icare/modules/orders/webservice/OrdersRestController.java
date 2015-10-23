@@ -388,6 +388,7 @@ public class OrdersRestController extends GeroBaseController{
 				postElderEntity.setName(elderName);
 				postElderEntity.setGeroId(communityId);
 				postElderEntity.setAreaId(areaId);
+				postElderEntity.setNssfId((String) requestParamMap.get("elderSsnNo"));
 				elderId = elderInfoService.insertElder(postElderEntity);
 				
 				// insert into User
@@ -405,6 +406,8 @@ public class OrdersRestController extends GeroBaseController{
 				postElderUser.setResidenceAddress((String) requestParamMap.get("address"));
 				postElderUser.setPassword(CommonConstants.DEFAULT_PASSWORD);
 				postElderUser.setRegisterDate(DateUtils.getDateTime());
+				postElderUser.setGender((String) requestParamMap.get("elderGender"));
+				postElderUser.setIdentityNo((String) requestParamMap.get("elderIdentityNo"));
 				elderUserId = systemService.insertUser(postElderUser);
 				String pinyinName = PinyinUtils.getPinyin(postElderUser.getName() + elderUserId);
 				postElderUser.setUsername(pinyinName);
