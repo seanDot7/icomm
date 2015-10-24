@@ -38,6 +38,7 @@ import com.sjtu.icare.common.web.rest.BasicController;
 import com.sjtu.icare.common.web.rest.MediaTypes;
 import com.sjtu.icare.common.web.rest.RestException;
 import com.sjtu.icare.modules.elder.entity.ElderEntity;
+import com.sjtu.icare.modules.elder.entity.ElderRelativeRelationshipEntity;
 import com.sjtu.icare.modules.elder.entity.RelativeEntity;
 import com.sjtu.icare.modules.elder.service.IRelativeInfoService;
 import com.sjtu.icare.modules.elder.service.impl.ElderInfoService;
@@ -82,16 +83,14 @@ public class ElderRelativeRestController  extends BasicController {
 			requestUser.setName(name);
 			requestUser.setGeroId(geroId);
 			requestUser.setElderId(elderId);
+			requestUser.setUserType(CommonConstants.RELATIVE_TYPE);
 			
 			Page<User> pages = new Page<User>(page, rows);
 			pages = setOrderBy(pages, sort);
 			requestUser.setPage(pages);
 			
 			List<User> users;
-			if (elderId == null)
-				users = relativeInfoService.getUsersOfRelatives(requestUser);
-			else
-				users = relativeInfoService.getUsersOfRelatives2(requestUser);
+			users = relativeInfoService.getUsersOfRelatives2(requestUser);
 			
 			basicReturnedJson.setTotal((int) requestUser.getPage().getCount());
 			
@@ -133,18 +132,27 @@ public class ElderRelativeRestController  extends BasicController {
 					if (relativeEntity == null)
 						throw new Exception("内部错误： user 找不到对应的 relative");
 					
-					resultMap.put("elder_id", relativeEntity.getElderId()); 
-					if (relativeEntity.getElderId() != null) {
+					ElderRelativeRelationshipEntity queryElderRelativeRelationshipEntity = new ElderRelativeRelationshipEntity();
+					queryElderRelativeRelationshipEntity.setRelativeUserId(user.getId());
+					List<ElderRelativeRelationshipEntity> elderRelativeRelationshipEntities = relativeInfoService.getElderRelativeRelationships(queryElderRelativeRelationshipEntity);
+					if (elderRelativeRelationshipEntities.size() == 1) {
+						ElderRelativeRelationshipEntity elderRelativeRelationshipEntity = elderRelativeRelationshipEntities.get(0);
+						User elderUser = systemService.getUser(elderRelativeRelationshipEntity.getElderUserId());
+						if (elderUser == null)
+							throw new Exception("找到关系，但对应老人不存在");
+						resultMap.put("elder_id", elderUser.getUserId()); 
 						ElderEntity requestElderEntity = new ElderEntity();
 						requestElderEntity.setGeroId(geroId);
-						requestElderEntity.setId(relativeEntity.getElderId());
+						requestElderEntity.setId(elderUser.getUserId());
 						ElderEntity elderEntity = elderInfoService.getElderEntity(requestElderEntity);
 						resultMap.put("elder_name", elderEntity.getName());
 						resultMap.put("name", relativeEntity.getName()); 
 						resultMap.put("relationship", relativeEntity.getRelationship()); 
 						resultMap.put("urgent", relativeEntity.getUrgent()); 
 						resultMap.put("cancel_date", relativeEntity.getCancelDate());
+						
 					}
+					
 					basicReturnedJson.addEntity(resultMap);
 				}
 				
@@ -302,18 +310,30 @@ public class ElderRelativeRestController  extends BasicController {
 			
 			resultMap.put("photo_src", user.getPhotoSrc()); 
 			
+			ElderRelativeRelationshipEntity queryElderRelativeRelationshipEntity = new ElderRelativeRelationshipEntity();
+			queryElderRelativeRelationshipEntity.setRelativeUserId(user.getId());
+			List<ElderRelativeRelationshipEntity> elderRelativeRelationshipEntities = relativeInfoService.getElderRelativeRelationships(queryElderRelativeRelationshipEntity);
 			
-			resultMap.put("elder_id", relativeEntity.getElderId()); 
-			ElderEntity requestElderEntity = new ElderEntity();
-			requestElderEntity.setGeroId(geroId);
-			requestElderEntity.setId(relativeEntity.getElderId());
-			ElderEntity elderEntity = elderInfoService.getElderEntity(requestElderEntity);
-			resultMap.put("elder_name", elderEntity.getName());
-			
-			resultMap.put("name", relativeEntity.getName()); 
-			resultMap.put("relationship", relativeEntity.getRelationship()); 
-			resultMap.put("urgent", relativeEntity.getUrgent()); 
-			resultMap.put("cancel_date", relativeEntity.getCancelDate());
+			if (elderRelativeRelationshipEntities.size() == 1) {
+				ElderRelativeRelationshipEntity elderRelativeRelationshipEntity = elderRelativeRelationshipEntities.get(0);
+				resultMap.put("elder_id", elderRelativeRelationshipEntity.getElderUserId()); 
+				
+				ElderEntity requestElderEntity = new ElderEntity();
+				requestElderEntity.setGeroId(geroId);
+				requestElderEntity.setId(elderRelativeRelationshipEntity.getElderUserId());
+				if (elderRelativeRelationshipEntity.getElderUserId() != null) {
+					User elderUser = systemService.getUser(elderRelativeRelationshipEntity.getElderUserId());
+					
+					resultMap.put("elder_name", elderUser.getName());
+					
+					resultMap.put("name", relativeEntity.getName()); 
+					resultMap.put("relationship", relativeEntity.getRelationship()); 
+					resultMap.put("urgent", relativeEntity.getUrgent()); 
+					resultMap.put("cancel_date", relativeEntity.getCancelDate());
+					
+				}
+				
+			}
 			
 			basicReturnedJson.addEntity(resultMap);
 			

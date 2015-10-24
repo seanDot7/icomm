@@ -201,7 +201,7 @@ public class OrdersRestController extends GeroBaseController{
 	}
 	
 	@RequestMapping(value="/{orderId}/carers", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
-	public Object getElders(
+	public Object getCarersOfOrder(
 			HttpServletRequest request,
 			@RequestParam(value="community_id", required=false) Integer communityId,
 			@RequestParam(value="area_id", required=false) Integer areaId,
@@ -290,7 +290,7 @@ public class OrdersRestController extends GeroBaseController{
 	
 	@Transactional
 	@RequestMapping(method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
-	public Object postElder(
+	public Object postOrder(
 			HttpServletRequest request,
 			@RequestBody String inJson
 			) {
@@ -593,7 +593,7 @@ public class OrdersRestController extends GeroBaseController{
 //	
 	@Transactional
 	@RequestMapping(value="/{order_id}", method = RequestMethod.PUT, produces = MediaTypes.JSON_UTF_8)
-	public Object putElder(
+	public Object putOrder(
 			HttpServletRequest request,
 			@PathVariable("order_id") Integer orderId,
 			@RequestBody String inJson

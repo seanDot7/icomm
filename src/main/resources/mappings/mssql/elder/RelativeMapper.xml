@@ -56,6 +56,7 @@
         	T_USER
         WHERE
         	T_USER.cancel_date is null
+        	AND T_USER.user_type = #{userType}
             <if test="name != null">
                 AND T_USER.name LIKE '%' + #{name} + '%'
             </if> 
